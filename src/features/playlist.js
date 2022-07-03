@@ -3,9 +3,11 @@ import { createSlice } from '@reduxjs/toolkit';
 const playListSlice = createSlice({
   name: 'playList',
   initialState: [],
-  reducers: {},
+  reducers: {
+    setPlayList: (_, { payload }) => payload,
+  },
 });
 
-// export const {} = playListSlice.actions;
+export const { setPlayList } = playListSlice.actions;
 
 export default playListSlice.reducer;
