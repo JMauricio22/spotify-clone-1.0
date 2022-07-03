@@ -29,7 +29,7 @@ export default function LeftMenu() {
   }, [session, spotifyApi]);
 
   return (
-    <section className='h-screen max-h-screen overflow-y-auto w-56 bg-black text-gray-300 pl-4 pr-3 py-4 text-xs md:text-sm lg:text-md font-medium'>
+    <section className='h-screen max-h-screen hidden md:block overflow-y-auto w-56 bg-black text-gray-300 pl-4 pr-3 py-4 text-xs md:text-sm lg:text-md font-medium'>
       <ul>
         <li className='flex items-center mb-3 hover:text-white'>
           <button className='flex items-center'>
