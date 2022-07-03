@@ -1,14 +1,16 @@
-import { useEffect } from 'react';
+import { useEffect, useId } from 'react';
 import { useSession } from 'next-auth/react';
 import useSpotify from '../hooks/useSpotify';
 import { useDispatch, useSelector } from 'react-redux';
-import { setPlayList } from '../features/playlist';
+import { setPlayList, setPlayListError } from '../features/playlist';
+import { fetchPlayListTracks } from '../features/currenPlayList';
 import { HomeIcon, SearchIcon, LibraryIcon } from '@heroicons/react/outline';
 
 export default function LeftMenu() {
+  const id = useId();
   const spotifyApi = useSpotify();
   const { data: session } = useSession();
-  const playList = useSelector((state) => state.playList);
+  const playList = useSelector((state) => state.playList.items);
   const dispatch = useDispatch();
 
   const getUserPlayList = async () => {
@@ -16,7 +18,7 @@ export default function LeftMenu() {
       const data = await spotifyApi.getUserPlaylists();
       dispatch(setPlayList(data.body.items));
     } catch (error) {
-      console.log(error);
+      dispatch(setPlayListError(error.message));
     }
   };
 
@@ -27,19 +29,19 @@ export default function LeftMenu() {
   }, [session, spotifyApi]);
 
   return (
-    <div className='h-screen max-h-screen overflow-y-auto w-56 bg-black text-gray-300 pl-4 pr-3 py-4 text-xs md:text-sm lg:text-md font-medium'>
+    <section className='h-screen max-h-screen overflow-y-auto w-56 bg-black text-gray-300 pl-4 pr-3 py-4 text-xs md:text-sm lg:text-md font-medium'>
       <ul>
-        <li className='flex items-center mb-3'>
+        <li className='flex items-center mb-3 hover:text-white'>
           <button className='flex items-center'>
             <HomeIcon className='w-6 h-6 mr-2' /> Home
           </button>
         </li>
-        <li className='flex items-center mb-3'>
+        <li className='flex items-center mb-3 hover:text-white'>
           <button className='flex items-center'>
             <SearchIcon className='w-6 h-6 mr-2' /> Search
           </button>
         </li>
-        <li className='flex items-center mb-3'>
+        <li className='flex items-center mb-3 hover:text-white'>
           <button className='flex items-center'>
             <LibraryIcon className='w-6 h-6 mr-2' /> Library
           </button>
@@ -48,11 +50,11 @@ export default function LeftMenu() {
       <div className='h-[.1px] bg-gray-800 my-4' />
       <ul className='h-auto'>
         {playList.map((item) => (
-          <li className='mb-2'>
-            <button>{item.name}</button>
+          <li className='mb-2 hover:text-white' key={`${id}-${item.id}`}>
+            <button onClick={() => dispatch(fetchPlayListTracks(item.id))}>{item.name}</button>
           </li>
         ))}
       </ul>
-    </div>
+    </section>
   );
 }
