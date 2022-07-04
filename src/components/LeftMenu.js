@@ -51,7 +51,9 @@ export default function LeftMenu() {
       <ul className='h-auto'>
         {playList.map((item) => (
           <li className='mb-2 hover:text-white' key={`${id}-${item.id}`}>
-            <button onClick={() => dispatch(fetchPlayListTracks(item.id))}>{item.name}</button>
+            <button className='w-[90%] truncate text-left' onClick={() => dispatch(fetchPlayListTracks(item.id))}>
+              {item.name}
+            </button>
           </li>
         ))}
       </ul>

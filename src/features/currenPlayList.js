@@ -3,19 +3,15 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { spotifyApi } from '../utils/spotify';
 
 const initialState = {
-  name: '',
-  images: [],
-  tracks: [],
+  info: null,
   error: '',
 };
 
 export const fetchPlayListTracks = createAsyncThunk('currentPlayList/fetchPlayListTracks', async (playListId) => {
   const { body } = await spotifyApi.getPlaylist(playListId);
-  const { name, images, tracks } = body;
   return {
-    name,
-    images,
-    tracks: tracks.items,
+    info: body,
+    error: '',
   };
 });
 

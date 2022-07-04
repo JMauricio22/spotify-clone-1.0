@@ -18,7 +18,7 @@ export default function SongItem({ track, added_at, index }) {
           <span className='group-hover:hidden inline-block'>{index + 1}</span>
         </div>
         <div className='flex items-center mr-4 md:mr-0'>
-          <img src={track.album.images[0].url} className='w-14 h-14 md:w-10 md:h-10 rounded-sm' />
+          <img src={track.album.images[0].url} className='w-14 h-14 md:w-10 md:h-10' />
         </div>
         <div className='flex flex-col flex-nowrap'>
           <span className='w-44 md:w-56 text-white font-medium truncate'>{track.name}</span>
