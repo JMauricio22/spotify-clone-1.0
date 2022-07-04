@@ -1,6 +1,8 @@
 import NextAuth from 'next-auth';
 import SpotifyProvider from 'next-auth/providers/spotify';
 
+/* Spotify scopes */
+
 const spotifyScopes = [
   'user-modify-playback-state',
   'user-follow-modify',
@@ -13,12 +15,15 @@ const spotifyScopes = [
   'user-library-read',
 ];
 
+/* Refresh token */
+
 async function refreshAccessToken(token) {
   try {
-    const url = 'https://accounts.spotify.com/api/token?';
+    const url = 'https://accounts.spotify.com/api/token';
 
     const body = new URLSearchParams({
       client_id: process.env.SPOTIFY_ID,
+      client_secret: process.env.SPOTIFY_SECRET,
       grant_type: 'refresh_token',
       refresh_token: token.refreshToken,
     });
@@ -37,11 +42,12 @@ async function refreshAccessToken(token) {
       throw refreshedTokens;
     }
 
+    console.log(JSON.stringify(refreshedTokens, null, 2));
     return {
       ...token,
       accessToken: refreshedTokens.access_token,
       accessTokenExpires: Date.now() + refreshedTokens.expires_at * 1000,
-      refreshToken: refreshedTokens.refresh_token ?? token.refreshToken, // Fall back to old refresh token
+      refreshToken: refreshedTokens.refresh_token ?? token.refreshToken,
     };
   } catch (error) {
     return {

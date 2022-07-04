@@ -14,6 +14,7 @@ export default function LeftMenu() {
   const dispatch = useDispatch();
 
   const getUserPlayList = async () => {
+    /* Get user playlist */
     try {
       const data = await spotifyApi.getUserPlaylists();
       dispatch(setPlayList(data.body.items));
@@ -23,6 +24,7 @@ export default function LeftMenu() {
   };
 
   useEffect(() => {
+    /* Get user playlist when component is mounted */
     if (spotifyApi.getAccessToken()) {
       getUserPlayList();
     }

@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { PlayIcon, PauseIcon, FastForwardIcon, RewindIcon, VolumeOffIcon } from '@heroicons/react/solid';
 import { VolumeUpIcon, MusicNoteIcon } from '@heroicons/react/outline';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPlaybackState, playSong, pauseSong } from '../features/player';
+import { fetchPlaybackState, playSong, pauseSong, setVolume } from '../features/player';
 import useSpotify from '../hooks/useSpotify';
 import { useSession } from 'next-auth/react';
 
@@ -11,13 +11,25 @@ export default function Player() {
   const spotifyApi = useSpotify();
   const track = useSelector((state) => state.player.track);
   const isPlaying = useSelector((state) => state.player.isPlaying);
+  const volume = useSelector((state) => state.player.volume);
   const dispatch = useDispatch();
+  const timeoutId = useRef(null);
 
   useEffect(() => {
+    /* Get layback state */
     if (spotifyApi.getAccessToken()) {
       dispatch(fetchPlaybackState());
     }
   }, [session, spotifyApi]);
+
+  const changeVolume = ({ target }) => {
+    /* Set volume */
+    const newVolume = target.value;
+    clearTimeout(timeoutId.current);
+    timeoutId.current = setTimeout(() => {
+      dispatch(setVolume(newVolume));
+    }, 300);
+  };
 
   return (
     <div className='w-screen h-[90px] bg-[#181818] fixed bottom-0 left-0 flex justify-center items-center px-4'>
@@ -57,7 +69,7 @@ export default function Player() {
       </div>
       <div className='space-x-2 flex items-center absolute right-4'>
         <VolumeUpIcon className='w-6 h-6 text-gray-300' />
-        <input className='text-white' type='range' min={0} max={100} />
+        <input className='text-white' type='range' min={0} max={100} value={volume} onChange={changeVolume} />
       </div>
     </div>
   );

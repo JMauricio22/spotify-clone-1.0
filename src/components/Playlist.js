@@ -13,10 +13,12 @@ export default function Center() {
   const { query } = useRouter();
 
   useEffect(() => {
+    /* Get user´s playlist when component is mounted */
     dispatch(fetchPlayListTracks(query.id));
   }, [query]);
 
   const containerStyles = useMemo(() => {
+    /* Generate random color for playlist */
     if (playListInfo) {
       return {
         backgroundColor: randomColor({
