@@ -3,8 +3,8 @@ import { useSession } from 'next-auth/react';
 import useSpotify from '../hooks/useSpotify';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPlayList, setPlayListError } from '../features/playlist';
-import { fetchPlayListTracks } from '../features/currenPlayList';
 import { HomeIcon, SearchIcon, LibraryIcon } from '@heroicons/react/outline';
+import Link from 'next/link';
 
 export default function LeftMenu() {
   const id = useId();
@@ -29,12 +29,14 @@ export default function LeftMenu() {
   }, [session, spotifyApi]);
 
   return (
-    <section className='h-screen max-h-screen hidden md:block overflow-y-auto w-56 bg-black text-gray-300 pl-4 pr-3 py-4 text-xs md:text-sm lg:text-md font-medium'>
+    <aside className='h-screen max-h-screen hidden md:block overflow-y-auto w-56 bg-black text-gray-300 pl-4 pr-3 py-4 text-xs md:text-sm lg:text-md font-medium'>
       <ul>
         <li className='flex items-center mb-3 hover:text-white'>
-          <button className='flex items-center'>
-            <HomeIcon className='w-6 h-6 mr-2' /> Home
-          </button>
+          <Link href='/'>
+            <a className='flex items-center'>
+              <HomeIcon className='w-6 h-6 mr-2' /> Home
+            </a>
+          </Link>
         </li>
         <li className='flex items-center mb-3 hover:text-white'>
           <button className='flex items-center'>
@@ -51,12 +53,12 @@ export default function LeftMenu() {
       <ul className='h-auto'>
         {playList.map((item) => (
           <li className='mb-2 hover:text-white' key={`${id}-${item.id}`}>
-            <button className='w-[90%] truncate text-left' onClick={() => dispatch(fetchPlayListTracks(item.id))}>
-              {item.name}
-            </button>
+            <Link className='w-[90%] truncate text-left' href={`/playlist/${item.id}`}>
+              <a>{item.name}</a>
+            </Link>
           </li>
         ))}
       </ul>
-    </section>
+    </aside>
   );
 }

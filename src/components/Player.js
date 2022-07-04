@@ -9,10 +9,14 @@ export default function Player() {
   return (
     <div className='w-screen h-[90px] bg-[#181818] fixed bottom-0 left-0 flex justify-between items-center px-4'>
       <div className='flex items-center space-x-2'>
-        <img className='w-16 h-16' src={track.album.images[0].url} />
+        <img className='w-16 h-16' src={track?.album.images[0].url} />
         <div>
-          <p className='text-white font-medium text-sm'>{track.name}</p>
-          <p className=' text-gray-300 font-normal text-xs'>{track.artists[0].name}</p>
+          {track && (
+            <>
+              <p className='text-white font-medium text-sm'>{track.name}</p>
+              <p className=' text-gray-300 font-normal text-xs'>{track.artists[0].name}</p>
+            </>
+          )}
         </div>
       </div>
       <div className='text-white flex space-x-4'>
