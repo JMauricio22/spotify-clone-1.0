@@ -13,6 +13,44 @@ const spotifyScopes = [
   'user-library-read',
 ];
 
+async function refreshAccessToken(token) {
+  try {
+    const url = 'https://accounts.spotify.com/api/token?';
+
+    const body = new URLSearchParams({
+      client_id: process.env.SPOTIFY_ID,
+      grant_type: 'refresh_token',
+      refresh_token: token.refreshToken,
+    });
+
+    const response = await fetch(url, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      method: 'POST',
+      body,
+    });
+
+    const refreshedTokens = await response.json();
+
+    if (!response.ok) {
+      throw refreshedTokens;
+    }
+
+    return {
+      ...token,
+      accessToken: refreshedTokens.access_token,
+      accessTokenExpires: Date.now() + refreshedTokens.expires_at * 1000,
+      refreshToken: refreshedTokens.refresh_token ?? token.refreshToken, // Fall back to old refresh token
+    };
+  } catch (error) {
+    return {
+      ...token,
+      error: 'RefreshAccessTokenError',
+    };
+  }
+}
+
 const scopes = new URLSearchParams({
   scope: spotifyScopes.join(' '),
 });
@@ -35,14 +73,22 @@ export default NextAuth({
         return {
           ...token,
           accessToken: account.access_token,
+          accessTokenExpires: Date.now() + account.expires_at * 1000,
+          refreshToken: account.refresh_token,
           user,
         };
       }
-      return token;
+
+      if (Date.now() < token.accessTokenExpires) {
+        return token;
+      }
+
+      return refreshAccessToken(token);
     },
     session({ session, token }) {
       session.accessToken = token.accessToken;
       session.user = token.user;
+      session.error = token.error;
       return session;
     },
   },
