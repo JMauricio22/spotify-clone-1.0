@@ -54,8 +54,8 @@ export default function LeftMenu() {
       <div className='h-[.1px] bg-gray-800 my-4' />
       <ul className='h-auto'>
         {playList.map((item) => (
-          <li className='mb-2 hover:text-white' key={`${id}-${item.id}`}>
-            <Link className='w-[90%] truncate text-left' href={`/playlist/${item.id}`}>
+          <li className='mb-2 hover:text-white text-left w-full truncate' key={`${id}-${item.id}`}>
+            <Link href={`/playlist/${item.id}`}>
               <a>{item.name}</a>
             </Link>
           </li>

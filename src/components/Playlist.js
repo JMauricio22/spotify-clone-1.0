@@ -1,16 +1,19 @@
-import React, { useEffect, useId, useMemo } from 'react';
+import React, { useEffect, useId, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import SongItem from './SongItem';
 import Container from './Container';
 import { fetchPlayListTracks } from '../features/currenPlayList';
 import randomColor from 'randomcolor';
 import { useRouter } from 'next/router';
+import Header from './Header';
 
 export default function Center() {
   const id = useId();
   const playListInfo = useSelector((state) => state.currentPlayList.info);
   const dispatch = useDispatch();
   const { query } = useRouter();
+  const containerRef = useRef(null);
+  const heroRef = useRef(null);
 
   useEffect(() => {
     /* Get user´s playlist when component is mounted */
@@ -34,10 +37,14 @@ export default function Center() {
   }, [playListInfo, query]);
 
   return (
-    <Container style={containerStyles}>
+    <Container
+      ref={containerRef}
+      style={containerStyles}
+      header={<Header container={containerRef.current} hero={heroRef.current} />}
+    >
       {playListInfo && (
         <>
-          <div className=' border-[1px] border-transparent min-h-[20rem] h-auto relative p-4'>
+          <div ref={heroRef} className=' border-[1px] border-transparent min-h-[20rem] h-auto relative p-4'>
             <div className='lg:flex items-end lg:absolute bottom-6 left-8 mt-16 lg:mt-0'>
               <img className='w-56 h-52 mx-auto mb-4 lg:mb-0 lg:mr-4' src={playListInfo?.images[0]?.url} />
               <div>
