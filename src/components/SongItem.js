@@ -9,8 +9,8 @@ export default function SongItem({ track, added_at, index }) {
 
   return (
     <li
-      onClick={() => dispatch(playSong(track))}
-      className='grid grid-cols-[1fr_50px] group grid-rows-1 md:grid-cols-[1fr_50px] lg:grid-cols-[350px_1fr_100px] xl:grid-cols-[350px_repeat(2,1fr)_100px] gap-4 py-3 hover:bg-[hsla(0,0%,100%,.1)] pl-4 pr-2 rounded-md'
+      onDoubleClick={() => dispatch(playSong(track))}
+      className='grid cursor-pointer grid-cols-[1fr_50px] group grid-rows-1 md:grid-cols-[1fr_50px] lg:grid-cols-[350px_1fr_100px] xl:grid-cols-[350px_repeat(2,1fr)_100px] gap-4 py-3 hover:bg-[hsla(0,0%,100%,.1)] pl-4 pr-2 rounded-md'
     >
       <div className='flex items-center md:grid md:grid-rows-1 md:grid-cols-[40px_60px_1fr]'>
         <div className='text-gray-300 md:flex items-center justify-center hidden'>

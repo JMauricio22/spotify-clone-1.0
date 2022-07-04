@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
-const privateRoutes = ['/'];
+const privateRoutes = ['/', '/playlist'];
 
 export async function middleware(req) {
   const token = await getToken({
@@ -13,7 +13,12 @@ export async function middleware(req) {
     return NextResponse.redirect(new URL(process.env.URL));
   }
 
-  if (privateRoutes.includes(pathname) && !token) {
+  if (
+    privateRoutes.findIndex(
+      (privateRoute) => pathname === '/' || (privateRoute !== '/' && pathname.startsWith(privateRoute))
+    ) !== -1 &&
+    !token
+  ) {
     return NextResponse.redirect(new URL('/login', process.env.URL));
   }
 }
