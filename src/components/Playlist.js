@@ -27,8 +27,6 @@ export default function Center() {
         backgroundColor: randomColor({
           luminosity: 'dark',
           seed: playListInfo.name,
-          format: 'rgba',
-          alpha: 0.25,
         }),
       };
     }
@@ -40,11 +38,14 @@ export default function Center() {
     <Container
       ref={containerRef}
       style={containerStyles}
-      header={<Header container={containerRef.current} hero={heroRef.current} />}
+      header={<Header container={containerRef.current} hero={heroRef.current} style={containerStyles} />}
     >
       {playListInfo && (
         <>
-          <div ref={heroRef} className=' border-[1px] border-transparent min-h-[20rem] h-auto relative p-4'>
+          <div
+            ref={heroRef}
+            className=' min-h-[20rem] h-auto relative p-4 before:block before:w-full before:h-full before:bg-[rgba(0,0,0,.6)] before:inset-0 before:absolute'
+          >
             <div className='lg:flex items-end lg:absolute bottom-6 left-8 mt-16 lg:mt-0'>
               <img className='w-56 h-52 mx-auto mb-4 lg:mb-0 lg:mr-4' src={playListInfo?.images[0]?.url} />
               <div>
@@ -61,7 +62,7 @@ export default function Center() {
               </div>
             </div>
           </div>
-          <ul className='px-6 py-4 w-full h-auto overflow-y-auto bg-gradient-to-b from-[rgba(0,0,0,0.5)] to-black text-sm md:text-sm md:text-md pb-[90px]'>
+          <ul className='px-6 py-4 w-full h-auto overflow-y-auto bg-gradient-to-b from-[rgba(0,0,0,0.7)] to-black text-sm md:text-sm md:text-md pb-[90px]'>
             {playListInfo?.tracks.items.map(({ track, added_at }, index) => (
               <SongItem key={`${id}-${track.id}`} track={track} added_at={added_at} index={index} />
             ))}

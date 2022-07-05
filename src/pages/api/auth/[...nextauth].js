@@ -42,7 +42,6 @@ async function refreshAccessToken(token) {
       throw refreshedTokens;
     }
 
-    console.log(JSON.stringify(refreshedTokens, null, 2));
     return {
       ...token,
       accessToken: refreshedTokens.access_token,
