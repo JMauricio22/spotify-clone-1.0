@@ -22,7 +22,7 @@ export default function Center() {
 
   const containerStyles = useMemo(() => {
     /* Generate random color for playlist */
-    if (playListInfo) {
+    if (playListInfo && playListInfo?.tracks?.items?.length > 0) {
       return {
         backgroundColor: randomColor({
           luminosity: 'dark',
@@ -42,14 +42,18 @@ export default function Center() {
     >
       {playListInfo && (
         <>
-          <div
-            ref={heroRef}
-            className=' min-h-[20rem] h-auto relative p-4 before:block before:w-full before:h-full before:bg-[rgba(0,0,0,.6)] before:inset-0 before:absolute'
-          >
-            <div className='lg:flex items-end lg:absolute bottom-6 left-8 mt-16 lg:mt-0'>
-              <img className='w-56 h-52 mx-auto mb-4 lg:mb-0 lg:mr-4' src={playListInfo?.images[0]?.url} />
+          <div ref={heroRef} className=' min-h-[20rem] h-auto relative p-4'>
+            <div className='lg:flex items-end lg:absolute bottom-6 left-8 mt-16 lg:mt-0 w-[90%]'>
+              {playListInfo && playListInfo?.images[0] ? (
+                <img className='w-56 h-52 mb-4 mx-auto lg:mx-0 lg:mb-0 lg:mr-4' src={playListInfo?.images[0]?.url} />
+              ) : (
+                <div
+                  className='w-56 h-52 mb-4 lg:mb-0 lg:mr-4 bg-[#282828] flex items-center justify-center shadow-md'
+                  src={playListInfo?.images[0]?.url}
+                />
+              )}
               <div>
-                <p className='md:text-4xl lg:text-4xl font-bold mb-2 lg:mb-4'>{playListInfo?.name}</p>
+                <p className='xl:text-3xl md:text-2xl font-bold mb-2 lg:mb-4 w-full pr-2'>{playListInfo?.name}</p>
                 {playListInfo?.description && (
                   <p className='text-md font-medium text-neutral-300 hidden xl:block w-5/6'>
                     {playListInfo?.description}

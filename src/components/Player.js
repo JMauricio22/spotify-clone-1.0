@@ -18,7 +18,7 @@ export default function Player() {
   const volumeControl = useRef(null);
 
   useEffect(() => {
-    /* Get layback state */
+    /* Get playback state */
     if (spotifyApi.getAccessToken()) {
       dispatch(fetchPlaybackState());
     }
@@ -34,13 +34,15 @@ export default function Player() {
   };
 
   useEffect(() => {
-    if (
-      volumeControl.current &&
-      (volume === 0 || (Number.parseInt(volumeControl.current.value) === 0 && volume !== 0))
-    ) {
+    /* Set the volume control to zero */
+    if (volumeControl.current && mute) {
+      volumeControl.current.value = 0;
+    }
+    /* If the volume is not zero and not muted, set the current volume */
+    if (volumeControl.current && Number.parseInt(volumeControl.current.value) === 0 && !mute && volume > 0) {
       volumeControl.current.value = volume;
     }
-  }, [volume]);
+  }, [mute, volume, volumeControl]);
 
   return (
     <div className='w-screen h-[90px] bg-[#181818] fixed bottom-0 left-0 flex justify-center items-center px-4'>

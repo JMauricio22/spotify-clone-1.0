@@ -35,9 +35,13 @@ export const fetchPlaybackState = createAsyncThunk('player/fetchPlaybackState', 
 });
 
 export const setVolume = createAsyncThunk('player/setVolume', async (volume) => {
+  const payload = {};
   await spotifyApi.setVolume(volume);
+  if (Number.parseInt(volume) !== 0) {
+    payload.volume = volume;
+  }
   return {
-    volume,
+    ...payload,
     mute: Number.parseInt(volume) === 0,
   };
 });
