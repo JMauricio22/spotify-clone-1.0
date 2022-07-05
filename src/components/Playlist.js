@@ -7,6 +7,7 @@ import randomColor from 'randomcolor';
 import { useRouter } from 'next/router';
 import Header from './Header';
 import { MusicNoteIcon } from '@heroicons/react/outline';
+import { ExclamationCircleIcon } from '@heroicons/react/solid';
 
 export default function Center() {
   const id = useId();
@@ -48,12 +49,12 @@ export default function Center() {
             className=' min-h-[20rem] h-auto relative p-4 before:block before:w-full before:h-full'
             style={Object.keys(containerStyles).length > 0 ? {} : { backgroundColor: 'rgb(86,86,86)' }}
           >
-            <div className='lg:flex items-end lg:absolute bottom-6 left-8 mt-16 lg:mt-0 w-[90%]'>
+            <div className='lg:flex items-end lg:absolute bottom-6 mx-auto md:mx-0 left-8 mt-16 lg:mt-0 lg:w-[90%] w-[100%]'>
               {playListInfo && playListInfo?.images[0] ? (
-                <img className='w-56 h-52 mb-4 mx-auto md:mx-0 lg:mb-0 lg:mr-4' src={playListInfo?.images[0]?.url} />
+                <img className='w-56 h-52 mb-4 mx-auto lg:mx-0 lg:mb-0 lg:mr-4' src={playListInfo?.images[0]?.url} />
               ) : (
                 <div
-                  className='w-56 h-52 mb-4 lg:mb-0 lg:mr-4 bg-[#282828] flex items-center justify-center shadow-md'
+                  className='w-56 h-52 mb-4 mx-auto lg:ml-0 lg:mb-0 lg:mr-4 bg-[#282828] flex items-center justify-center shadow-md'
                   src={playListInfo?.images[0]?.url}
                 >
                   <MusicNoteIcon className='w-16 h-16 text-gray-400' />
@@ -80,9 +81,10 @@ export default function Center() {
               ))}
             </ul>
           ) : (
-            <p className='md:text-2xl text-xl text-center text-gray-100 mt-10 font-medium'>
-              There are no tracks in your playlist.
-            </p>
+            <div className='text-center mt-10 text-gray-100'>
+              <ExclamationCircleIcon className='w-14 h-14 inline-block mb-1' />
+              <p className='md:text-2xl text-xl text-center font-medium'>There are no tracks in your playlist.</p>
+            </div>
           )}
         </>
       )}
