@@ -61,13 +61,15 @@ export default function Center() {
                 </div>
               )}
               <div>
-                <p className='xl:text-3xl md:text-2xl font-bold mb-2 lg:mb-4 w-full pr-2'>{playListInfo?.name}</p>
+                <p className='xl:text-3xl md:text-2xl font-bold mb-2 lg:mb-4 w-full pr-2 font-gothamblack'>
+                  {playListInfo?.name}
+                </p>
                 {playListInfo?.description && (
-                  <p className='text-md font-medium text-neutral-300 hidden xl:block w-5/6'>
+                  <p className='text-md font-medium text-gray-200 hidden xl:block w-5/6 font-gothammedium'>
                     {playListInfo?.description}
                   </p>
                 )}
-                <p className='text-sm text-white font-medium'>
+                <p className='text-sm text-white font-medium font-gothambold'>
                   {playListInfo?.owner.display_name}
                   <span className='text-gray-200'> . {playListInfo?.tracks.items.length} songs</span>
                 </p>

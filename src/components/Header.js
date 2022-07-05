@@ -38,7 +38,9 @@ export default function Header({ container, hero, ...props }) {
       className='sticky left-0 right-0 h-[60px] top-0 z-30 flex items-center'
       {...props}
     >
-      {playListName && <p className='w-3/6 truncate text-md md:text-2xl font-medium text-white pl-4'>{playListName}</p>}
+      {playListName && (
+        <p className='w-3/6 truncate text-md md:text-2xl font-gothambold text-white pl-4'>{playListName}</p>
+      )}
     </Transition>
   );
 }

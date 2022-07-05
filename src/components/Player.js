@@ -57,10 +57,10 @@ export default function Player() {
         <div>
           {track && (
             <>
-              <p className='text-white font-medium text-sm max-w-[200px] overflow-hidden whitespace-nowrap truncate'>
+              <p className='text-white font-gothammedium text-sm max-w-[200px] overflow-hidden whitespace-nowrap truncate'>
                 <span>{track.name}</span>
               </p>
-              <p className=' text-gray-300 font-normal text-xs'>{track.artists[0].name}</p>
+              <p className=' text-zinc-300 text-xs'>{track.artists[0].name}</p>
             </>
           )}
         </div>
