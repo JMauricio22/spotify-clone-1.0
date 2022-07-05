@@ -12,6 +12,7 @@ export default function Player() {
   const track = useSelector((state) => state.player.track);
   const isPlaying = useSelector((state) => state.player.isPlaying);
   const volume = useSelector((state) => state.player.volume);
+  const mute = useSelector((state) => state.player.mute);
   const dispatch = useDispatch();
   const timeoutId = useRef(null);
 
@@ -68,7 +69,11 @@ export default function Player() {
         </button>
       </div>
       <div className='space-x-2 flex items-center absolute right-4'>
-        <VolumeUpIcon className='w-6 h-6 text-gray-300' />
+        {mute ? (
+          <VolumeOffIcon className='w-6 h-6 text-gray-300' onClick={() => dispatch(setVolume(volume || 50))} />
+        ) : (
+          <VolumeUpIcon className='w-6 h-6 text-gray-300' onClick={() => dispatch(setVolume(0))} />
+        )}
         <input className='text-white' type='range' min={0} max={100} value={volume} onChange={changeVolume} />
       </div>
     </div>

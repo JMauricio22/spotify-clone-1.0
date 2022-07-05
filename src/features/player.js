@@ -30,18 +30,23 @@ export const fetchPlaybackState = createAsyncThunk('player/fetchPlaybackState', 
     track: body.item,
     volume: body.device.volume_percent,
     isPlaying: body.is_playing,
+    mute: Number.parseInt(body.device.volume_percent) === 0,
   };
 });
 
 export const setVolume = createAsyncThunk('player/setVolume', async (volume) => {
   await spotifyApi.setVolume(volume);
-  return volume;
+  return {
+    volume,
+    mute: Number.parseInt(volume) === 0,
+  };
 });
 
 const initialState = {
   track: null,
   isPlaying: false,
   volume: 50,
+  mute: false,
   error: '',
 };
 
@@ -59,16 +64,14 @@ const playerSlice = createSlice({
     });
     builder.addCase(fetchPlaybackState.fulfilled, (_, { payload }) => ({
       ...initialState,
-      track: payload.track,
-      isPlaying: payload.isPlaying,
-      volume: payload.volume,
+      ...payload,
     }));
     builder.addCase(playSong.rejected, (_, { error }) => ({ ...initialState, error: error.message }));
     builder.addCase(fetchPlaybackState.rejected, (_, { error }) => ({ ...initialState, error: error.message }));
     builder.addCase(pauseSong.fulfilled, (state, { payload }) => {
       state.isPlaying = payload.isPlaying;
     });
-    builder.addCase(setVolume.fulfilled, (state, { payload }) => ({ ...state, volume: payload }));
+    builder.addCase(setVolume.fulfilled, (state, { payload }) => ({ ...state, ...payload }));
   },
 });
 
