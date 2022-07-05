@@ -6,6 +6,7 @@ import { fetchPlayListTracks } from '../features/currenPlayList';
 import randomColor from 'randomcolor';
 import { useRouter } from 'next/router';
 import Header from './Header';
+import { MusicNoteIcon } from '@heroicons/react/outline';
 
 export default function Center() {
   const id = useId();
@@ -42,15 +43,21 @@ export default function Center() {
     >
       {playListInfo && (
         <>
-          <div ref={heroRef} className=' min-h-[20rem] h-auto relative p-4'>
+          <div
+            ref={heroRef}
+            className=' min-h-[20rem] h-auto relative p-4 before:block before:w-full before:h-full'
+            style={Object.keys(containerStyles).length > 0 ? {} : { backgroundColor: 'rgb(86,86,86)' }}
+          >
             <div className='lg:flex items-end lg:absolute bottom-6 left-8 mt-16 lg:mt-0 w-[90%]'>
               {playListInfo && playListInfo?.images[0] ? (
-                <img className='w-56 h-52 mb-4 mx-auto lg:mx-0 lg:mb-0 lg:mr-4' src={playListInfo?.images[0]?.url} />
+                <img className='w-56 h-52 mb-4 mx-auto md:mx-0 lg:mb-0 lg:mr-4' src={playListInfo?.images[0]?.url} />
               ) : (
                 <div
                   className='w-56 h-52 mb-4 lg:mb-0 lg:mr-4 bg-[#282828] flex items-center justify-center shadow-md'
                   src={playListInfo?.images[0]?.url}
-                />
+                >
+                  <MusicNoteIcon className='w-16 h-16 text-gray-400' />
+                </div>
               )}
               <div>
                 <p className='xl:text-3xl md:text-2xl font-bold mb-2 lg:mb-4 w-full pr-2'>{playListInfo?.name}</p>
@@ -66,11 +73,17 @@ export default function Center() {
               </div>
             </div>
           </div>
-          <ul className='px-6 py-4 w-full h-auto overflow-y-auto bg-gradient-to-b from-[rgba(0,0,0,0.7)] to-black text-sm md:text-sm md:text-md pb-[90px]'>
-            {playListInfo?.tracks.items.map(({ track, added_at }, index) => (
-              <SongItem key={`${id}-${track.id}`} track={track} added_at={added_at} index={index} />
-            ))}
-          </ul>
+          {playListInfo?.tracks?.items.length > 0 ? (
+            <ul className='px-6 py-4 w-full h-auto overflow-y-auto bg-gradient-to-b from-[rgba(0,0,0,0.7)] to-black text-sm md:text-sm md:text-md pb-[90px]'>
+              {playListInfo?.tracks.items.map(({ track, added_at }, index) => (
+                <SongItem key={`${id}-${track.id}`} track={track} added_at={added_at} index={index} />
+              ))}
+            </ul>
+          ) : (
+            <p className='md:text-2xl text-xl text-center text-gray-100 mt-10 font-medium'>
+              There are no tracks in your playlist.
+            </p>
+          )}
         </>
       )}
     </Container>
