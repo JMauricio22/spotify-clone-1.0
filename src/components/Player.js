@@ -15,6 +15,7 @@ export default function Player() {
   const mute = useSelector((state) => state.player.mute);
   const dispatch = useDispatch();
   const timeoutId = useRef(null);
+  const volumeControl = useRef(null);
 
   useEffect(() => {
     /* Get layback state */
@@ -31,6 +32,15 @@ export default function Player() {
       dispatch(setVolume(newVolume));
     }, 300);
   };
+
+  useEffect(() => {
+    if (
+      volumeControl.current &&
+      (volume === 0 || (Number.parseInt(volumeControl.current.value) === 0 && volume !== 0))
+    ) {
+      volumeControl.current.value = volume;
+    }
+  }, [volume]);
 
   return (
     <div className='w-screen h-[90px] bg-[#181818] fixed bottom-0 left-0 flex justify-center items-center px-4'>
@@ -74,7 +84,7 @@ export default function Player() {
         ) : (
           <VolumeUpIcon className='w-6 h-6 text-gray-300' onClick={() => dispatch(setVolume(0))} />
         )}
-        <input className='text-white' type='range' min={0} max={100} value={volume} onChange={changeVolume} />
+        <input ref={volumeControl} className='text-white' type='range' min={0} max={100} onChange={changeVolume} />
       </div>
     </div>
   );
