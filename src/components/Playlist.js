@@ -77,7 +77,7 @@ export default function Center() {
             </div>
           </div>
           {playListInfo?.tracks?.items.length > 0 ? (
-            <ul className='px-6 py-4 w-full h-auto overflow-y-auto bg-gradient-to-b from-[rgba(0,0,0,0.7)] to-black text-sm md:text-sm md:text-md pb-[90px]'>
+            <ul className='px-6 py-4 w-full h-auto overflow-y-auto bg-gradient-to-b from-[rgba(0,0,0,0.7)] to-black text-sm md:text-sm md:text-md'>
               {playListInfo?.tracks.items.map(({ track, added_at }, index) => (
                 <SongItem key={`${id}-${track.id}`} track={track} added_at={added_at} index={index} />
               ))}

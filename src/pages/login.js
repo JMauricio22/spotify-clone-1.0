@@ -1,9 +1,7 @@
 import React from 'react';
 import { getProviders, signIn } from 'next-auth/react';
-import SpotifyIcon from '../assets/images/spotify-svgrepo-com.svg';
 import { Transition } from '@headlessui/react';
 import Layout from '../components/Layout';
-import Image from 'next/image';
 
 export default function login({ providers }) {
   const provider = Object.values(providers)[0];
@@ -13,7 +11,6 @@ export default function login({ providers }) {
       <main className='flex justify-center items-center w-full h-full'>
         <div className='px-2 text-center'>
           <div className='text-center mb-4 w-auto h-auto relative overflow-hidden p-2'>
-            {/* <Image src={SpotifyIcon} width={150} height={150} /> */}
             <h1 className='text-8xl font-gothamblack text-gray-100 tracking-wider'>Spotify</h1>
             <Transition
               appear={true}

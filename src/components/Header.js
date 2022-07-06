@@ -29,12 +29,12 @@ export default function Header({ container, hero, ...props }) {
     <Transition
       as='div'
       show={showHeader}
-      enter='transition-all origin-[0%_0%] duration-150 ease-out'
-      enterFrom='opacity-0 scale-y-0'
-      enterTo='opacity-100 scale-y-100'
-      leave='transition-all origin-[0%_0%] duration-150 ease-out'
-      leaveFrom='opacity-100 scale-y-100'
-      leaveTo='opacity-0 scale-y-0'
+      enter='transition-all origin-[0%_0%] duration-500 ease-in-out'
+      enterFrom='opacity-0'
+      enterTo='opacity-100'
+      leave='transition-all origin-[0%_0%] duration-500 ease-in-out'
+      leaveFrom='opacity-100'
+      leaveTo='opacity-0'
       className='sticky left-0 right-0 h-[60px] top-0 z-30 flex items-center'
       {...props}
     >
