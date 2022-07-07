@@ -4,8 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchRecommendations } from '../features/recommendations';
 import useSpotify from '../hooks/useSpotify';
 import Container from './Container';
-import ItemList from './ItemList';
+import CardItemList from './CardItemList';
 import { generateItemsWithRecommendationAdaptor, generateItemsWithArtisAdapter } from '../utils/cardItemAdapter';
+import RecommendationCard from './RecommendationCard';
+import ArtistCard from './ArtistCard';
 
 export default function Home() {
   const { data: session } = useSession();
@@ -24,10 +26,14 @@ export default function Home() {
     <Container>
       <section className='pb-10'>
         {recommendations.length > 0 && (
-          <ItemList title='Recommendations' items={generateItemsWithRecommendationAdaptor(recommendations)} limit={4} />
+          <RecommendationCard
+            title='Recommendations'
+            items={generateItemsWithRecommendationAdaptor(recommendations)}
+            limit={4}
+          />
         )}
         {artists.length > 0 && (
-          <ItemList title='your favorite artists' items={generateItemsWithArtisAdapter(artists)} limit={4} />
+          <ArtistCard title='your favorite artists' items={generateItemsWithArtisAdapter(artists)} limit={4} />
         )}
       </section>
     </Container>
