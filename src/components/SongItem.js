@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 const cellItems = {
   information: ({ position, url, trackName, artistName }) => {
     return (
-      <div className='flex items-center md:grid md:grid-rows-1 md:grid-cols-[40px_60px_1fr]'>
+      <div className='grid md:grid-rows-1 grid-cols-[60px_1fr] md:grid-cols-[40px_60px_1fr] max-w-full'>
         <div className='text-gray-300 md:flex items-center justify-center hidden'>
           <PlayIcon className='group-hover:block hidden w-8 h-10' />
           <span className='group-hover:hidden inline-block font-gothammedium'>{position}</span>
@@ -15,7 +15,7 @@ const cellItems = {
         <div className='flex items-center mr-4 md:mr-0'>
           <img src={url} className='w-14 h-14 md:w-10 md:h-10' />
         </div>
-        <div className='flex flex-col flex-nowrap overflow-hidden max-w-[90%]'>
+        <div className='flex flex-col flex-nowrap overflow-x-hidden max-w-[90%] justify-center'>
           <span className='text-white font-medium truncate font-gothammedium'>{trackName}</span>
           <span className='text-gray-300 truncate font-medium'>{artistName}</span>
         </div>
@@ -43,7 +43,7 @@ const cellItems = {
   },
 };
 
-export default function SongItem(columns) {
+export default function SongItem({ columns, track }) {
   const dispatch = useDispatch();
 
   const getColumns = () => (
@@ -57,7 +57,7 @@ export default function SongItem(columns) {
   return (
     <li
       onDoubleClick={() => dispatch(playSong(track))}
-      className='grid cursor-pointer grid-cols-[1fr_50px] group grid-rows-1 md:grid-cols-[1fr_50px] lg:grid-cols-[350px_1fr_100px] xl:grid-cols-[1fr_repeat(2,200px)_100px] gap-4 py-3 hover:bg-[hsla(0,0%,100%,.1)] pl-4 pr-2 rounded-md'
+      className='grid cursor-pointer grid-cols-[1fr_50px] group grid-rows-1 lg:grid-cols-[1fr_200px_100px] xl:grid-cols-[1fr_repeat(2,200px)_100px] gap-4 py-3 hover:bg-[hsla(0,0%,100%,.1)] lg:pl-4 pl-0 pr-0 lg:pr-2 rounded-md'
     >
       {getColumns()}
     </li>
