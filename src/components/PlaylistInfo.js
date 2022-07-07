@@ -1,7 +1,6 @@
-import React, { useEffect, useId, useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Container from './Container';
-import Playlist from './Playlist';
 import { fetchPlayListTracks } from '../features/currenPlayList';
 import randomColor from 'randomcolor';
 import { useRouter } from 'next/router';
@@ -9,6 +8,7 @@ import Header from './Header';
 import { ExclamationCircleIcon } from '@heroicons/react/solid';
 import { convertPlaylistItemsToSongItems } from '../utils/songItemAdapter';
 import Hero from './Hero';
+import PlayListWith4Cols from './PlayListWith4Cols';
 
 export default function PlaylistInfo() {
   const playListInfo = useSelector((state) => state.currentPlayList.info);
@@ -64,7 +64,7 @@ export default function PlaylistInfo() {
             }
           />
           {playListInfo?.tracks?.items.length > 0 ? (
-            <Playlist items={convertPlaylistItemsToSongItems(playListInfo.tracks.items)} />
+            <PlayListWith4Cols items={convertPlaylistItemsToSongItems(playListInfo.tracks.items)} />
           ) : (
             <div className='text-center mt-10 text-gray-100'>
               <ExclamationCircleIcon className='w-14 h-14 inline-block mb-1' />

@@ -1,8 +1,7 @@
 import React from 'react';
 import { PlayIcon } from '@heroicons/react/solid';
 import { spotifyDateFormat, convertMsToMin } from '../utils/date';
-import { playSong } from '../features/player';
-import { useDispatch } from 'react-redux';
+import SongItemWith4Cols from './PlayListWith4Cols';
 
 const cellItems = {
   information: ({ position, url, trackName, artistName }) => {
@@ -43,23 +42,14 @@ const cellItems = {
   },
 };
 
-export default function SongItem({ columns, track }) {
-  const dispatch = useDispatch();
-
+export default function SongItem({ columns }) {
   const getColumns = () => (
     <>
       {Object.keys(columns).map((key) => (
-        <>{cellItems[key](columns[key].data)}</>
+        <>{cellItems[key](columns[key])}</>
       ))}
     </>
   );
 
-  return (
-    <li
-      onDoubleClick={() => dispatch(playSong(track))}
-      className='grid cursor-pointer grid-cols-[1fr_50px] group grid-rows-1 lg:grid-cols-[1fr_200px_100px] xl:grid-cols-[1fr_repeat(2,200px)_100px] gap-4 py-3 hover:bg-[hsla(0,0%,100%,.1)] lg:pl-4 pl-0 pr-0 lg:pr-2 rounded-md'
-    >
-      {getColumns()}
-    </li>
-  );
+  return <>{getColumns()}</>;
 }

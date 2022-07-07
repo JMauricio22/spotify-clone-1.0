@@ -8,7 +8,8 @@ import { fetchArtistWithTopTracks } from '../features/selectedArtist';
 import Hero from './Hero';
 import Image from 'next/image';
 import VerifiedIcon from '../assets/icons/verified.svg';
-import Playlist from './Playlist';
+import PlaylistWith3Cols from './PlaylistWith3Cols';
+import { convertTrackItemsToSongItems } from '../utils/songItemAdapter';
 
 export default function Artistartist() {
   const { data: session } = useSession();
@@ -45,7 +46,7 @@ export default function Artistartist() {
               </div>
             }
           />
-          {/* <Playlist tracks={artist.tracks} /> */}
+          <PlaylistWith3Cols items={convertTrackItemsToSongItems(artist.tracks)} />
         </>
       )}
     </Container>
