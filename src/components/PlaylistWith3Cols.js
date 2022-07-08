@@ -10,6 +10,11 @@ function PlayListWith4Cols(Component) {
     return (
       <Component
         {...props}
+        header={
+          <li className='md:mb-2 md:mt-0 mt-2 mb-4'>
+            <span className='lg:text-xl text-xl font-gothambold'>Popular</span>
+          </li>
+        }
         columnContainer={({ item, id, track }) => (
           <span
             key={id}

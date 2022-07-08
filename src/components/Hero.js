@@ -14,7 +14,9 @@ export default React.forwardRef(({ title, imageUrl, beforeTitle, afterTitle, ...
         )}
         <div>
           {beforeTitle}
-          <p className='xl:text-4xl md:text-2xl font-bold mb-2 lg:mb-3 w-full pr-2 font-gothamblack'>{title}</p>
+          <p className='xl:text-4xl md:text-2xl text-3xl font-bold mb-2 lg:mb-3 w-full pr-2 font-gothamblack truncate'>
+            {title}
+          </p>
           {afterTitle}
         </div>
       </div>

@@ -45,7 +45,7 @@ export default function Player() {
   }, [mute, volume, volumeControl]);
 
   return (
-    <div className='w-screen h-[90px] bg-[#181818] fixed bottom-0 left-0 flex justify-center items-center px-4'>
+    <div className='w-screen h-[90px] bg-[#181818] fixed bottom-0 left-0 justify-center items-center px-4 lg:flex hidden'>
       <div className='flex items-center space-x-2 absolute left-4'>
         {track ? (
           <img className='w-16 h-16' src={track?.album.images[0].url} />
