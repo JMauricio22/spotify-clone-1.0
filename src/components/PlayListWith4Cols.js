@@ -11,13 +11,13 @@ function PlayListWith4Cols(Component) {
       <Component
         {...props}
         columnContainer={({ item, id, track }) => (
-          <li
+          <span
             key={id}
             onDoubleClick={() => dispatch(playSong(track))}
             className='grid grid-cols-[1fr_50px] lg:grid-cols-[1fr_200px_100px] xl:grid-cols-[1fr_200px_200px_100px] cursor-pointer group grid-rows-1 gap-4 py-3 hover:bg-[hsla(0,0%,100%,.1)] lg:pl-4 pl-0 pr-0 lg:pr-2 rounded-md'
           >
             {item}
-          </li>
+          </span>
         )}
       />
     );

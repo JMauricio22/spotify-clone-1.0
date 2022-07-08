@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+const plugin = require('tailwindcss/plugin');
 const defaultFonts = ['sans-serif', 'system-ui', 'apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto'];
 
 module.exports = {
@@ -15,5 +16,10 @@ module.exports = {
       },
     },
   },
-  plugins: [require('@tailwindcss/line-clamp')],
+  plugins: [
+    require('@tailwindcss/line-clamp'),
+    plugin(function ({ addVariant }) {
+      addVariant('nth-child-n5', '&:nth-child(n+5)');
+    }),
+  ],
 };

@@ -41,7 +41,8 @@ export default function Artistartist() {
             afterTitle={
               <div>
                 <p className='font-gothammedium text-md'>
-                  Followers: <span className='text-gray-300 text-sm'> {artist.followers.total} </span>{' '}
+                  Followers:{' '}
+                  <span className='text-gray-300 text-sm'> {artist.followers.total.toLocaleString('es-US')} </span>{' '}
                 </p>
               </div>
             }

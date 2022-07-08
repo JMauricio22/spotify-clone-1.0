@@ -3,7 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { spotifyApi } from '../utils/spotify';
 
 export const fetchRecommendations = createAsyncThunk('recommendations/fetchRecommendations', async () => {
-  const resp = await fetch('https://api.spotify.com/v1/me/top/artists?' + new URLSearchParams({ limit: 5 }), {
+  const resp = await fetch('https://api.spotify.com/v1/me/top/artists?' + new URLSearchParams({ limit: 10 }), {
     headers: {
       Authorization: `Bearer ${spotifyApi.getAccessToken()}`,
       'Content-Type': 'application/json',
@@ -19,7 +19,7 @@ export const fetchRecommendations = createAsyncThunk('recommendations/fetchRecom
     min_energy: 0.4,
     seed_artists: artists.slice(0, 5).map((artist) => artist.id),
     min_popularity: 50,
-    limit: 5,
+    limit: 10,
   });
 
   return {

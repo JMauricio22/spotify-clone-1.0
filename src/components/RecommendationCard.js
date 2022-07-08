@@ -28,15 +28,15 @@ function RecommendationCard(Component) {
                 </button>
               </Transition>
               <img
-                className='xl:h-48 md:h-36 h-[260px] w-full'
+                className='xl:h-48 lg:h-36 w-full h-36'
                 src={image}
                 alt={title}
                 style={{ borderRadius: roundedImage ? '50%' : '' }}
               />
             </div>
             <div className='mt-3'>
-              <p className='font-gothambold lg:text-md text-sm text-white w-full truncate mb-1'>{title}</p>
-              <p className='font-gothammedium text-zinc-400 lg:text-md text-xs w-full overflow-hidden leading-4 line-clamp-2'>
+              <p className='font-gothambold lg:text-md text-white lg:w-full w-[80%] truncate mb-1 text-xs'>{title}</p>
+              <p className='font-gothammedium text-zinc-400 lg:text-md text-xs w-full overflow-hidden leading-4 lg:line-clamp-2 hidden'>
                 {subtitle}
               </p>
             </div>

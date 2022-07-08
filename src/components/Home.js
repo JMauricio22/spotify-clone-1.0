@@ -26,14 +26,10 @@ export default function Home() {
     <Container>
       <section className='pb-10'>
         {recommendations.length > 0 && (
-          <RecommendationCard
-            title='Recommendations'
-            items={generateItemsWithRecommendationAdaptor(recommendations)}
-            limit={4}
-          />
+          <RecommendationCard title='Recommendations' items={generateItemsWithRecommendationAdaptor(recommendations)} />
         )}
         {artists.length > 0 && (
-          <ArtistCard title='your favorite artists' items={generateItemsWithArtisAdapter(artists)} limit={4} />
+          <ArtistCard title='your favorite artists' items={generateItemsWithArtisAdapter(artists)} />
         )}
       </section>
     </Container>
