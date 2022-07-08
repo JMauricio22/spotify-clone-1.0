@@ -2,7 +2,7 @@ import React from 'react';
 import PlayIcon from '../assets/icons/play.svg';
 import Image from 'next/image';
 import { Transition } from '@headlessui/react';
-import Card from './CardContainer';
+import CardContainer from './CardContainer';
 import CardItemList from './CardItemList';
 
 function ArtistCard(Component) {
@@ -49,4 +49,4 @@ function ArtistCard(Component) {
   };
 }
 
-export default CardItemList(ArtistCard(Card));
+export default CardItemList(ArtistCard(CardContainer));

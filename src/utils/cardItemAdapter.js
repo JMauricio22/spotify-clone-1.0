@@ -1,5 +1,6 @@
 export const recomendationAdapter = (recommendations) => ({
   id: recommendations.id,
+  artistId: recommendations?.artists[0]?.id,
   title: recommendations?.name,
   subtitle: recommendations?.artists[0]?.name,
   image: recommendations?.album?.images[0]?.url,

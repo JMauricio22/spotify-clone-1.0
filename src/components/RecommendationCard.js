@@ -6,10 +6,10 @@ import Card from './CardContainer';
 import CardItemList from './CardItemList';
 
 function RecommendationCard(Component) {
-  return function ({ id, title, subtitle, image, roundedImage }) {
+  return function ({ id, artistId, title, subtitle, image, roundedImage }) {
     return (
       <Component
-        id={id}
+        id={artistId}
         cardContent={(showButton) => (
           <>
             <div className='relative'>

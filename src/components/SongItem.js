@@ -10,14 +10,14 @@ const cellItems = {
         <>
           <div className='text-gray-300 md:flex items-center justify-center hidden'>
             <PlayIcon className='group-hover:block hidden w-8 h-10' />
-            <span className='group-hover:hidden inline-block font-gothammedium'>{position}</span>
+            <span className='group-hover:hidden inline-block lg:text-lg text-sm font-gothammedium'>{position}</span>
           </div>
           <div className='flex items-center mr-4 md:mr-0'>
             <img src={url} className='w-14 h-14 md:w-10 md:h-10' />
           </div>
           <div className='flex flex-col flex-nowrap overflow-x-hidden max-w-[90%] justify-center'>
-            <span className='text-white font-medium truncate font-gothammedium'>{trackName}</span>
-            <span className='text-gray-300 truncate font-medium'>{artistName}</span>
+            <span className='text-white font-medium truncate font-gothammedium lg:text-lg text-md'>{trackName}</span>
+            <span className='text-gray-300 truncate font-medium lg:text-md text-sm'>{artistName}</span>
           </div>
         </>
       );
@@ -26,21 +26,21 @@ const cellItems = {
   },
   album: {
     component: ({ albumName }) => {
-      return <span className='md:w-[95%] truncate text-zinc-300 font-gothammedium'>{albumName}</span>;
+      return <span className='w-[90%] inline-block truncate'>{albumName}</span>;
     },
-    className: 'lg:flex items-center hidden text-xs',
+    className: 'lg:flex items-center hidden lg:text-md text-xs',
   },
   added_at: {
     component: ({ added_at }) => {
       return <span>{spotifyDateFormat(added_at)}</span>;
     },
-    className: 'hidden align-middle xl:flex items-center text-zinc-300 font-gothammedium text-xs',
+    className: 'hidden align-middle xl:flex lg:text-md items-center text-zinc-300 font-gothammedium text-xs',
   },
   time: {
     component: ({ duration_ms }) => {
       return <span>{convertMsToMin(duration_ms)}</span>;
     },
-    className: 'flex items-center text-zinc-300 font-gothammedium text-xs',
+    className: 'flex items-center text-zinc-300 lg:text-md font-gothammedium text-xs',
   },
 };
 
