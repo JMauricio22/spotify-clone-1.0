@@ -5,9 +5,11 @@ import playerReducer from './features/player';
 import recommendationReducer from './features/recommendations';
 import artistReducer from './features/artists';
 import selectedArtistReducer from './features/selectedArtist';
+import searchReducer from './features/search';
 
 export default configureStore({
   reducer: {
+    search: searchReducer,
     selectedArtist: selectedArtistReducer,
     player: playerReducer,
     myTopArtists: artistReducer,

@@ -41,9 +41,11 @@ export default function LeftMenu() {
           </Link>
         </li>
         <li className='flex items-center mb-3 hover:text-white'>
-          <button className='flex items-center'>
-            <SearchIcon className='w-6 h-6 mr-2' /> Search
-          </button>
+          <Link href='/search'>
+            <a className='flex items-center'>
+              <SearchIcon className='w-6 h-6 mr-2' /> search
+            </a>
+          </Link>
         </li>
         <li className='flex items-center mb-3 hover:text-white'>
           <button className='flex items-center'>
