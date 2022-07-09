@@ -33,21 +33,21 @@ export default function LeftMenu() {
   return (
     <aside className='h-screen max-h-screen hidden md:block overflow-y-auto w-56 bg-black text-gray-300 pl-4 pr-3 py-4 text-xs md:text-sm lg:text-md font-medium'>
       <ul>
-        <li className='flex items-center mb-3 hover:text-white'>
+        <li className='flex items-center mb-3 hover:text-white font-gothammedium'>
           <Link href='/'>
             <a className='flex items-center'>
               <HomeIcon className='w-6 h-6 mr-2' /> Home
             </a>
           </Link>
         </li>
-        <li className='flex items-center mb-3 hover:text-white'>
+        <li className='flex items-center mb-3 hover:text-white font-gothammedium'>
           <Link href='/search'>
             <a className='flex items-center'>
               <SearchIcon className='w-6 h-6 mr-2' /> search
             </a>
           </Link>
         </li>
-        <li className='flex items-center mb-3 hover:text-white'>
+        <li className='flex items-center mb-3 hover:text-white font-gothammedium'>
           <button className='flex items-center'>
             <LibraryIcon className='w-6 h-6 mr-2' /> Library
           </button>
@@ -56,7 +56,7 @@ export default function LeftMenu() {
       <div className='h-[.1px] bg-gray-800 my-4' />
       <ul className='h-auto'>
         {playList.map((item) => (
-          <li className='mb-2 hover:text-white text-left w-full truncate' key={`${id}-${item.id}`}>
+          <li className='mb-2 hover:text-white text-left w-full truncate font-gothambook' key={`${id}-${item.id}`}>
             <Link href={`/playlist/${item.id}`}>
               <a>{item.name}</a>
             </Link>

@@ -3,7 +3,6 @@ import PlayIcon from '../assets/icons/play.svg';
 import Image from 'next/image';
 import { Transition } from '@headlessui/react';
 import Card from './CardContainer';
-import CardItemList from './CardItemList';
 
 function RecommendationCard(Component) {
   return function ({ id, artistId, title, subtitle, image, roundedImage }) {
@@ -47,4 +46,4 @@ function RecommendationCard(Component) {
   };
 }
 
-export default CardItemList(RecommendationCard(Card));
+export default RecommendationCard(Card);

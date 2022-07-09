@@ -8,10 +8,10 @@ export const recomendationAdapter = (recommendations) => ({
 
 export const artistAdapter = (artists) => ({
   id: artists.id,
+  artistId: artists.id,
   title: artists?.name,
   subtitle: 'Artist',
   image: artists?.images[0]?.url,
-  roundedImage: true,
 });
 
 export const generateItemsWithArtisAdapter = (artists) => artists.map((artist) => artistAdapter(artist));
