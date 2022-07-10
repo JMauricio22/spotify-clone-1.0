@@ -10,11 +10,13 @@ import Image from 'next/image';
 import VerifiedIcon from '../assets/icons/verified.svg';
 import PlaylistWith3Cols from './PlaylistWith3Cols';
 import { convertTrackItemsToSongItems } from '../utils/songItemAdapter';
+import Loader from './Loader';
 
 export default function Artistartist() {
   const { data: session } = useSession();
   const spotifyApi = useSpotify();
   const dispatch = useDispatch();
+  const loading = useSelector((state) => state.selectedArtist.loading);
   const artist = useSelector((state) => state.selectedArtist.data);
   const { query } = useRouter();
 
@@ -26,7 +28,8 @@ export default function Artistartist() {
 
   return (
     <Container>
-      {artist && (
+      {loading && <Loader />}
+      {!loading && artist && (
         <>
           <Hero
             imageUrl={artist.images[0].url}

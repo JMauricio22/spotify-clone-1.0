@@ -1,14 +1,14 @@
 import Layout from '../../components/Layout';
 import LeftMenu from '../../components/LeftMenu';
 import Player from '../../components/Player';
-import PlaylistInfo from '../../components/PlaylistInfo';
+import PlaylistContainer from '../../components/PlaylistContainer';
 
 const Home = () => {
   return (
     <Layout>
       <main className='w-full h-full flex items-center'>
         <LeftMenu />
-        <PlaylistInfo />
+        <PlaylistContainer />
         <Player />
       </main>
     </Layout>

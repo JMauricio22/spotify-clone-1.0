@@ -14,6 +14,17 @@ module.exports = {
         gothambook: ['gothambook', ...defaultFonts],
         gothambookitalic: ['gothambookitalic', ...defaultFonts],
       },
+      animation: {
+        'spinner-bounce': 'sk-bouncedelay 1.4s ease-in-out infinite both',
+        'spinner-bounce-delay-1': 'sk-bouncedelay 1.4s ease-in-out -0.32s infinite both',
+        'spinner-bounce-delay-2': 'sk-bouncedelay 1.4s ease-in-out -0.16s infinite both',
+      },
+      keyframes: {
+        'sk-bouncedelay': {
+          '0%, 80%, 100%': { transform: 'scale(0)' },
+          '40%': { transform: 'scale(1.0)' },
+        },
+      },
     },
   },
   plugins: [

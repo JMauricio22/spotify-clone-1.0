@@ -4,6 +4,7 @@ const playListSlice = createSlice({
   name: 'playList',
   initialState: {
     items: [],
+    loading: false,
     error: '',
   },
   reducers: {

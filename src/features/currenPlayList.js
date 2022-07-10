@@ -4,6 +4,7 @@ import { spotifyApi } from '../utils/spotify';
 
 const initialState = {
   info: null,
+  loading: false,
   error: '',
 };
 
@@ -19,7 +20,8 @@ const currentPlayListSlice = createSlice({
   name: 'currentPlayList',
   initialState,
   extraReducers(builder) {
-    builder.addCase(fetchPlayListTracks.fulfilled, (_, { payload }) => ({ ...payload, error: '' }));
+    builder.addCase(fetchPlayListTracks.fulfilled, (_, { payload }) => ({ ...payload, loading: false, error: '' }));
+    builder.addCase(fetchPlayListTracks.pending, (state) => ({ ...state, loading: true }));
     builder.addCase(fetchPlayListTracks.rejected, (_, { error }) => ({ ...initialState, error: error.message }));
   },
 });

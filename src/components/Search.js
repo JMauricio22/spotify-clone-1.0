@@ -12,6 +12,7 @@ import ArtistMobileSearch from './ArtistMobileSearch';
 import VerticalCardList from './VerticalCardList';
 import ColumnsCardList from './ColumnsCardList';
 import { Transition } from '@headlessui/react';
+import Loader from './Loader';
 
 const filters = ['All', 'Artist', 'Playlist'];
 
@@ -20,6 +21,7 @@ const ItemList = CardItemList(CardContainer);
 export default function Search() {
   const dispatch = useDispatch();
   const items = useSelector((state) => state.search.items);
+  const loading = useSelector((state) => state.search.loading);
   const currentFilter = useSelector((state) => state.search.filter);
   const query = useSelector((state) => state.search.query);
   const [showCloseButton, setShowCloseButton] = useState(false);
@@ -57,6 +59,8 @@ export default function Search() {
     if (searchItemsPromise) {
       searchItemsPromise.abort();
     }
+    /* Hidden close button */
+    setShowCloseButton(false);
     /* Reset state to initial state */
     dispatch(clearSearch());
   };
@@ -81,7 +85,8 @@ export default function Search() {
           </button>
         </div>
       </div>
-      <Transition appear={true} show={query !== ''}>
+      {loading && <Loader />}
+      <Transition appear={true} show={!!(!loading && items)}>
         <div className='mt-4 pl-10 space-x-2'>
           {filters.map((filter) => (
             <span
@@ -96,7 +101,7 @@ export default function Search() {
           ))}
         </div>
       </Transition>
-      {(currentFilter === 'all' || currentFilter === 'artist') && items?.artists?.items?.length > 0 && (
+      {!loading && (currentFilter === 'all' || currentFilter === 'artist') && items?.artists?.items?.length > 0 && (
         <ItemList
           title='Artists'
           layout={(items) => <VerticalCardList items={items} />}
@@ -105,7 +110,7 @@ export default function Search() {
           cardMobile={(props) => <ArtistMobileSearch rounded {...props} />}
         />
       )}
-      {(currentFilter === 'all' || currentFilter === 'playlist') && items?.playlists?.items?.length > 0 && (
+      {!loading && (currentFilter === 'all' || currentFilter === 'playlist') && items?.playlists?.items?.length > 0 && (
         <ItemList
           title='Playlist'
           layout={(items) => <ColumnsCardList items={items} />}

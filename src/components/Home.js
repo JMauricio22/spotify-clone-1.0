@@ -9,6 +9,7 @@ import CardSection from './CardSection';
 import CardContainer from './CardContainer';
 import ArtistCard from './ArtistCard';
 import ArtistMobileCard from './ArtistMobileCard';
+import Loader from './Loader';
 
 const ItemList = CardSection(CardContainer);
 
@@ -16,6 +17,7 @@ export default function Home() {
   const { data: session } = useSession();
   const spotifyApi = useSpotify();
   const dispatch = useDispatch();
+  const loading = useSelector((state) => state.recommendations.loading);
   const recommendations = useSelector((state) => state.recommendations.items);
   const artists = useSelector((state) => state.myTopArtists.items);
 
@@ -28,6 +30,7 @@ export default function Home() {
   return (
     <Container>
       <section className='pb-10'>
+        {loading && <Loader />}
         {recommendations.length > 0 && (
           <ItemList
             title='Recommendations'

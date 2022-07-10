@@ -31,6 +31,7 @@ export const fetchRecommendations = createAsyncThunk('recommendations/fetchRecom
 const initialState = {
   items: [],
   error: '',
+  loading: true,
 };
 
 const recommendationSlice = createSlice({
@@ -40,8 +41,10 @@ const recommendationSlice = createSlice({
     builder.addCase(fetchRecommendations.fulfilled, (_, { payload }) => ({
       items: payload.recommendations,
       error: '',
+      loading: false,
     }));
     builder.addCase(fetchRecommendations.rejected, (_, { error }) => ({ ...initialState, error: error.message }));
+    builder.addCase(fetchRecommendations.pending, (state) => ({ ...state, loading: true }));
   },
 });
 

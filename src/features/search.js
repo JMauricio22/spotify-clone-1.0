@@ -4,7 +4,7 @@ import { spotifyApi } from '../utils/spotify';
 
 const filters = ['artist', 'playlist'];
 
-export const searchItems = createAsyncThunk('search/searchItems', async ({ query }, { signal, dispatch }) => {
+export const searchItems = createAsyncThunk('search/searchItems', async ({ query }, { signal, rejectWithValue }) => {
   const resp = await fetch(
     'https://api.spotify.com/v1/search?' + new URLSearchParams({ q: `${query}`, type: filters.join(',') }),
     {
@@ -19,13 +19,23 @@ export const searchItems = createAsyncThunk('search/searchItems', async ({ query
 
   const data = await resp.json();
 
+  if (data.error) {
+    return rejectWithValue({
+      error: {
+        status: data.error.status,
+        message: data.error.message,
+      },
+    });
+  }
+
   return data;
 });
 
 const initialState = {
   query: '',
-  filter: 'artist',
-  items: [],
+  filter: 'all',
+  items: null,
+  loading: false,
   error: '',
 };
 
@@ -38,8 +48,19 @@ const searchSlice = createSlice({
     setQuery: (state, { payload }) => ({ ...state, query: payload }),
   },
   extraReducers(builder) {
-    builder.addCase(searchItems.fulfilled, (state, { payload }) => ({ ...state, items: payload }));
-    builder.addCase(searchItems.rejected, (_, { error }) => ({ item: [], error: error.message }));
+    builder.addCase(searchItems.fulfilled, (state, { payload }) => ({
+      ...state,
+      items: payload,
+      loading: false,
+      error: '',
+    }));
+    builder.addCase(searchItems.pending, (state) => ({ ...state, items: null, loading: true }));
+    builder.addCase(searchItems.rejected, (state, { error }) => ({
+      ...state,
+      item: null,
+      error: error.message,
+      loading: false,
+    }));
   },
 });
 

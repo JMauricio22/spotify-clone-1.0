@@ -3,6 +3,7 @@ import { spotifyApi } from '../utils/spotify';
 
 const initialState = {
   data: null,
+  loading: false,
   error: '',
 };
 
@@ -22,7 +23,12 @@ const selectedArtistSlice = createSlice({
   name: 'selectedArtist',
   initialState,
   extraReducers(builder) {
-    builder.addCase(fetchArtistWithTopTracks.fulfilled, (_, { payload }) => ({ data: payload, error: '' }));
+    builder.addCase(fetchArtistWithTopTracks.fulfilled, (_, { payload }) => ({
+      data: payload,
+      loading: false,
+      error: '',
+    }));
+    builder.addCase(fetchArtistWithTopTracks.pending, (state) => ({ ...state, loading: true }));
     builder.addCase(fetchArtistWithTopTracks.rejected, (_, { error }) => ({ ...initialState, error: error.message }));
   },
 });

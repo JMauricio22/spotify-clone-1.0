@@ -9,9 +9,11 @@ import { ExclamationCircleIcon } from '@heroicons/react/solid';
 import { convertPlaylistItemsToSongItems } from '../utils/songItemAdapter';
 import Hero from './Hero';
 import PlayListWith4Cols from './PlayListWith4Cols';
+import Loader from './Loader';
 
 export default function PlaylistInfo() {
   const playListInfo = useSelector((state) => state.currentPlayList.info);
+  const loading = useSelector((state) => state.currentPlayList.loading);
   const dispatch = useDispatch();
   const { query } = useRouter();
   const containerRef = useRef(null);
@@ -42,7 +44,8 @@ export default function PlaylistInfo() {
       style={containerStyles}
       header={<Header container={containerRef.current} hero={heroRef.current} style={containerStyles} />}
     >
-      {playListInfo && (
+      {loading && <Loader />}
+      {!loading && playListInfo && (
         <>
           <Hero
             ref={heroRef}
