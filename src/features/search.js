@@ -33,10 +33,18 @@ const initialState = {
 const searchSlice = createSlice({
   name: 'search',
   initialState,
+  reducers: {
+    clearSearch: (state) => {
+      state.query = '';
+      state.items = [];
+    },
+  },
   extraReducers(builder) {
     builder.addCase(searchItems.fulfilled, (_, { payload }) => ({ ...initialState, ...payload }));
     builder.addCase(searchItems.rejected, (_, { error }) => ({ item: [], error: error.message }));
   },
 });
+
+export const { clearSearch } = searchSlice.actions;
 
 export default searchSlice.reducer;
