@@ -19,10 +19,7 @@ export const searchItems = createAsyncThunk('search/searchItems', async ({ query
 
   const data = await resp.json();
 
-  return {
-    items: data,
-    query,
-  };
+  return data;
 });
 
 const initialState = {
@@ -41,11 +38,7 @@ const searchSlice = createSlice({
     setQuery: (state, { payload }) => ({ ...state, query: payload }),
   },
   extraReducers(builder) {
-    builder.addCase(searchItems.fulfilled, (state, { payload }) => {
-      const { query, items } = payload;
-      state.items = items;
-      state.query = query;
-    });
+    builder.addCase(searchItems.fulfilled, (state, { payload }) => ({ ...state, items: payload }));
     builder.addCase(searchItems.rejected, (_, { error }) => ({ item: [], error: error.message }));
   },
 });
