@@ -5,14 +5,12 @@ import { fetchRecommendations } from '../features/recommendations';
 import useSpotify from '../hooks/useSpotify';
 import Container from './Container';
 import { generateItemsWithRecommendationAdaptor, generateItemsWithArtisAdapter } from '../utils/cardItemAdapter';
-import CardItemList from './CardItemList';
+import CardSection from './CardSection';
 import CardContainer from './CardContainer';
-import RecommendationCard from './RecommendationCard';
 import ArtistCard from './ArtistCard';
 import ArtistMobileCard from './ArtistMobileCard';
 
-const ItemList = CardItemList(CardContainer);
-// const ArtistItemList = CardItemList(ArtistCard);
+const ItemList = CardSection(CardContainer);
 
 export default function Home() {
   const { data: session } = useSession();

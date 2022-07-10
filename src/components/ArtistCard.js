@@ -24,7 +24,7 @@ export default function ArtistCard({ title, subtitle, image, rounded }) {
           leaveFrom='opacity-100 translate-y-0'
           leaveTo='opacity-0 translate-y-[25%]'
         >
-          <button className='hover:bg-[#37d084] bg-[#1ed760] text-black rounded-full w-12 h-12 flex items-center justify-center'>
+          <button className='hover:bg-[#37d084] bg-[#1ed760] text-black rounded-full w-12 h-12 flex items-center justify-center z-20'>
             <Image src={PlayIcon} width={23} height={23} />
           </button>
         </Transition>

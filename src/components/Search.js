@@ -4,11 +4,13 @@ import Container from './Container';
 import { searchItems, clearSearch, setFilter, setQuery } from '../features/search';
 import { useDispatch, useSelector } from 'react-redux';
 import ArtistCard from './ArtistCard';
-import CardItemList from './CardItemList';
+import CardItemList from './CardSection';
 import { generateItemsWithArtisAdapter, generateItemsWithPlaylistAdapter } from '../utils/cardItemAdapter';
 import CardContainer from './CardContainer';
 import ArtistMobileCard from './ArtistMobileCard';
 import ArtistMobileSearch from './ArtistMobileSearch';
+import VerticalCardList from './VerticalCardList';
+import ColumnsCardList from './ColumnsCardList';
 import { Transition } from '@headlessui/react';
 
 const filters = ['All', 'Artist', 'Playlist'];
@@ -97,6 +99,7 @@ export default function Search() {
       {(currentFilter === 'all' || currentFilter === 'artist') && items?.artists?.items?.length > 0 && (
         <ItemList
           title='Artists'
+          layout={(items) => <VerticalCardList items={items} />}
           items={generateItemsWithArtisAdapter(items.artists.items)}
           card={(props) => <ArtistCard rounded {...props} />}
           cardMobile={(props) => <ArtistMobileSearch rounded {...props} />}
@@ -105,6 +108,7 @@ export default function Search() {
       {(currentFilter === 'all' || currentFilter === 'playlist') && items?.playlists?.items?.length > 0 && (
         <ItemList
           title='Playlist'
+          layout={(items) => <ColumnsCardList items={items} />}
           items={generateItemsWithPlaylistAdapter(items.playlists.items)}
           card={(props) => <ArtistCard {...props} />}
           cardMobile={(props) => <ArtistMobileCard {...props} />}
