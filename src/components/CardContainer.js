@@ -4,10 +4,10 @@ import Link from 'next/link';
 export default function CardContainer({ link, card, cardMobile, ...props }) {
   return (
     <Link href={link}>
-      <span className='cursor-pointer'>
+      <li className='cursor-pointer inline-block'>
         {card(props)}
         {cardMobile(props)}
-      </span>
+      </li>
     </Link>
   );
 }

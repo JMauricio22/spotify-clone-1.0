@@ -86,7 +86,7 @@ export default function Search() {
         </div>
       </div>
       {loading && <Loader />}
-      <Transition appear={true} show={!!(!loading && items)}>
+      {!!(!loading && items) && (
         <div className='mt-4 pl-10 space-x-2'>
           {filters.map((filter) => (
             <span
@@ -100,7 +100,7 @@ export default function Search() {
             </span>
           ))}
         </div>
-      </Transition>
+      )}
       {!loading && (currentFilter === 'all' || currentFilter === 'artist') && items?.artists?.items?.length > 0 && (
         <ItemList
           title='Artists'

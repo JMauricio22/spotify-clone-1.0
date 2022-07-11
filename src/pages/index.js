@@ -6,7 +6,7 @@ import Player from '../components/Player';
 const Index = () => {
   return (
     <Layout>
-      <main className='w-full h-full flex items-center'>
+      <main className='w-full h-full flex items-stretch'>
         <LeftMenu />
         <Home />
         <Player />

@@ -6,7 +6,7 @@ import PlaylistContainer from '../../components/PlaylistContainer';
 const Home = () => {
   return (
     <Layout>
-      <main className='w-full h-full flex items-center'>
+      <main className='w-full h-full flex items-stretch'>
         <LeftMenu />
         <PlaylistContainer />
         <Player />

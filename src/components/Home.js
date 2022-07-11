@@ -37,7 +37,6 @@ export default function Home() {
             items={generateItemsWithRecommendationAdaptor(recommendations)}
             card={(props) => <ArtistCard {...props} />}
             cardMobile={(props) => <ArtistMobileCard {...props} />}
-            horizontalLayout
           />
         )}
         {artists.length > 0 && (
@@ -46,7 +45,6 @@ export default function Home() {
             items={generateItemsWithArtisAdapter(artists)}
             card={(props) => <ArtistCard rounded {...props} />}
             cardMobile={(props) => <ArtistMobileCard rounded {...props} />}
-            horizontalLayout
           />
         )}
       </section>

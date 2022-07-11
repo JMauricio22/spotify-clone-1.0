@@ -8,7 +8,7 @@ import Player from '../components/Player';
 export default function SearchPage() {
   return (
     <Layout>
-      <main className='w-full h-full flex items-center'>
+      <main className='w-full h-full flex items-stretch'>
         <LeftMenu />
         <Search />
         <Player />

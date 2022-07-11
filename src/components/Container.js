@@ -1,13 +1,13 @@
 import React from 'react';
 import { useSession, signOut } from 'next-auth/react';
 
-const Container = React.forwardRef(({ children, header, hasItems, ...props }, ref) => {
+const Container = React.forwardRef(({ children, header, ...props }, ref) => {
   const { data: session } = useSession();
 
   return (
     <div
       ref={ref}
-      className='h-screen max-h-screen overflow-y-auto flex-1 text-white relative bg-transparent pb-[90px] overflow-x-hidden'
+      className='h-auto min-h-screen w-full overflow-y-auto text-white relative bg-transparent pb-[90px]'
       {...props}
     >
       {session?.user && (

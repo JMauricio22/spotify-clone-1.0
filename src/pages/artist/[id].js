@@ -7,7 +7,7 @@ import ArtistProfile from '../../components/ArtistProfile';
 export default function Artist() {
   return (
     <Layout>
-      <main className='w-full h-full flex items-center'>
+      <main className='w-full h-full flex items-stretch'>
         <LeftMenu />
         <ArtistProfile />
         <Player />

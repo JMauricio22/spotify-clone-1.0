@@ -1,14 +1,38 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { MusicNoteIcon } from '@heroicons/react/outline';
+import { useMediaQuery } from 'react-responsive';
+
+function setBackgroudImage(isDesktop, element, imageUrl) {
+  if (!isDesktop) {
+    element.style.backgroundImage = `url(${imageUrl})`;
+    element.style.backgroundPosition = '180px top';
+    element.style.backgroundSize = 'calc(100% - 187px) 400px';
+    element.style.backgroundRepeat = 'no-repeat';
+    element.style.backgroundAttachment = 'fixed';
+  } else {
+    element.style.background = 'none';
+  }
+}
 
 export default React.forwardRef(({ title, imageUrl, beforeTitle, afterTitle, ...props }, ref) => {
+  // const isDesktop = useMediaQuery({
+  //   query: '(min-width: 1024px)',
+  // });
+
+  // useEffect(() => {
+  //   const { current } = ref;
+  //   if (current) {
+  //     setBackgroudImage(isDesktop, current, imageUrl);
+  //   }
+  // }, [isDesktop, ref]);
+
   return (
-    <div ref={ref} className=' min-h-[20rem] h-auto relative p-4 before:block before:w-full before:h-full' {...props}>
-      <div className='lg:flex items-end lg:absolute bottom-6 mx-auto md:mx-0 left-8 mt-16 lg:mt-0 lg:w-[90%] w-[100%]'>
+    <div ref={ref} className='min-h-[20rem] h-auto relative p-4' {...props}>
+      <div className='lg:flex items-end absolute bottom-6 mx-auto md:mx-0 left-8 lg:w-[90%] w-[100%]'>
         {imageUrl ? (
-          <img className='w-56 h-52 mb-4 mx-auto lg:mx-0 lg:mb-0 lg:mr-4' src={imageUrl} />
+          <img className='w-56 h-52 mb-4 mx-auto lg:mx-0 lg:mb-0 lg:mr-4 lg:inline-block hidden' src={imageUrl} />
         ) : (
-          <div className='w-56 h-52 mb-4 mx-auto lg:ml-0 lg:mb-0 lg:mr-4 bg-[#282828] flex items-center justify-center shadow-md'>
+          <div className='w-56 h-52 mb-4 mx-auto lg:ml-0 lg:mb-0 lg:mr-4 bg-[#282828] lg:flex items-center justify-center shadow-md hidden'>
             <MusicNoteIcon className='w-16 h-16 text-gray-400' />
           </div>
         )}
