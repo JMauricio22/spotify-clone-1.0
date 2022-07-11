@@ -5,7 +5,7 @@ export default function Playlist({ items, header, columnContainer }) {
   const elementId = useId();
 
   return (
-    <ul className='block px-6 py-4 w-full h-auto bg-gradient-to-b from-[rgba(0,0,0,0.7)] to-black text-sm lg:text-lg'>
+    <ul className='block px-6 py-4 w-full h-auto bg-playlist-gradient text-sm lg:text-lg'>
       {header}
       {items.map(({ columns, track }) => (
         <li key={`${elementId}-${track.id}`}>

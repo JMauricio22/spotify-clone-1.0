@@ -6,6 +6,9 @@ module.exports = {
   content: ['./src/pages/**/*.{js,ts,jsx,tsx}', './src/components/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      backgroundImage: {
+        'playlist-gradient': 'linear-gradient(180deg, rgba(0,0,0,0.5) 0%, black 280px)',
+      },
       fontFamily: {
         gothammedium: ['gothammedium', defaultFonts],
         gothambold: ['gothambold', ...defaultFonts],
