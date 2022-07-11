@@ -35,7 +35,7 @@ export default function PlaylistInfo() {
         backgroundColor: randomColor({
           luminosity: 'dark',
           format: 'hsl',
-          seed: playListInfo.name,
+          seed: playListInfo.id,
         }),
       };
     }

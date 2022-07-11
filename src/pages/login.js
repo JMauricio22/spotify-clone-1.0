@@ -1,13 +1,12 @@
 import React from 'react';
 import { getProviders, signIn } from 'next-auth/react';
 import { Transition } from '@headlessui/react';
-import Layout from '../components/Layout';
 
 export default function login({ providers }) {
   const provider = Object.values(providers)[0];
 
   return (
-    <Layout>
+    <div className='w-screen h-screen overflow-hidden bg-[#1d1d1d] font-gothambook'>
       <main className='flex justify-center items-center w-full h-full'>
         <div className='px-2 text-center'>
           <div className='text-center mb-4 w-auto h-auto relative overflow-hidden p-2'>
@@ -34,7 +33,7 @@ export default function login({ providers }) {
           </button>
         </div>
       </main>
-    </Layout>
+    </div>
   );
 }
 
