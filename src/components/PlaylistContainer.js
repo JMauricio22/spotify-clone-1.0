@@ -25,6 +25,10 @@ export default function PlaylistInfo() {
   }, [query]);
 
   const containerStyles = useMemo(() => {
+    /* If loading it´s loading then set then background transparent */
+    if (loading) {
+      return {};
+    }
     /* Generate random color for playlist */
     if (playListInfo && playListInfo?.tracks?.items?.length > 0) {
       return {
@@ -37,7 +41,7 @@ export default function PlaylistInfo() {
     }
 
     return {};
-  }, [playListInfo, query]);
+  }, [playListInfo, query, loading]);
 
   return (
     <Container
