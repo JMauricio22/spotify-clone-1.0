@@ -13,6 +13,7 @@ import Loader from '../../components/Loader';
 
 const PlaylistInfo = () => {
   const playListInfo = useSelector((state) => state.currentPlayList.info);
+  const hasItems = useSelector((state) => state.currentPlayList.info !== null);
   const loading = useSelector((state) => state.currentPlayList.loading);
   const [headerTransition, setHeaderTransition] = useState(null);
   const dispatch = useDispatch();
@@ -32,7 +33,7 @@ const PlaylistInfo = () => {
       return {};
     }
     /* Generate random color for playlist */
-    if (playListInfo && playListInfo?.tracks?.items?.length > 0) {
+    if (hasItems && playListInfo?.tracks?.items?.length > 0) {
       return {
         backgroundColor: randomColor({
           luminosity: 'dark',
@@ -43,17 +44,19 @@ const PlaylistInfo = () => {
     }
 
     return {};
-  }, [playListInfo, query, loading]);
+  }, [hasItems, query, loading]);
 
   useEffect(() => {
-    if (!loading && playListInfo) {
-      const hero = heroRef.current;
+    if (!loading && hasItems) {
+      const heroClientHeight = heroRef.current.clientHeight;
       setHeaderTransition({
         container: containerRef.current,
-        fromScrollY: (header) => Math.abs(hero.clientHeight - header.clientHeight),
+        fromScrollY: (header) => {
+          return Math.abs(heroClientHeight - header.clientHeight);
+        },
       });
     }
-  }, [loading, playListInfo]);
+  }, [loading, hasItems]);
 
   return (
     <Container
@@ -63,29 +66,27 @@ const PlaylistInfo = () => {
     >
       <>
         {loading && <Loader />}
-        {!loading && playListInfo && (
+        {!loading && hasItems && (
           <div className='h-auto min-h-screen grid grid-cols-1 grid-rows-[auto_minmax(1fr, auto)]'>
-            <div id='hero'>
-              <Hero
-                ref={heroRef}
-                imageUrl={playListInfo?.images[0]?.url}
-                title={playListInfo?.name}
-                style={Object.keys(containerStyles).length > 0 ? {} : { backgroundColor: 'rgb(86,86,86)' }}
-                afterTitle={
-                  <>
-                    {playListInfo?.description && (
-                      <p className='text-md text-gray-200 hidden font-gothammedium xl:line-clamp-3 truncate whitespace-pre-wrap'>
-                        {playListInfo?.description}
-                      </p>
-                    )}
-                    <p className='text-sm text-white font-medium font-gothambold'>
-                      {playListInfo?.owner.display_name}
-                      <span className='text-gray-200'> . {playListInfo?.tracks.items.length} songs</span>
+            <Hero
+              ref={heroRef}
+              imageUrl={playListInfo?.images[0]?.url}
+              title={playListInfo?.name}
+              style={Object.keys(containerStyles).length > 0 ? {} : { backgroundColor: 'rgb(86,86,86)' }}
+              afterTitle={
+                <>
+                  {playListInfo?.description && (
+                    <p className='text-md text-gray-200 hidden font-gothammedium xl:line-clamp-3 truncate whitespace-pre-wrap'>
+                      {playListInfo?.description}
                     </p>
-                  </>
-                }
-              />
-            </div>
+                  )}
+                  <p className='text-sm text-white font-medium font-gothambold'>
+                    {playListInfo?.owner.display_name}
+                    <span className='text-gray-200'> . {playListInfo?.tracks.items.length} songs</span>
+                  </p>
+                </>
+              }
+            />
             {playListInfo?.tracks?.items.length > 0 ? (
               <PlayListWith4Cols items={convertPlaylistItemsToSongItems(playListInfo.tracks.items)} />
             ) : (

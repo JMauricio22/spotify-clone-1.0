@@ -10,18 +10,15 @@ const initialState = {
 
 export const fetchPlayListTracks = createAsyncThunk('currentPlayList/fetchPlayListTracks', async (playListId) => {
   const { body } = await spotifyApi.getPlaylist(playListId);
-  return {
-    info: body,
-    error: '',
-  };
+  return body;
 });
 
 const currentPlayListSlice = createSlice({
   name: 'currentPlayList',
   initialState,
   extraReducers(builder) {
-    builder.addCase(fetchPlayListTracks.fulfilled, (_, { payload }) => ({ ...payload, loading: false, error: '' }));
-    builder.addCase(fetchPlayListTracks.pending, (state) => ({ ...state, loading: true }));
+    builder.addCase(fetchPlayListTracks.fulfilled, (_, { payload }) => ({ info: payload, loading: false, error: '' }));
+    builder.addCase(fetchPlayListTracks.pending, () => ({ ...initialState, loading: true }));
     builder.addCase(fetchPlayListTracks.rejected, (_, { error }) => ({ ...initialState, error: error.message }));
   },
 });

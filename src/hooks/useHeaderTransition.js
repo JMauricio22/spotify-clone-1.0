@@ -57,7 +57,6 @@ const validate = (args) =>
   });
 
 export default function useHeaderTransition({ active, transition }) {
-  const [componentDidMount, setComponentDidMount] = useState(false);
   const eventRef = useRef(null);
   const { query } = useRouter();
 
@@ -68,15 +67,11 @@ export default function useHeaderTransition({ active, transition }) {
   };
 
   useEffect(() => {
-    setComponentDidMount(true);
-  }, []);
-
-  useEffect(() => {
     removeScrollEvent();
   }, [query.id]);
 
   useEffect(() => {
-    if (componentDidMount && active) {
+    if (active) {
       validate(transition);
       const { header, container, fromScrollY } = transition;
       const scrollListener = setOpacityOnScrollDown({ container, header, fromScrollY: fromScrollY(header) });
@@ -87,5 +82,5 @@ export default function useHeaderTransition({ active, transition }) {
       container.addEventListener('scroll', eventRef.current.listener);
       return removeScrollEvent;
     }
-  }, [componentDidMount, active]);
+  }, [active]);
 }
