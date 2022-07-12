@@ -1,46 +1,33 @@
-import React, { useEffect, useState } from 'react';
-import { Transition } from '@headlessui/react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
+import useHeaderTransition from '../hooks/useHeaderTransition';
 
-export default function Header({ container, hero, ...props }) {
-  const [showHeader, setShowHeader] = useState(false);
+export default function Header({ transition, ...props }) {
   const playListName = useSelector((state) => state.currentPlayList.info?.name);
+  const headerRef = useRef(null);
+  const [activateTransition, setActivateTransition] = useState(!!transition);
 
   useEffect(() => {
-    function scrollDown() {
-      const currentScroll = container.scrollTop;
-      if (currentScroll > hero.clientHeight) {
-        setShowHeader(true);
-      } else {
-        setShowHeader(false);
-      }
-    }
-    if (container && hero) {
-      container.addEventListener('scroll', scrollDown);
-    }
-    return () => {
-      if (container) {
-        container.removeEventListener('scroll', scrollDown);
-      }
-    };
-  }, [container, hero]);
+    transition ? setActivateTransition(true) : setActivateTransition(false);
+  }, [transition]);
+
+  useHeaderTransition({
+    active: activateTransition,
+    transition: {
+      ...transition,
+      header: headerRef.current,
+    },
+  });
 
   return (
-    <Transition
-      as='div'
-      show={showHeader}
-      enter='transition-all origin-[0%_0%] duration-500 ease-in-out'
-      enterFrom='opacity-0'
-      enterTo='opacity-100'
-      leave='transition-all origin-[0%_0%] duration-500 ease-in-out'
-      leaveFrom='opacity-100'
-      leaveTo='opacity-0'
-      className='sticky left-0 right-0 h-[60px] top-0 z-30 flex items-center'
+    <div
+      ref={headerRef}
+      className='sticky left-0 right-0 h-[60px] top-0 z-30 flex items-center opacity-0 transition-opacity duration-150 ease-out'
       {...props}
     >
       {playListName && (
         <p className='w-3/6 truncate text-md md:text-2xl font-gothambold text-white pl-4'>{playListName}</p>
       )}
-    </Transition>
+    </div>
   );
 }

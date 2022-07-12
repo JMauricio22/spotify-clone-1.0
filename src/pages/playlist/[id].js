@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useMemo, useRef, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Container from '../../components/Container';
 import { fetchPlayListTracks } from '../../features/currenPlayList';
@@ -14,6 +14,7 @@ import Loader from '../../components/Loader';
 const PlaylistInfo = () => {
   const playListInfo = useSelector((state) => state.currentPlayList.info);
   const loading = useSelector((state) => state.currentPlayList.loading);
+  const [headerTransition, setHeaderTransition] = useState(null);
   const dispatch = useDispatch();
   const { query } = useRouter();
   const containerRef = useRef(null);
@@ -22,7 +23,8 @@ const PlaylistInfo = () => {
   useEffect(() => {
     /* Get user´s playlist when component is mounted */
     dispatch(fetchPlayListTracks(query.id));
-  }, [query]);
+    setHeaderTransition(null);
+  }, [query.id]);
 
   const containerStyles = useMemo(() => {
     /* If loading it´s loading then set then background transparent */
@@ -43,35 +45,47 @@ const PlaylistInfo = () => {
     return {};
   }, [playListInfo, query, loading]);
 
+  useEffect(() => {
+    if (!loading && playListInfo) {
+      const hero = heroRef.current;
+      setHeaderTransition({
+        container: containerRef.current,
+        fromScrollY: (header) => Math.abs(hero.clientHeight - header.clientHeight),
+      });
+    }
+  }, [loading, playListInfo]);
+
   return (
     <Container
       ref={containerRef}
       style={containerStyles}
-      header={<Header container={containerRef.current} hero={heroRef.current} style={containerStyles} />}
+      header={<Header transition={headerTransition} style={containerStyles} />}
     >
       <>
         {loading && <Loader />}
         {!loading && playListInfo && (
           <div className='h-auto min-h-screen grid grid-cols-1 grid-rows-[auto_minmax(1fr, auto)]'>
-            <Hero
-              ref={heroRef}
-              imageUrl={playListInfo?.images[0]?.url}
-              title={playListInfo?.name}
-              style={Object.keys(containerStyles).length > 0 ? {} : { backgroundColor: 'rgb(86,86,86)' }}
-              afterTitle={
-                <>
-                  {playListInfo?.description && (
-                    <p className='text-md text-gray-200 hidden font-gothammedium xl:line-clamp-3 truncate whitespace-pre-wrap'>
-                      {playListInfo?.description}
+            <div id='hero'>
+              <Hero
+                ref={heroRef}
+                imageUrl={playListInfo?.images[0]?.url}
+                title={playListInfo?.name}
+                style={Object.keys(containerStyles).length > 0 ? {} : { backgroundColor: 'rgb(86,86,86)' }}
+                afterTitle={
+                  <>
+                    {playListInfo?.description && (
+                      <p className='text-md text-gray-200 hidden font-gothammedium xl:line-clamp-3 truncate whitespace-pre-wrap'>
+                        {playListInfo?.description}
+                      </p>
+                    )}
+                    <p className='text-sm text-white font-medium font-gothambold'>
+                      {playListInfo?.owner.display_name}
+                      <span className='text-gray-200'> . {playListInfo?.tracks.items.length} songs</span>
                     </p>
-                  )}
-                  <p className='text-sm text-white font-medium font-gothambold'>
-                    {playListInfo?.owner.display_name}
-                    <span className='text-gray-200'> . {playListInfo?.tracks.items.length} songs</span>
-                  </p>
-                </>
-              }
-            />
+                  </>
+                }
+              />
+            </div>
             {playListInfo?.tracks?.items.length > 0 ? (
               <PlayListWith4Cols items={convertPlaylistItemsToSongItems(playListInfo.tracks.items)} />
             ) : (
