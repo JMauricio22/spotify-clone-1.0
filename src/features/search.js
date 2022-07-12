@@ -66,4 +66,9 @@ const searchSlice = createSlice({
 
 export const { clearSearch, setFilter, setQuery } = searchSlice.actions;
 
+export const selectSearchItems = (state) => state.search.items;
+export const selectSearchLoadidngState = (state) => state.search.loading;
+export const selectSearchFilter = (state) => state.search.filter;
+export const selectSearchQuery = (state) => state.search.query;
+
 export default searchSlice.reducer;

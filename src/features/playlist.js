@@ -15,4 +15,6 @@ const playListSlice = createSlice({
 
 export const { setPlayList, setPlayListError } = playListSlice.actions;
 
+export const selectUserPlaylist = (state) => state.playList.items;
+
 export default playListSlice.reducer;

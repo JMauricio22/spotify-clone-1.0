@@ -33,4 +33,7 @@ const selectedArtistSlice = createSlice({
   },
 });
 
+export const selectArtist = (state) => state.selectedArtist.data;
+export const selectArtistLoadingState = (state) => state.selectedArtist.loading;
+
 export default selectedArtistSlice.reducer;

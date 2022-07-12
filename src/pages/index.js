@@ -1,7 +1,11 @@
 import React, { useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchRecommendations } from '../features/recommendations';
+import {
+  fetchRecommendations,
+  selectRecommendationItems,
+  selectRecommendationLoading,
+} from '../features/recommendations';
 import useSpotify from '../hooks/useSpotify';
 import Container from '../components/Container';
 import { generateItemsWithRecommendationAdaptor, generateItemsWithArtisAdapter } from '../utils/cardItemAdapter';
@@ -10,6 +14,7 @@ import CardContainer from '../components/CardContainer';
 import ArtistCard from '../components/ArtistCard';
 import ArtistMobileCard from '../components/ArtistMobileCard';
 import Loader from '../components/Loader';
+import { selectMyTopArtistItems } from '../features/artists';
 
 const ItemList = CardSection(CardContainer);
 
@@ -17,9 +22,9 @@ const Home = () => {
   const { data: session } = useSession();
   const spotifyApi = useSpotify();
   const dispatch = useDispatch();
-  const loading = useSelector((state) => state.recommendations.loading);
-  const recommendations = useSelector((state) => state.recommendations.items);
-  const artists = useSelector((state) => state.myTopArtists.items);
+  const loading = useSelector(selectRecommendationLoading);
+  const recommendations = useSelector(selectRecommendationItems);
+  const artists = useSelector(selectMyTopArtistItems);
 
   useEffect(() => {
     if (recommendations.length === 0 && spotifyApi.getAccessToken()) {

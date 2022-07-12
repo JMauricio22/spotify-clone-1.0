@@ -1,7 +1,12 @@
 import React, { useMemo, useRef, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Container from '../../components/Container';
-import { fetchPlayListTracks } from '../../features/currenPlayList';
+import {
+  fetchPlayListTracks,
+  selectCurrentPlaylist,
+  selectLoading,
+  selecthasItems,
+} from '../../features/currenPlayList';
 import randomColor from 'randomcolor';
 import { useRouter } from 'next/router';
 import Header from '../../components/Header';
@@ -12,9 +17,9 @@ import PlayListWith4Cols from '../../components/PlayListWith4Cols';
 import Loader from '../../components/Loader';
 
 const PlaylistInfo = () => {
-  const playListInfo = useSelector((state) => state.currentPlayList.info);
-  const hasItems = useSelector((state) => state.currentPlayList.info !== null);
-  const loading = useSelector((state) => state.currentPlayList.loading);
+  const playListInfo = useSelector(selectCurrentPlaylist);
+  const hasItems = useSelector(selecthasItems);
+  const loading = useSelector(selectLoading);
   const [headerTransition, setHeaderTransition] = useState(null);
   const dispatch = useDispatch();
   const { query } = useRouter();
@@ -24,6 +29,7 @@ const PlaylistInfo = () => {
   useEffect(() => {
     /* Get user´s playlist when component is mounted */
     dispatch(fetchPlayListTracks(query.id));
+    /* Set transition state in null */
     setHeaderTransition(null);
   }, [query.id]);
 
@@ -47,6 +53,7 @@ const PlaylistInfo = () => {
   }, [hasItems, query, loading]);
 
   useEffect(() => {
+    /* When hero componente is rendered then set transition state  */
     if (!loading && hasItems) {
       const heroClientHeight = heroRef.current.clientHeight;
       setHeaderTransition({

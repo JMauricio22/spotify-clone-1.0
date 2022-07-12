@@ -13,4 +13,6 @@ const artistSlice = createSlice({
   },
 });
 
+export const selectMyTopArtistItems = (state) => state.myTopArtists.items;
+
 export default artistSlice.reducer;

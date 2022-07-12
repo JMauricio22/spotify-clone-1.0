@@ -2,17 +2,26 @@ import React, { useEffect, useRef } from 'react';
 import { PlayIcon, PauseIcon, FastForwardIcon, RewindIcon, VolumeOffIcon } from '@heroicons/react/solid';
 import { VolumeUpIcon, MusicNoteIcon } from '@heroicons/react/outline';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPlaybackState, playSong, pauseSong, setVolume } from '../features/player';
+import {
+  fetchPlaybackState,
+  playSong,
+  pauseSong,
+  setVolume,
+  selectPlayerTrack,
+  selectPlayerIsPlaying,
+  selectPlayerVolume,
+  selectPlayerMute,
+} from '../features/player';
 import useSpotify from '../hooks/useSpotify';
 import { useSession } from 'next-auth/react';
 
 export default function Player() {
   const { data: session } = useSession();
   const spotifyApi = useSpotify();
-  const track = useSelector((state) => state.player.track);
-  const isPlaying = useSelector((state) => state.player.isPlaying);
-  const volume = useSelector((state) => state.player.volume);
-  const mute = useSelector((state) => state.player.mute);
+  const track = useSelector(selectPlayerTrack);
+  const isPlaying = useSelector(selectPlayerIsPlaying);
+  const volume = useSelector(selectPlayerVolume);
+  const mute = useSelector(selectPlayerMute);
   const dispatch = useDispatch();
   const timeoutId = useRef(null);
   const volumeControl = useRef(null);

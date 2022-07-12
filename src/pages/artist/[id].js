@@ -4,7 +4,7 @@ import Container from '../../components/Container';
 import useSpotify from '../../hooks/useSpotify';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { fetchArtistWithTopTracks } from '../../features/selectedArtist';
+import { fetchArtistWithTopTracks, selectArtist, selectArtistLoadingState } from '../../features/selectedArtist';
 import Hero from '../../components/Hero';
 import Image from 'next/image';
 import VerifiedIcon from '../../assets/icons/verified.svg';
@@ -16,8 +16,8 @@ const Artistartist = () => {
   const { data: session } = useSession();
   const spotifyApi = useSpotify();
   const dispatch = useDispatch();
-  const artist = useSelector((state) => state.selectedArtist.data);
-  const loading = useSelector((state) => state.selectedArtist.loading);
+  const artist = useSelector(selectArtist);
+  const loading = useSelector(selectArtistLoadingState);
   const { query } = useRouter();
 
   useEffect(() => {

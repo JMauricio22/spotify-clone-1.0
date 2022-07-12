@@ -48,4 +48,7 @@ const recommendationSlice = createSlice({
   },
 });
 
+export const selectRecommendationLoading = (state) => state.recommendations.loading;
+export const selectRecommendationItems = (state) => state.recommendations.items;
+
 export default recommendationSlice.reducer;

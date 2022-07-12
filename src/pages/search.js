@@ -1,7 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { SearchIcon, XIcon } from '@heroicons/react/solid';
 import Container from '../components/Container';
-import { searchItems, clearSearch, setFilter, setQuery } from '../features/search';
+import {
+  searchItems,
+  clearSearch,
+  setFilter,
+  setQuery,
+  selectSearchItems,
+  selectSearchLoadidngState,
+  selectSearchFilter,
+  selectSearchQuery,
+} from '../features/search';
 import { useDispatch, useSelector } from 'react-redux';
 import ArtistCard from '../components/ArtistCard';
 import CardItemList from '../components/CardSection';
@@ -20,10 +29,10 @@ const ItemList = CardItemList(CardContainer);
 
 const Search = () => {
   const dispatch = useDispatch();
-  const items = useSelector((state) => state.search.items);
-  const loading = useSelector((state) => state.search.loading);
-  const currentFilter = useSelector((state) => state.search.filter);
-  const query = useSelector((state) => state.search.query);
+  const items = useSelector(selectSearchItems);
+  const loading = useSelector(selectSearchLoadidngState);
+  const currentFilter = useSelector(selectSearchFilter);
+  const query = useSelector(selectSearchQuery);
   const [showCloseButton, setShowCloseButton] = useState(false);
   const [searchItemsPromise, setSearchItemsPromise] = useState(null);
   const timeoutId = useRef(null);

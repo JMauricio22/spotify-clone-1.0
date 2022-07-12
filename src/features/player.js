@@ -79,4 +79,9 @@ const playerSlice = createSlice({
   },
 });
 
+export const selectPlayerTrack = (state) => state.player.track;
+export const selectPlayerIsPlaying = (state) => state.player.isPlaying;
+export const selectPlayerVolume = (state) => state.player.volume;
+export const selectPlayerMute = (state) => state.player.mute;
+
 export default playerSlice.reducer;
