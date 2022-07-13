@@ -7,7 +7,7 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        'playlist-gradient': 'linear-gradient(180deg, rgba(0,0,0,0.5) 0%, black 280px)',
+        'playlist-gradient': 'linear-gradient(180deg, rgba(0,0,0,0.15) 0%, #121212 280px)',
       },
       fontFamily: {
         gothammedium: ['gothammedium', defaultFonts],

@@ -71,25 +71,26 @@ const PlaylistInfo = () => {
       style={containerStyles}
       header={<Header transition={headerTransition} style={containerStyles} />}
     >
-      <>
+      <div className='h-auto min-h-screen grid grid-cols-1 grid-rows-[auto_minmax(1fr, auto)]'>
         {loading && <Loader />}
         {!loading && hasItems && (
-          <div className='h-auto min-h-screen grid grid-cols-1 grid-rows-[auto_minmax(1fr, auto)]'>
+          <>
             <Hero
               ref={heroRef}
               imageUrl={playListInfo?.images[0]?.url}
               title={playListInfo?.name}
               style={Object.keys(containerStyles).length > 0 ? {} : { backgroundColor: 'rgb(86,86,86)' }}
+              beforeTitle={<p className='font-gothammedium text-xs mb-1'>PLAYLIST</p>}
               afterTitle={
                 <>
                   {playListInfo?.description && (
-                    <p className='text-md text-gray-200 hidden font-gothammedium xl:line-clamp-3 truncate whitespace-pre-wrap'>
+                    <p className='text-md text-zinc-300 hidden font-gothambook mb-1 xl:line-clamp-3 truncate whitespace-pre-wrap'>
                       {playListInfo?.description}
                     </p>
                   )}
-                  <p className='text-sm text-white font-medium font-gothambold'>
+                  <p className='text-xs text-white font-medium font-gothammedium'>
                     {playListInfo?.owner.display_name}
-                    <span className='text-gray-200'> . {playListInfo?.tracks.items.length} songs</span>
+                    <span className='text-gray-200 text-sm'> . {playListInfo?.tracks.items.length} songs</span>
                   </p>
                 </>
               }
@@ -102,9 +103,9 @@ const PlaylistInfo = () => {
                 <p className='md:text-2xl text-xl text-center font-medium'>There are no tracks in your playlist.</p>
               </div>
             )}
-          </div>
+          </>
         )}
-      </>
+      </div>
     </Container>
   );
 };
