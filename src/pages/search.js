@@ -76,7 +76,7 @@ const Search = () => {
 
   return (
     <Container>
-      <div className='bg-black h-[60px] flex justify-start items-center pl-8'>
+      <div className='bg-black basis-[60px] flex-shrink-0 flex-grow-0 flex justify-start items-center pl-8'>
         <div className='bg-gray-100 outline-none px-3 rounded-full text-black flex items-center space-x-3'>
           <span>
             <SearchIcon className='w-5 h-5' />

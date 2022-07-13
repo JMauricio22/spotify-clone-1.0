@@ -9,7 +9,7 @@ import {
 } from '../../features/currenPlayList';
 import randomColor from 'randomcolor';
 import { useRouter } from 'next/router';
-import Header from '../../components/Header';
+import HeaderBar from '../../components/HeaderBar';
 import { convertPlaylistItemsToSongItems } from '../../utils/songItemAdapter';
 import Hero from '../../components/Hero';
 import PlayListWith4Cols from '../../components/PlayListWith4Cols';
@@ -32,23 +32,21 @@ const PlaylistInfo = () => {
     setHeaderTransition(null);
   }, [query.id]);
 
-  const styles = useMemo(() => {
+  const bgRandomColor = useMemo(() => {
     /* If loading it´s loading then set then background transparent */
     if (loading) {
-      return {};
+      return undefined;
     }
     /* Generate random color for playlist */
     if (hasItems && hasItems) {
-      return {
-        backgroundColor: randomColor({
-          luminosity: 'dark',
-          format: 'hsl',
-          seed: playListInfo.id,
-        }),
-      };
+      return randomColor({
+        luminosity: 'dark',
+        format: 'hsl',
+        seed: playListInfo.id,
+      });
     }
 
-    return {};
+    return undefined;
   }, [hasItems, query.id, loading]);
 
   useEffect(() => {
@@ -65,31 +63,33 @@ const PlaylistInfo = () => {
   }, [loading, hasItems]);
 
   return (
-    <Container ref={containerRef} style={styles} header={<Header transition={headerTransition} style={styles} />}>
-      {/* <div className='h-auto min-h-screen gap-0 grid grid-cols-1 grid-rows-[auto_1fr] place-content-start'> */}
+    <Container ref={containerRef} bgColor={bgRandomColor}>
       <>
         {loading && <Loader />}
         {!loading && (
-          <Hero
-            ref={heroRef}
-            imageUrl={playListInfo?.images[0]?.url}
-            title={playListInfo?.name}
-            style={styles}
-            beforeTitle={<p className='font-gothammedium text-xs mb-1'>PLAYLIST</p>}
-            afterTitle={
-              <>
-                {playListInfo?.description && (
-                  <p className='text-md text-zinc-300 hidden font-gothambook mb-1 xl:line-clamp-3 truncate whitespace-pre-wrap'>
-                    {playListInfo?.description}
+          <>
+            <HeaderBar transition={headerTransition} bgColor={bgRandomColor} showContent={hasItems} />
+            <Hero
+              ref={heroRef}
+              bgColor={bgRandomColor}
+              imageUrl={playListInfo?.images[0]?.url}
+              title={playListInfo?.name}
+              beforeTitle={<p className='font-gothammedium text-xs mb-1'>PLAYLIST</p>}
+              afterTitle={
+                <>
+                  {playListInfo?.description && (
+                    <p className='text-md text-zinc-300 hidden font-gothambook mb-1 xl:line-clamp-3 truncate whitespace-pre-wrap'>
+                      {playListInfo?.description}
+                    </p>
+                  )}
+                  <p className='text-xs text-white font-medium font-gothammedium'>
+                    {playListInfo?.owner.display_name}
+                    <span className='text-gray-200 text-sm'> . {playListInfo?.tracks.items.length} songs</span>
                   </p>
-                )}
-                <p className='text-xs text-white font-medium font-gothammedium'>
-                  {playListInfo?.owner.display_name}
-                  <span className='text-gray-200 text-sm'> . {playListInfo?.tracks.items.length} songs</span>
-                </p>
-              </>
-            }
-          />
+                </>
+              }
+            />
+          </>
         )}
         {!loading && hasItems && (
           <>
@@ -98,7 +98,6 @@ const PlaylistInfo = () => {
             )}
           </>
         )}
-        {/* </div> */}
       </>
     </Container>
   );

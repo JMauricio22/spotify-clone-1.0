@@ -3,14 +3,14 @@ import { useSession, signOut } from 'next-auth/react';
 import { UserCircleIcon, ChevronDownIcon } from '@heroicons/react/solid';
 import { Menu, Transition } from '@headlessui/react';
 
-const Container = React.forwardRef(({ children, header, ...props }, ref) => {
+const Container = React.forwardRef(({ children, bgColor = 'transparent' }, ref) => {
   const { data: session } = useSession();
 
   return (
     <div
       ref={ref}
-      className='w-full h-auto min-h-screen overflow-y-auto text-white relative bg-transparent pb-[90px] flex flex-col flex-nowrap'
-      {...props}
+      className='w-full h-auto min-h-screen relative overflow-y-auto text-white bg-transparent pb-[90px] flex flex-col flex-nowrap'
+      style={{ backgroundColor: bgColor }}
     >
       {session?.user && (
         <Menu as='div' className='fixed z-50 right-8 top-3'>
@@ -53,7 +53,6 @@ const Container = React.forwardRef(({ children, header, ...props }, ref) => {
           </Transition>
         </Menu>
       )}
-      {header}
       {children}
     </div>
   );

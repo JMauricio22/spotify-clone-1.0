@@ -14,7 +14,7 @@ function setBackgroudImage(isDesktop, element, imageUrl) {
   }
 }
 
-export default React.forwardRef(({ title, imageUrl, beforeTitle, afterTitle, ...props }, ref) => {
+export default React.forwardRef(({ title, imageUrl, beforeTitle, afterTitle, bgColor = 'rgb(86,86,86)' }, ref) => {
   // const isDesktop = useMediaQuery({
   //   query: '(min-width: 1024px)',
   // });
@@ -29,8 +29,8 @@ export default React.forwardRef(({ title, imageUrl, beforeTitle, afterTitle, ...
   return (
     <div
       ref={ref}
-      className='w-full h-72 flex-grow-0 basis-[300px] shrink-0 relative overflow-x-hidden p-4 bg-[rgb(86,86,86)]'
-      {...props}
+      className='w-full h-72 flex-grow-0 basis-[300px] shrink-0 relative overflow-x-hidden p-4'
+      style={{ backgroundColor: bgColor }}
     >
       <div className='lg:flex items-end absolute bottom-6 mx-auto md:mx-0 left-8 lg:w-[90%] w-[100%]'>
         {imageUrl ? (
