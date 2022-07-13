@@ -34,7 +34,7 @@ const Home = () => {
 
   return (
     <Container>
-      <section className='pb-10'>
+      <section className='pb-10 w-full'>
         {loading && <Loader />}
         {recommendations.length > 0 && (
           <ItemList

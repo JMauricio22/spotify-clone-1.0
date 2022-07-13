@@ -22,7 +22,7 @@ export default function Header({ transition, ...props }) {
   return (
     <div
       ref={headerRef}
-      className='sticky left-0 right-0 h-[60px] top-0 z-30 flex items-center opacity-0 transition-opacity duration-150 ease-out'
+      className='w-full flex-grow-0 sticky left-0 right-0 basis-[60px] shrink-0 top-0 z-30 flex items-center opacity-0 transition-opacity duration-150 ease-out'
       {...props}
     >
       {playListName && (

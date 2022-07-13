@@ -24,7 +24,7 @@ const currentPlayListSlice = createSlice({
 });
 
 export const selectCurrentPlaylist = (state) => state.currentPlayList.info;
-export const selecthasItems = (state) => state.currentPlayList.info !== null;
+export const selecthasItems = (state) => !!(state.currentPlayList.info?.tracks?.items.length > 0);
 export const selectLoading = (state) => state.currentPlayList.loading;
 
 export default currentPlayListSlice.reducer;

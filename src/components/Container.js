@@ -9,7 +9,7 @@ const Container = React.forwardRef(({ children, header, ...props }, ref) => {
   return (
     <div
       ref={ref}
-      className='h-auto min-h-screen w-full overflow-y-auto text-white relative bg-transparent pb-[90px]'
+      className='w-full h-auto min-h-screen overflow-y-auto text-white relative bg-transparent pb-[90px] flex flex-col flex-nowrap'
       {...props}
     >
       {session?.user && (
