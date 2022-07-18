@@ -31,10 +31,8 @@ export default function ArtistCard({ title, subtitle, image, rounded }) {
         <img className={clsx('xl:h-48 lg:h-36 w-full h-36', rounded && 'rounded-full')} src={image} alt={title} />
       </div>
       <div className='mt-3'>
-        <p className='lg:font-gothambold lg:text-md text-xs text-white lg:w-full lg:mx-0 font-gothammedium mb-1 truncate'>
-          {title}
-        </p>
-        <p className='font-gothammedium text-zinc-400 lg:text-md text-xs w-full overflow-hidden leading-4 lg:line-clamp-2'>
+        <p className='inline-block font-gothambold xl:w-44 lg:w-32 truncate text-sm'>{title}</p>
+        <p className='font-gothammedium text-zinc-400 lg:text-md text-xs w-44 overflow-hidden leading-4 truncate'>
           {subtitle}
         </p>
       </div>

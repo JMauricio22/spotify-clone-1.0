@@ -1,9 +1,28 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import useGridDynamicCols from '../hooks/useGridDynamicCols';
 
-export default function HorizontalCardList({ items }) {
+const DESKTOP_MAX_CARD_WIDTH = 210;
+const DESKTOP_MIN_COLS = 4;
+
+export default function ColumnsCardList({ items }) {
+  const container = useRef(null);
+  const { showContent } = useGridDynamicCols({
+    container: container,
+    minCols: DESKTOP_MIN_COLS,
+    maxWidth: DESKTOP_MAX_CARD_WIDTH,
+    mobileLayoutCallback: (ul) => {
+      const isSmallDevice = window?.matchMedia('(min-width: 640px)')?.matches;
+      if (isSmallDevice) {
+        ul.style.gridTemplateColumns = 'repeat(3, minmax(0, 1fr))';
+      } else {
+        ul.style.gridTemplateColumns = 'repeat(2, minmax(0, 1fr))';
+      }
+    },
+  });
+
   return (
-    <ul className='xl:grid-cols-[repeat(4,1fr)] lg:grid-cols-[repeat(4,170px)] lg:grid-rows-1 lg:gap-6 lg:overflow-hidden lg:place-items-stretch grid-rows-1 grid sm:grid-cols-3 grid-cols-2 place-items-center'>
-      {items}
+    <ul ref={container} className='grid lg:grid-rows-1 lg:gap-3 lg:overflow-hidden grid-rows-1'>
+      {showContent && items}
     </ul>
   );
 }
