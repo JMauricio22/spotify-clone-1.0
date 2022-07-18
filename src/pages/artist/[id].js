@@ -6,6 +6,8 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { fetchArtistWithTopTracks, selectArtist, selectArtistLoadingState } from '../../features/selectedArtist';
 import Hero from '../../components/Hero';
+import HeaderBar from '../../components/HeaderBar';
+import TrackListHeaderContent from '../../components/TrackListHeaderContent';
 import Image from 'next/image';
 import VerifiedIcon from '../../assets/icons/verified.svg';
 import PlaylistWith3Cols from '../../components/PlaylistWith3Cols';
@@ -32,6 +34,9 @@ const Artistartist = () => {
         {loading && <Loader />}
         {!loading && artist && (
           <>
+            <HeaderBar showContent={!!artist}>
+              <>{artist.name && <TrackListHeaderContent title={artist.name} />}</>
+            </HeaderBar>
             <Hero
               imageUrl={artist.images[0].url}
               title={artist.name}
