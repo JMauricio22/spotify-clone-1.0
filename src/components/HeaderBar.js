@@ -3,14 +3,14 @@ import useHeaderTransition from '../hooks/useHeaderTransition';
 
 export default function HeaderBar({ children, transition, showContent, bgColor = 'rgb(86,86,86)' }) {
   const headerRef = useRef(null);
-  const [activateTransition, setActivateTransition] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    transition && headerRef.current ? setActivateTransition(true) : setActivateTransition(false);
+    transition && headerRef.current ? setIsMounted(true) : setIsMounted(false);
   }, [transition]);
 
   useHeaderTransition({
-    active: activateTransition,
+    active: isMounted,
     transition: {
       ...transition,
       header: headerRef.current,

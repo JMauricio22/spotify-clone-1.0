@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Container from '../../components/Container';
 import useSpotify from '../../hooks/useSpotify';
@@ -13,6 +13,7 @@ import VerifiedIcon from '../../assets/icons/verified.svg';
 import PlaylistWith3Cols from '../../components/PlaylistWith3Cols';
 import { convertTrackItemsToSongItems } from '../../utils/songItemAdapter';
 import Loader from '../../components/Loader';
+import useRandomColor from '../../hooks/useRandomColor';
 
 const Artistartist = () => {
   const { data: session } = useSession();
@@ -20,27 +21,49 @@ const Artistartist = () => {
   const dispatch = useDispatch();
   const artist = useSelector(selectArtist);
   const loading = useSelector(selectArtistLoadingState);
+  const [headerTransition, setHeaderTransition] = useState(null);
   const { query } = useRouter();
+  const heroRef = useRef(null);
+  const containerRef = useRef(null);
+  const randomColor = useRandomColor({
+    generateRandomColor: !loading && !!artist,
+    seed: artist?.id,
+  });
 
   useEffect(() => {
+    /* Fetch Artis */
     if (query.id && spotifyApi.getAccessToken()) {
       dispatch(fetchArtistWithTopTracks(query.id));
     }
-  }, [session, query]);
+  }, [session, query.id]);
+
+  useEffect(() => {
+    /* When hero componente is rendered then set transition state  */
+    if (!loading && !!artist) {
+      const heroClientHeight = heroRef.current.clientHeight;
+      setHeaderTransition({
+        container: containerRef.current,
+        fromScrollY: (header) => {
+          return Math.abs(heroClientHeight - header.clientHeight);
+        },
+      });
+    }
+  }, [loading, artist]);
 
   return (
-    <Container>
+    <Container ref={containerRef} bgColor={randomColor}>
       <>
         {loading && <Loader />}
         {!loading && artist && (
           <>
-            <HeaderBar showContent={!!artist}>
-              <>{artist.name && <TrackListHeaderContent title={artist.name} />}</>
+            <HeaderBar transition={headerTransition} bgColor={randomColor} showContent={!!artist}>
+              <>{!!artist && <TrackListHeaderContent title={artist.name} />}</>
             </HeaderBar>
             <Hero
+              ref={heroRef}
               imageUrl={artist.images[0].url}
               title={artist.name}
-              style={{ background: 'linear-gradient(61deg, rgb(25 25 30) 0%, rgb(32 37 39  ) 70%)' }}
+              bgColor={randomColor}
               beforeTitle={
                 <p className='flex items-center mb-2'>
                   <Image src={VerifiedIcon} width={25} height={25} layout='fixed' />
