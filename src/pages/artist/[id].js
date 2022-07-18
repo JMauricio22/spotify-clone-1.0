@@ -6,7 +6,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { fetchArtistWithTopTracks, selectArtist, selectArtistLoadingState } from '../../features/selectedArtist';
 import Hero from '../../components/Hero';
-import HeaderBar from '../../components/HeaderBar';
+import { headerBarHeight } from '../../components/HeaderBar';
 import TrackListHeaderContent from '../../components/TrackListHeaderContent';
 import Image from 'next/image';
 import VerifiedIcon from '../../assets/icons/verified.svg';
@@ -14,6 +14,7 @@ import PlaylistWith3Cols from '../../components/PlaylistWith3Cols';
 import { convertTrackItemsToSongItems } from '../../utils/songItemAdapter';
 import Loader from '../../components/Loader';
 import useRandomColor from '../../hooks/useRandomColor';
+import { adaptArtistToHeroComponent } from '../../utils/heroItemAdapter';
 
 const Artistartist = () => {
   const { data: session } = useSession();
@@ -44,7 +45,7 @@ const Artistartist = () => {
       setHeaderTransition({
         container: containerRef.current,
         fromScrollY: (header) => {
-          return Math.abs(heroClientHeight - header.clientHeight);
+          return Math.abs(heroClientHeight - headerBarHeight * 2);
         },
       });
     }
@@ -56,14 +57,12 @@ const Artistartist = () => {
         {loading && <Loader />}
         {!loading && artist && (
           <>
-            <HeaderBar transition={headerTransition} bgColor={randomColor} showContent={!!artist}>
-              <>{!!artist && <TrackListHeaderContent title={artist.name} />}</>
-            </HeaderBar>
             <Hero
               ref={heroRef}
-              imageUrl={artist.images[0].url}
-              title={artist.name}
+              item={adaptArtistToHeroComponent(artist)}
               bgColor={randomColor}
+              headerTransition={headerTransition}
+              headerBarContent={!!artist && <TrackListHeaderContent title={artist.name} />}
               beforeTitle={
                 <p className='flex items-center mb-2'>
                   <Image src={VerifiedIcon} width={25} height={25} layout='fixed' />

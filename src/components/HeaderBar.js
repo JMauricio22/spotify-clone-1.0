@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import useHeaderTransition from '../hooks/useHeaderTransition';
 
+export const headerBarHeight = 60;
+
 export default function HeaderBar({ children, transition, showContent, bgColor = 'rgb(86,86,86)' }) {
   const headerRef = useRef(null);
   const [isMounted, setIsMounted] = useState(false);
@@ -18,12 +20,12 @@ export default function HeaderBar({ children, transition, showContent, bgColor =
   });
 
   return (
-    <header
+    <div
       ref={headerRef}
-      className='w-full flex-grow-0 sticky left-0 right-0 basis-[60px] shrink-0 top-0 z-30 flex items-center transition-opacity duration-150 ease-out'
+      className='lg:w-[calc(100%-12rem)] w-full fixed h-[60px] right-0 top-0 z-30 hidden items-center transition-opacity duration-150 ease-out'
       style={{ backgroundColor: bgColor, opacity: showContent ? 0 : 1 }}
     >
       {children}
-    </header>
+    </div>
   );
 }

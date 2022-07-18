@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Container from '../../components/Container';
 import {
@@ -9,13 +9,15 @@ import {
   selectLPlaylistName,
 } from '../../features/currenPlayList';
 import { useRouter } from 'next/router';
-import HeaderBar from '../../components/HeaderBar';
+import { headerBarHeight } from '../../components/HeaderBar';
 import { convertPlaylistItemsToSongItems } from '../../utils/songItemAdapter';
 import Hero from '../../components/Hero';
 import PlayListWith4Cols from '../../components/PlayListWith4Cols';
 import Loader from '../../components/Loader';
 import TrackListHeaderContent from '../../components/TrackListHeaderContent';
 import useRandomColor from '../../hooks/useRandomColor';
+import { adaptPlaylistToHeroComponent } from '../../utils/heroItemAdapter';
+import HeroPlaylistExtraInfo from '../../components/HeroPlaylistExtraInfo';
 
 const PlaylistInfo = () => {
   const playListInfo = useSelector(selectCurrentPlaylist);
@@ -46,7 +48,7 @@ const PlaylistInfo = () => {
       setHeaderTransition({
         container: containerRef.current,
         fromScrollY: (header) => {
-          return Math.abs(heroClientHeight - header.clientHeight);
+          return Math.abs(heroClientHeight - headerBarHeight * 2);
         },
       });
     }
@@ -57,31 +59,20 @@ const PlaylistInfo = () => {
       <>
         {loading && <Loader />}
         {!loading && (
-          <>
-            <HeaderBar transition={headerTransition} bgColor={randomColor} showContent={hasItems}>
-              <>{hasItems && playListName && <TrackListHeaderContent title={playListName} />}</>
-            </HeaderBar>
-            <Hero
-              ref={heroRef}
-              bgColor={randomColor}
-              imageUrl={playListInfo?.images[0]?.url}
-              title={playListInfo?.name}
-              beforeTitle={<p className='font-gothammedium text-xs mb-1'>PLAYLIST</p>}
-              afterTitle={
-                <>
-                  {playListInfo?.description && (
-                    <p className='text-md text-zinc-300 hidden font-gothambook mb-1 xl:line-clamp-3 truncate whitespace-pre-wrap'>
-                      {playListInfo?.description}
-                    </p>
-                  )}
-                  <p className='text-xs text-white font-medium font-gothammedium'>
-                    {playListInfo?.owner.display_name}
-                    <span className='text-gray-200 text-sm'> . {playListInfo?.tracks.items.length} songs</span>
-                  </p>
-                </>
-              }
-            />
-          </>
+          <Hero
+            ref={heroRef}
+            bgColor={randomColor}
+            item={adaptPlaylistToHeroComponent(playListInfo)}
+            headerBarContent={!!playListName && <TrackListHeaderContent title={playListName} />}
+            headerTransition={headerTransition}
+            afterTitle={
+              <HeroPlaylistExtraInfo
+                description={playListInfo?.description}
+                ownerDisplayName={playListInfo?.owner.display_name}
+                totalTracks={playListInfo?.tracks.items.length}
+              />
+            }
+          />
         )}
         {!loading && hasItems && (
           <>

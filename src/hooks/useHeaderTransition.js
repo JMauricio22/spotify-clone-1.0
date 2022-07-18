@@ -1,8 +1,15 @@
 import { useRouter } from 'next/router';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 
 function setOpacityStyle(element, opacity) {
-  element.style.opacity = opacity;
+  /* Show or hide the header */
+  if (opacity === 0) {
+    element.style.display = 'none';
+  } else {
+    element.style.display = 'flex';
+  }
+  /* Set header bar opacity */
+  element.style.opacity = opacity.toFixed(1);
 }
 
 function setOpacityOnScrollDown({ container, header, fromScrollY }) {
@@ -11,9 +18,7 @@ function setOpacityOnScrollDown({ container, header, fromScrollY }) {
 
     const diff = scrollTopContainer - fromScrollY;
 
-    diff > 0
-      ? setOpacityStyle(header, Number.parseFloat(diff / header.clientHeight).toFixed(1))
-      : setOpacityStyle(header, 0);
+    diff > 0 ? setOpacityStyle(header, Number(diff / header.clientHeight)) : setOpacityStyle(header, 0);
   };
 }
 

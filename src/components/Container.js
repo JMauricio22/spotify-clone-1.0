@@ -9,7 +9,7 @@ const Container = React.forwardRef(({ children, bgColor = 'transparent' }, ref) 
   return (
     <div
       ref={ref}
-      className='w-full h-auto min-h-screen relative overflow-y-auto text-white bg-transparent pb-[90px] flex flex-col flex-nowrap'
+      className='w-full h-[calc(100vh-90px)] relative overflow-y-auto text-white bg-transparent flex flex-col flex-nowrap'
       style={{ backgroundColor: bgColor }}
     >
       {session?.user && (
