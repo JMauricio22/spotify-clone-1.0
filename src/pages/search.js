@@ -12,6 +12,7 @@ import VerticalCardList from '../components/VerticalCardList';
 import ColumnsCardList from '../components/ColumnsCardList';
 import Loader from '../components/Loader';
 import SearchInput from '../components/SearchInput';
+import SearchMainContent from '../components/SearchMainContent';
 
 const filters = ['All', 'Artist', 'Playlist'];
 
@@ -42,6 +43,7 @@ const Search = () => {
           ))}
         </div>
       )}
+      {!loading && items?.artists?.items?.length > 0 && items?.tracks?.items?.length > 0 && <SearchMainContent />}
       {!loading && (currentFilter === 'all' || currentFilter === 'artist') && items?.artists?.items?.length > 0 && (
         <ItemList
           title='Artists'
