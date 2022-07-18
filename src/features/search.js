@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { spotifyApi } from '../utils/spotify';
 
-const filters = ['artist', 'playlist'];
+const filters = ['artist', 'playlist', 'track', 'album'];
 
 export const searchItems = createAsyncThunk('search/searchItems', async ({ query }, { signal, rejectWithValue }) => {
   const resp = await fetch(
