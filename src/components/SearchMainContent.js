@@ -1,11 +1,13 @@
 import { PlayIcon } from '@heroicons/react/solid';
 import React, { useId, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectSearchItems } from '../features/search';
 import { convertMsToMin } from '../utils/date';
 import PlayButton from './PlayButton';
+import { playSong } from '../features/player';
 
 export default function SearchMainContent() {
+  const dispatch = useDispatch();
   const [showPlayButton, setShowPlayButton] = useState(false);
   const id = useId();
   const items = useSelector(selectSearchItems);
@@ -38,6 +40,7 @@ export default function SearchMainContent() {
             <li
               key={`tracks-${id}-${track.id}`}
               className='px-1 py-1 group hover:bg-[#282828] rounded-md cursor-pointer'
+              onClick={() => dispatch(playSong(track))}
             >
               <div className='grid grid-rows-1 grid-cols-[60px_1fr_50px]'>
                 <div className='relative text-center'>
