@@ -1,16 +1,22 @@
 import { PlayIcon } from '@heroicons/react/solid';
-import React, { useId } from 'react';
+import React, { useId, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectSearchItems } from '../features/search';
 import { convertMsToMin } from '../utils/date';
+import PlayButton from './PlayButton';
 
 export default function SearchMainContent() {
+  const [showPlayButton, setShowPlayButton] = useState(false);
   const id = useId();
   const items = useSelector(selectSearchItems);
 
   return (
     <section className='mt-10 w-[95%] mx-auto pl-4 grid-rows-1 lg:grid-cols-2 grid-cols-1 xl:gap-8 max-w-[95%] lg:gap-4 md:grid hidden'>
-      <article>
+      <article
+        className='relative'
+        onMouseEnter={() => setShowPlayButton(true)}
+        onMouseLeave={() => setShowPlayButton(false)}
+      >
         <h2 className='font-gothammedium text-xl mb-3'>Top result</h2>
         <div className='bg-[#181818] hover:bg-[#282828] rounded-md p-4 lg:w-full md:w-[450px]'>
           <img
@@ -23,6 +29,7 @@ export default function SearchMainContent() {
           </p>
           <span className='uppercase py-2 px-4 text-xs font-gothammedium bg-[#131313] rounded-full'>Artist</span>
         </div>
+        <PlayButton show={showPlayButton} className='absolute bottom-6 right-6 z-30 hidden lg:block' />
       </article>
       <article className='md:block hidden'>
         <h2 className='font-gothammedium text-xl mb-3 lg:mt-0 mt-3'>Songs</h2>

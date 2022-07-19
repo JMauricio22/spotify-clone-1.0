@@ -3,6 +3,7 @@ import PlayIcon from '../assets/icons/play.svg';
 import Image from 'next/image';
 import { Transition } from '@headlessui/react';
 import clsx from 'clsx';
+import PlayButton from './PlayButton';
 
 export default function ArtistCard({ title, subtitle, image, rounded }) {
   const [showButton, setShowButton] = useState(false);
@@ -14,20 +15,7 @@ export default function ArtistCard({ title, subtitle, image, rounded }) {
       onMouseLeave={() => setShowButton(false)}
     >
       <div className='relative'>
-        <Transition
-          show={showButton}
-          className='absolute bottom-2 right-1 z-30 hidden lg:block'
-          enter='transition-all duration-300 ease-in-out'
-          enterFrom='opacity-0 translate-y-[25%]'
-          enterTo='opacity-100 translate-y-0'
-          leave='transition-all duration-300 ease-in-out'
-          leaveFrom='opacity-100 translate-y-0'
-          leaveTo='opacity-0 translate-y-[25%]'
-        >
-          <button className='hover:bg-[#37d084] bg-[#1ed760] text-black rounded-full w-12 h-12 flex items-center justify-center z-20'>
-            <Image src={PlayIcon} width={23} height={23} />
-          </button>
-        </Transition>
+        <PlayButton show={showButton} className='absolute bottom-2 right-1 z-30 hidden lg:block' />
         <img className={clsx('xl:h-48 lg:h-36 w-full h-36', rounded && 'rounded-full')} src={image} alt={title} />
       </div>
       <div className='mt-3'>
