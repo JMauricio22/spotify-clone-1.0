@@ -6,6 +6,11 @@ module.exports = {
   content: ['./src/pages/**/*.{js,ts,jsx,tsx}', './src/components/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      screens: {
+        '2lg': '1160px',
+        '3lg': '1200px',
+        '4lg': '1320px',
+      },
       backgroundImage: {
         'playlist-gradient': 'linear-gradient(180deg, rgba(0,0,0,0.15) 0%, #121212 280px)',
       },

@@ -13,7 +13,7 @@ export default function SearchMainContent() {
   const items = useSelector(selectSearchItems);
 
   return (
-    <section className='mt-10 w-[95%] mx-auto pl-4 grid-rows-1 lg:grid-cols-2 grid-cols-1 xl:gap-8 max-w-[95%] lg:gap-4 md:grid hidden'>
+    <section className='mt-10 w-[95%] mx-auto pl-4 grid-rows-1 4lg:grid-cols-[450px_1fr] lg:grid-cols-2 grid-cols-1 xl:gap-8 max-w-[95%] lg:gap-4 md:grid hidden'>
       <article
         className='relative'
         onMouseEnter={() => setShowPlayButton(true)}

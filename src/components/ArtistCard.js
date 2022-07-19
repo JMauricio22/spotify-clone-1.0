@@ -1,7 +1,4 @@
 import React, { useState } from 'react';
-import PlayIcon from '../assets/icons/play.svg';
-import Image from 'next/image';
-import { Transition } from '@headlessui/react';
 import clsx from 'clsx';
 import PlayButton from './PlayButton';
 
@@ -14,9 +11,16 @@ export default function ArtistCard({ title, subtitle, image, rounded }) {
       onMouseEnter={() => setShowButton(true)}
       onMouseLeave={() => setShowButton(false)}
     >
-      <div className='relative'>
+      <div className='relative text-center'>
         <PlayButton show={showButton} className='absolute bottom-2 right-1 z-30 hidden lg:block' />
-        <img className={clsx('xl:h-48 lg:h-36 w-full h-36', rounded && 'rounded-full')} src={image} alt={title} />
+        <img
+          className={clsx(
+            'inline-block xl:w-44 xl:h-44 lg:h-36 lg:w-36 2lg:w-44 2lg:h-44 3lg:w-48 3lg:h-48 4lg:w-44 4lg:h-44 w-32 h-32',
+            rounded && 'rounded-full'
+          )}
+          src={image}
+          alt={title}
+        />
       </div>
       <div className='mt-3'>
         <p className='inline-block font-gothambold xl:w-44 lg:w-32 truncate text-sm'>{title}</p>

@@ -1,9 +1,23 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import useGridDynamicCols from '../hooks/useGridDynamicCols';
 
 export default function HorizontalCardList({ items }) {
+  const container = useRef(null);
+  const { showContent, columnCount, isDesktop } = useGridDynamicCols({
+    container: container,
+    mobileLayoutCallback: (ul) => {
+      ul.style.display = 'block';
+    },
+  });
+
+  const itemParams = isDesktop ? { limit: columnCount } : {};
+
   return (
-    <ul className='lg:grid xl:grid-cols-[repeat(4,220px)] lg:grid-cols-[repeat(4,170px)] lg:grid-rows-1 lg:gap-5 block lg:overflow-hidden overflow-x-auto whitespace-nowrap'>
-      {items}
+    <ul
+      ref={container}
+      className='lg:grid lg:grid-rows-1 lg:gap-5 block lg:overflow-hidden overflow-x-auto whitespace-nowrap'
+    >
+      {showContent && items(itemParams)}
     </ul>
   );
 }
