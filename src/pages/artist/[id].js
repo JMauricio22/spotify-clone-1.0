@@ -10,8 +10,8 @@ import { headerBarHeight } from '../../components/HeaderBar';
 import TrackListHeaderContent from '../../components/TrackListHeaderContent';
 import Image from 'next/image';
 import VerifiedIcon from '../../assets/icons/verified.svg';
-import PlaylistWith3Cols from '../../components/PlaylistWith3Cols';
-import { convertTrackItemsToSongItems } from '../../utils/songItemAdapter';
+import ArtistPlaylist from '../../components/Playlist/ArtistPlaylist';
+import { adaptArtistItemsToTrackItems } from '../../utils/trackItemAdapter';
 import Loader from '../../components/Loader';
 import useRandomColor from '../../hooks/useRandomColor';
 import { adaptArtistToHeroComponent } from '../../utils/heroItemAdapter';
@@ -78,7 +78,7 @@ const Artistartist = () => {
                 </div>
               }
             />
-            <PlaylistWith3Cols items={convertTrackItemsToSongItems(artist.tracks)} />
+            <ArtistPlaylist items={adaptArtistItemsToTrackItems(artist.tracks)} />
           </>
         )}
       </>

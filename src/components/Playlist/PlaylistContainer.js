@@ -1,7 +1,7 @@
 import React, { useId } from 'react';
-import SongItem from './SongItem';
+import TrackItem from '../TrackItem';
 
-export default function Playlist({ items, header, columnContainer }) {
+export default function PlaylistContainer({ items, header, columnContainer }) {
   const elementId = useId();
 
   return (
@@ -10,7 +10,7 @@ export default function Playlist({ items, header, columnContainer }) {
       {items.map(({ columns, track }, index) => (
         <li key={`${elementId}-${track.id}-${index}`}>
           {columnContainer({
-            item: <SongItem columns={columns} track={track} />,
+            item: <TrackItem columns={columns} track={track} />,
             track,
           })}
         </li>

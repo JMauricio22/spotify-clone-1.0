@@ -1,9 +1,9 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { playSong } from '../features/player';
-import Playlist from './Playlist';
+import { playSong } from '../../features/player';
+import PlaylistContainer from './PlaylistContainer';
 
-function PlayListWith4Cols(Component) {
+function ArtistPlaylist(Component) {
   return function WrapperComponent(props) {
     const dispatch = useDispatch();
 
@@ -29,4 +29,4 @@ function PlayListWith4Cols(Component) {
   };
 }
 
-export default PlayListWith4Cols(Playlist);
+export default ArtistPlaylist(PlaylistContainer);

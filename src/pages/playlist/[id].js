@@ -10,9 +10,9 @@ import {
 } from '../../features/currenPlayList';
 import { useRouter } from 'next/router';
 import { headerBarHeight } from '../../components/HeaderBar';
-import { convertPlaylistItemsToSongItems } from '../../utils/songItemAdapter';
+import { adaptPlaylistItemsToTrackItems } from '../../utils/trackItemAdapter';
 import Hero from '../../components/Hero';
-import PlayListWith4Cols from '../../components/PlayListWith4Cols';
+import DefaultPlaylist from '../../components/Playlist/DefaultPlaylist';
 import Loader from '../../components/Loader';
 import TrackListHeaderContent from '../../components/TrackListHeaderContent';
 import useRandomColor from '../../hooks/useRandomColor';
@@ -77,7 +77,7 @@ const PlaylistInfo = () => {
         {!loading && hasItems && (
           <>
             {playListInfo?.tracks?.items.length > 0 && (
-              <PlayListWith4Cols items={convertPlaylistItemsToSongItems(playListInfo.tracks.items)} />
+              <DefaultPlaylist items={adaptPlaylistItemsToTrackItems(playListInfo.tracks.items)} />
             )}
           </>
         )}

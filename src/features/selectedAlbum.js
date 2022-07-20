@@ -30,6 +30,7 @@ export const selectAlbum = (state) => state.selectedAlbum.data;
 export const selectAlbumArtistName = (state) => state.selectedAlbum.data?.artists[0].name;
 export const selectAlbumTotalTracks = (state) => state.selectedAlbum.data?.total_tracks;
 export const selectAlbumReleaseDate = (state) => state.selectedAlbum.data?.release_date;
+export const selectAlbumTracks = (state) => state.selectedAlbum.data?.tracks.items;
 export const selectAlbumLoadingState = (state) => state.selectedAlbum?.loading;
 
 export default selectedAlbum.reducer;
