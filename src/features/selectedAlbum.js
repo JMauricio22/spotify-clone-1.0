@@ -27,6 +27,9 @@ const selectedAlbum = createSlice({
 });
 
 export const selectAlbum = (state) => state.selectedAlbum.data;
-export const selectAlbumLoadingState = (state) => state.selectedAlbum.loading;
+export const selectAlbumArtistName = (state) => state.selectedAlbum.data?.artists[0].name;
+export const selectAlbumTotalTracks = (state) => state.selectedAlbum.data?.total_tracks;
+export const selectAlbumReleaseDate = (state) => state.selectedAlbum.data?.release_date;
+export const selectAlbumLoadingState = (state) => state.selectedAlbum?.loading;
 
 export default selectedAlbum.reducer;
