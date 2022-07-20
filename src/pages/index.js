@@ -8,7 +8,7 @@ import {
 } from '../features/recommendations';
 import useSpotify from '../hooks/useSpotify';
 import Container from '../components/Container';
-import { generateItemsWithRecommendationAdaptor, generateItemsWithArtisAdapter } from '../utils/cardItemAdapter';
+import { adaptRecommendationToCard, adaptArtistToCard } from '../utils/cardItemAdapter';
 import CardSection from '../components/CardSection';
 import CardContainer from '../components/CardContainer';
 import ArtistCard from '../components/ArtistCard';
@@ -39,7 +39,7 @@ const Home = () => {
         {recommendations.length > 0 && (
           <ItemList
             title='Recommendations'
-            items={generateItemsWithRecommendationAdaptor(recommendations)}
+            items={adaptRecommendationToCard(recommendations)}
             card={(props) => <ArtistCard {...props} />}
             cardMobile={(props) => <ArtistMobileCard {...props} />}
           />
@@ -47,7 +47,7 @@ const Home = () => {
         {artists.length > 0 && (
           <ItemList
             title='Your favorite artists'
-            items={generateItemsWithArtisAdapter(artists)}
+            items={adaptArtistToCard(artists)}
             card={(props) => <ArtistCard rounded {...props} />}
             cardMobile={(props) => <ArtistMobileCard rounded {...props} />}
           />

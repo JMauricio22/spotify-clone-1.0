@@ -4,7 +4,7 @@ import { setFilter, selectSearchItems, selectSearchLoadidngState, selectSearchFi
 import { useDispatch, useSelector } from 'react-redux';
 import ArtistCard from '../components/ArtistCard';
 import CardItemList from '../components/CardSection';
-import { generateItemsWithArtisAdapter, generateItemsWithPlaylistAdapter } from '../utils/cardItemAdapter';
+import { adaptArtistToCard, adaptPlaylistToCard, adaptAlbumToCard } from '../utils/cardItemAdapter';
 import CardContainer from '../components/CardContainer';
 import ArtistMobileCard from '../components/ArtistMobileCard';
 import ArtistMobileSearch from '../components/ArtistMobileSearch';
@@ -14,7 +14,7 @@ import Loader from '../components/Loader';
 import SearchInput from '../components/SearchInput';
 import SearchMainContent from '../components/SearchMainContent';
 
-const filters = ['All', 'Artist', 'Playlist'];
+const filters = ['All', 'Artist', 'Playlist', 'Album'];
 
 const ItemList = CardItemList(CardContainer);
 
@@ -50,7 +50,7 @@ const Search = () => {
         <ItemList
           title='Artists'
           layout={(items) => <VerticalCardList items={items} />}
-          items={generateItemsWithArtisAdapter(items.artists.items)}
+          items={adaptArtistToCard(items.artists.items)}
           card={(props) => <ArtistCard rounded {...props} />}
           cardMobile={(props) => <ArtistMobileSearch rounded {...props} />}
         />
@@ -59,7 +59,16 @@ const Search = () => {
         <ItemList
           title='Playlist'
           layout={(items) => <ColumnsCardList items={items} />}
-          items={generateItemsWithPlaylistAdapter(items.playlists.items)}
+          items={adaptPlaylistToCard(items.playlists.items)}
+          card={(props) => <ArtistCard {...props} />}
+          cardMobile={(props) => <ArtistMobileCard {...props} />}
+        />
+      )}
+      {!loading && (currentFilter === 'all' || currentFilter === 'album') && items?.albums?.items?.length > 0 && (
+        <ItemList
+          title='Albums'
+          layout={(items) => <ColumnsCardList items={items} />}
+          items={adaptAlbumToCard(items.albums.items)}
           card={(props) => <ArtistCard {...props} />}
           cardMobile={(props) => <ArtistMobileCard {...props} />}
         />

@@ -42,6 +42,7 @@ export default function Album() {
   });
 
   useEffect(() => {
+    /* Fetch album */
     if (query.id && spotifyApi.getAccessToken()) {
       dispatch(fetchAlbumById(query.id));
     }
