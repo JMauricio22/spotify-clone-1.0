@@ -6,11 +6,13 @@ import recommendationReducer from './features/recommendations';
 import artistReducer from './features/artists';
 import selectedArtistReducer from './features/selectedArtist';
 import searchReducer from './features/search';
+import selectedAlbumReducer from './features/selectedAlbum';
 
 export default configureStore({
   reducer: {
     search: searchReducer,
     selectedArtist: selectedArtistReducer,
+    selectedAlbum: selectedAlbumReducer,
     player: playerReducer,
     myTopArtists: artistReducer,
     currentPlayList: currenPlayListReducer,
