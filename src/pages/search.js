@@ -13,6 +13,7 @@ import ColumnsCardList from '../components/ColumnsCardList';
 import Loader from '../components/Loader';
 import SearchInput from '../components/SearchInput';
 import SearchMainContent from '../components/SearchMainContent';
+import { useMediaQuery } from 'react-responsive';
 
 const filters = ['All', 'Artist', 'Playlist', 'Album'];
 
@@ -23,6 +24,7 @@ const Search = () => {
   const items = useSelector(selectSearchItems);
   const loading = useSelector(selectSearchLoadidngState);
   const currentFilter = useSelector(selectSearchFilter);
+  const isDesktop = useMediaQuery({ query: '(min-width: 1024px)' });
 
   return (
     <Container>
@@ -52,6 +54,7 @@ const Search = () => {
           layout={(items) => <VerticalCardList items={items} />}
           items={adaptArtistToCard(items.artists.items)}
           card={(props) => <ArtistCard rounded {...props} />}
+          showAll={isDesktop && currentFilter === 'artist'}
           cardMobile={(props) => <ArtistMobileSearch rounded {...props} />}
         />
       )}
@@ -61,6 +64,7 @@ const Search = () => {
           layout={(items) => <ColumnsCardList items={items} />}
           items={adaptPlaylistToCard(items.playlists.items)}
           card={(props) => <ArtistCard {...props} />}
+          showAll={isDesktop && currentFilter === 'playlist'}
           cardMobile={(props) => <ArtistMobileCard {...props} />}
         />
       )}
@@ -70,6 +74,7 @@ const Search = () => {
           layout={(items) => <ColumnsCardList items={items} />}
           items={adaptAlbumToCard(items.albums.items)}
           card={(props) => <ArtistCard {...props} />}
+          showAll={isDesktop && currentFilter === 'album'}
           cardMobile={(props) => <ArtistMobileCard {...props} />}
         />
       )}

@@ -21,10 +21,6 @@ import { adaptAlbumItemsToTrackItems } from '../../utils/trackItemAdapter';
 import Hero from '../../components/Hero';
 import AlbumPlaylist from '../../components/Playlist/AlbumPlaylist';
 
-/* 
-  Album id: 2nWSJnbDqmXFX88nV4IIj6
-*/
-
 export default function Album() {
   const { data: session } = useSession();
   const { query } = useRouter();

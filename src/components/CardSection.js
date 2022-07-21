@@ -5,7 +5,7 @@ import HorizontalCardList from './HorizontalCardList';
 const defaultLayout = (items) => <HorizontalCardList items={items} />;
 
 export default function CardSection(Component) {
-  return function Wrapper({ title, items, layout = defaultLayout, ...props }) {
+  return function Wrapper({ title, items, layout = defaultLayout, showAll, ...props }) {
     const id = useId();
 
     return (
@@ -13,7 +13,7 @@ export default function CardSection(Component) {
         <h2 className='md:text-xl text-2xl mb-4 font-gothambold md:text-left'>{title}</h2>
         {layout(({ limit }) => (
           <>
-            {items.slice(0, limit ?? items.length).map((item) => (
+            {items.slice(0, showAll ? items.length : limit ?? items.length).map((item) => (
               <Component key={`${id}-${item.id}`} {...Object.assign(item, props)} />
             ))}
           </>
