@@ -7,6 +7,8 @@ import artistReducer from './features/artists';
 import selectedArtistReducer from './features/selectedArtist';
 import searchReducer from './features/search';
 import selectedAlbumReducer from './features/selectedAlbum';
+import categoriesReducer from './features/categories';
+import selectedCategoryReducer from './features/selectedCategory';
 
 export default configureStore({
   reducer: {
@@ -18,5 +20,7 @@ export default configureStore({
     currentPlayList: currenPlayListReducer,
     playList: playListReducer,
     recommendations: recommendationReducer,
+    categories: categoriesReducer,
+    selectedCategory: selectedCategoryReducer,
   },
 });

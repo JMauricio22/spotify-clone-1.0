@@ -1,6 +1,12 @@
 import React from 'react';
 import Container from '../components/Container';
-import { setFilter, selectSearchItems, selectSearchLoadidngState, selectSearchFilter } from '../features/search';
+import {
+  setFilter,
+  selectSearchItems,
+  selectSearchLoadidngState,
+  selectSearchFilter,
+  selectSearchQuery,
+} from '../features/search';
 import { useDispatch, useSelector } from 'react-redux';
 import ArtistCard from '../components/ArtistCard';
 import CardItemList from '../components/CardSection';
@@ -14,6 +20,7 @@ import Loader from '../components/Loader';
 import SearchInput from '../components/SearchInput';
 import SearchMainContent from '../components/SearchMainContent';
 import { useMediaQuery } from 'react-responsive';
+import CategoryList from '../components/category/CategoryList';
 
 const filters = ['All', 'Artist', 'Playlist', 'Album'];
 
@@ -21,6 +28,7 @@ const ItemList = CardItemList(CardContainer);
 
 const Search = () => {
   const dispatch = useDispatch();
+  const query = useSelector(selectSearchQuery);
   const items = useSelector(selectSearchItems);
   const loading = useSelector(selectSearchLoadidngState);
   const currentFilter = useSelector(selectSearchFilter);
@@ -30,6 +38,7 @@ const Search = () => {
     <Container>
       <SearchInput />
       {loading && <Loader />}
+      {!loading && !query && <CategoryList />}
       {!!(!loading && items) && (
         <div className='mt-4 pl-10 space-x-2'>
           {filters.map((filter) => (

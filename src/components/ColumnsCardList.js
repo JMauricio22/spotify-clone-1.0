@@ -4,7 +4,7 @@ import useGridDynamicCols from '../hooks/useGridDynamicCols';
 export default function ColumnsCardList({ items }) {
   const container = useRef(null);
   const { showContent, columnCount } = useGridDynamicCols({
-    container: container,
+    container,
     mobileLayoutCallback: (ul) => {
       const isSmallDevice = window?.matchMedia('(min-width: 640px)')?.matches;
       if (isSmallDevice) {
