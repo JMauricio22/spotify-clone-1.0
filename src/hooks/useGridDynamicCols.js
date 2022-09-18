@@ -3,18 +3,21 @@ import { useMediaQuery } from 'react-responsive';
 
 const DESKTOP_DEFAULT_MAX_CARD_WIDTH = 230;
 const DESKTOP_DEFAULT_MIN_COLS = 4;
+const QUERY = '(min-width: 1024px)';
+const GRID_GAP = 20;
 
 export default function useGridDynamicCols({
   container,
   mobileLayoutCallback,
   maxWidth = DESKTOP_DEFAULT_MAX_CARD_WIDTH,
   minCols = DESKTOP_DEFAULT_MIN_COLS,
-  query = '(min-width: 1024px)',
+  gap = GRID_GAP,
+  query = QUERY,
 }) {
   const [isMounted, setIsMounted] = useState();
   const [columnCount, setColumnCount] = useState(0);
   const isDesktop = useMediaQuery({
-    query: '(min-width: 1024px)',
+    query,
   });
 
   useEffect(() => {
@@ -37,8 +40,12 @@ export default function useGridDynamicCols({
       let columns = Math.floor(ul.clientWidth / maxWidth);
       /* If columns is less than 4 set columns to 4 */
       columns = columns < minCols ? minCols : columns;
+      const size = (ul.clientWidth - Math.abs(columns - 1) * gap) / columns;
       ul.style.display = 'grid';
       ul.style.gridTemplateColumns = `repeat(${columns}, minmax(0, 1fr))`;
+      // ul.style.gridTemplateRows = `${maxWidth}px`;
+      ul.style.gridAutoRows = `${size}px`;
+      ul.style.gridGap = `${gap}px`;
       setColumnCount(columns);
     }
 

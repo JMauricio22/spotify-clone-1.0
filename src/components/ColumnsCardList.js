@@ -7,11 +7,8 @@ export default function ColumnsCardList({ items }) {
     container,
     mobileLayoutCallback: (ul) => {
       const isSmallDevice = window?.matchMedia('(min-width: 640px)')?.matches;
-      if (isSmallDevice) {
-        ul.style.gridTemplateColumns = 'repeat(3, minmax(0, 1fr))';
-      } else {
-        ul.style.gridTemplateColumns = 'repeat(2, minmax(0, 1fr))';
-      }
+      const cols = isSmallDevice ? 3 : 2;
+      ul.style.gridTemplateColumns = `repeat(${cols}, minmax(0, 1fr))`;
     },
   });
 
