@@ -43,15 +43,13 @@ export default function CategoryItem({ category }) {
     <Link href={`/category/${category.id}`}>
       <li
         ref={containerElementRef}
-        className='w-full h-full p-4 rounded-lg bg-slate-400 cursor-pointer overflow-hidden relative'
+        className='w-full h-full p-4 rounded-lg bg-slate-400 cursor-pointer overflow-hidden relative hover:opacity-80 group transition-all'
         style={{ background: color }}
       >
-        <span className='block w-[100px] whitespace-pre-wrap text-md font-gothambold line-clamp-2'>
-          {category.name}
-        </span>
+        <span className='block w-9/12 whitespace-pre-wrap text-xl font-gothambold line-clamp-3'>{category.name}</span>
         <img
           ref={imageRef}
-          className='absolute -right-3 -bottom-1 w-[80px] h-[80px] transform rotate-[30deg]'
+          className='absolute -right-3 -bottom-1 w-[80px] h-[80px] transform rotate-[30deg] group-hover:scale-150 transition-all'
           src={category.icons[0]?.url}
           alt={category.name}
         />
