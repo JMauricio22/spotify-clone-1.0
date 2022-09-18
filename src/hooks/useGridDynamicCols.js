@@ -5,12 +5,14 @@ const DESKTOP_DEFAULT_MAX_CARD_WIDTH = 230;
 const DESKTOP_DEFAULT_MIN_COLS = 4;
 const QUERY = '(min-width: 1024px)';
 const GRID_GAP = 20;
+const AUTHO_HEIGHT = true;
 
 export default function useGridDynamicCols({
   container,
   mobileLayoutCallback,
   maxWidth = DESKTOP_DEFAULT_MAX_CARD_WIDTH,
   minCols = DESKTOP_DEFAULT_MIN_COLS,
+  autoHeight = AUTHO_HEIGHT,
   gap = GRID_GAP,
   query = QUERY,
 }) {
@@ -43,8 +45,7 @@ export default function useGridDynamicCols({
       const size = (ul.clientWidth - Math.abs(columns - 1) * gap) / columns;
       ul.style.display = 'grid';
       ul.style.gridTemplateColumns = `repeat(${columns}, minmax(0, 1fr))`;
-      // ul.style.gridTemplateRows = `${maxWidth}px`;
-      ul.style.gridAutoRows = `${size}px`;
+      ul.style.gridAutoRows = autoHeight ? '1fr' : `${size}px`;
       ul.style.gridGap = `${gap}px`;
       setColumnCount(columns);
     }

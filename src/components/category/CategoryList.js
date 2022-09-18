@@ -21,6 +21,7 @@ export default function Categories() {
     minCols,
     gap: DEFAULT_GRID_GAG,
     query: DESKTOP_MEDIA_QUERY,
+    autoHeight: false,
     mobileLayoutCallback: (ul) => {
       const isSmallDevice = window?.matchMedia('(min-width: 640px)')?.matches;
       const cols = isSmallDevice ? 3 : 2;

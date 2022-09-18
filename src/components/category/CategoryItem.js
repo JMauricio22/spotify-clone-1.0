@@ -21,7 +21,6 @@ export default function CategoryItem({ category }) {
           const image = imageRef.current;
           if (image) {
             const percentage = window.matchMedia('(max-width: 800px)').matches ? 0.7 : 0.5;
-            console.log({ percentage });
             const size = entry.contentRect.width * percentage;
             image.style.width = `${size}px`;
             image.style.height = `${size}px`;

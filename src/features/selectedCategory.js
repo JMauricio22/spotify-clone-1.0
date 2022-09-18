@@ -15,10 +15,6 @@ export const fetchCategory = createAsyncThunk('category/fetchCategory', async (c
   ]);
   const { body: category } = categoryResponse;
   const { body: playlistForCategory } = playlistResponse;
-  console.log({
-    category,
-    playlistForCategory,
-  });
   return {
     category,
     playlist: playlistForCategory.playlists.items,

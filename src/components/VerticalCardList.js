@@ -11,7 +11,7 @@ export default function VerticalCardList({ items }) {
   });
 
   return (
-    <ul ref={container} className='grid lg:gap-5 lg:overflow-hidden grid-rows-1 grid-cols-1'>
+    <ul ref={container} className='grid lg:overflow-hidden auto-rows-fr'>
       {showContent && items({ limit: columnCount })}
     </ul>
   );

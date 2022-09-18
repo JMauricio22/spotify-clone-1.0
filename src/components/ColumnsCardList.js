@@ -9,11 +9,12 @@ export default function ColumnsCardList({ items }) {
       const isSmallDevice = window?.matchMedia('(min-width: 640px)')?.matches;
       const cols = isSmallDevice ? 3 : 2;
       ul.style.gridTemplateColumns = `repeat(${cols}, minmax(0, 1fr))`;
+      ul.style.gridGap = `20px`;
     },
   });
 
   return (
-    <ul ref={container} className='grid lg:grid-rows-1 lg:gap-5 lg:overflow-hidden grid-rows-1'>
+    <ul ref={container} className='grid lg:overflow-hidden'>
       {showContent && items({ limit: columnCount })}
     </ul>
   );
