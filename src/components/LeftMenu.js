@@ -1,10 +1,11 @@
-import { useEffect, useId } from 'react';
+import { useEffect, useId, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import useSpotify from '../hooks/useSpotify';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUserPlaylist, fetchPlayUserPlaylist } from '../features/playlist';
-import { HomeIcon, SearchIcon, LibraryIcon } from '@heroicons/react/solid';
+import { HomeIcon, SearchIcon, LibraryIcon, PlusIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
+import CreatePlaylist from './CreatePlaylist';
 
 export default function LeftMenu() {
   const id = useId();
@@ -12,6 +13,7 @@ export default function LeftMenu() {
   const { data: session } = useSession();
   const playList = useSelector(selectUserPlaylist);
   const dispatch = useDispatch();
+  const [showCreatePlaylistDialog, setShowCreatePlaylistDialog] = useState(false);
 
   const getUserPlayList = async () => {
     /* Get user playlist */
@@ -27,6 +29,8 @@ export default function LeftMenu() {
 
   return (
     <aside className='h-screen max-h-screen hidden md:block overflow-y-auto w-56 bg-black text-gray-300 pl-4 pr-3 py-4 text-xs md:text-sm lg:text-md font-medium'>
+      <CreatePlaylist open={showCreatePlaylistDialog} onClose={() => setShowCreatePlaylistDialog(false)} />
+      {/* Logo */}
       <Link href='/'>
         <svg viewBox='0 0 1534 340' className='spotify-logo--text text-white mb-4 hover:cursor-pointer'>
           <title>{'Spotify'}</title>
@@ -36,6 +40,7 @@ export default function LeftMenu() {
           />
         </svg>
       </Link>
+      {/* Menu */}
       <ul>
         <li className='flex items-center mb-3 hover:text-white font-gothammedium'>
           <Link href='/'>
@@ -57,7 +62,20 @@ export default function LeftMenu() {
           </button>
         </li>
       </ul>
+      {/* Options  */}
       <div className='h-[.1px] bg-gray-800 my-4' />
+      <ul>
+        <li
+          className='flex items-center mb-3 hover:text-white font-gothammedium cursor-pointer'
+          onClick={() => setShowCreatePlaylistDialog(true)}
+        >
+          <span className='flex items-center'>
+            <PlusIcon className='w-6 h-6 mr-2' /> Create list
+          </span>
+        </li>
+      </ul>
+      <div className='h-[.1px] bg-gray-800 my-4' />
+      {/* playlists */}
       <ul className='h-auto'>
         {playList.map((item) => (
           <li className='mb-2 hover:text-white text-left w-full truncate font-gothambook' key={`${id}-${item.id}`}>
