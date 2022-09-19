@@ -9,6 +9,7 @@ import searchReducer from './features/search';
 import selectedAlbumReducer from './features/selectedAlbum';
 import categoriesReducer from './features/categories';
 import selectedCategoryReducer from './features/selectedCategory';
+import toastStateReducer from './features/toastState';
 
 export default configureStore({
   reducer: {
@@ -22,5 +23,6 @@ export default configureStore({
     recommendations: recommendationReducer,
     categories: categoriesReducer,
     selectedCategory: selectedCategoryReducer,
+    toastState: toastStateReducer,
   },
 });

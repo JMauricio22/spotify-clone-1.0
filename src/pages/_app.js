@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import { SessionProvider } from 'next-auth/react';
 import store from '../store';
 import Layout from '../components/Layout';
+import Toast from '../components/Toast';
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -15,6 +16,7 @@ function MyApp({ Component, pageProps }) {
         ) : (
           <Component {...pageProps} />
         )}
+        <Toast />
       </SessionProvider>
     </Provider>
   );

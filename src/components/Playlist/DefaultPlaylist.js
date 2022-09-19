@@ -5,6 +5,8 @@ import { PlayIcon, SearchIcon, HeartIcon as HeartIconSolid } from '@heroicons/re
 import { playSong } from '../../features/player';
 import PlaylistContainer from './PlaylistContainer';
 import { selectFollow, selectLPlaylistId, followPlaylist, unfollowPlaylist } from '../../features/currenPlayList';
+import { fetchPlayUserPlaylist } from '../../features/playlist';
+import { showNotificationWithTimeout } from '../../features/toastState';
 
 function DefaultPlaylist(Component) {
   return function WrapperComponent(props) {
@@ -12,9 +14,21 @@ function DefaultPlaylist(Component) {
     const playlistId = useSelector(selectLPlaylistId);
     const follow = useSelector(selectFollow);
 
-    const onFollowPlaylist = () => dispatch(followPlaylist(playlistId));
+    const onFollowPlaylist = async () => {
+      try {
+        await dispatch(followPlaylist(playlistId)).unwrap();
+        dispatch(fetchPlayUserPlaylist());
+        showNotificationWithTimeout(dispatch, 'Saved in your library');
+      } catch (error) {}
+    };
 
-    const onUnfollowPlaylist = () => dispatch(unfollowPlaylist(playlistId));
+    const onUnfollowPlaylist = async () => {
+      try {
+        await dispatch(unfollowPlaylist(playlistId)).unwrap();
+        dispatch(fetchPlayUserPlaylist());
+        showNotificationWithTimeout(dispatch, 'Removed from your library');
+      } catch (error) {}
+    };
 
     return (
       <Component

@@ -9,16 +9,19 @@ const initialState = {
   follow: false,
 };
 
-export const fetchPlayListTracks = createAsyncThunk('currentPlayList/fetchPlayListTracks', async (playListId) => {
-  const [playlistResp, followingResp] = await Promise.all([
-    spotifyApi.getPlaylist(playListId),
-    spotifyApi.areFollowingPlaylist(null, playListId, ['mauricio_1796']),
-  ]);
-  return {
-    playlist: playlistResp.body,
-    follow: followingResp.body[0],
-  };
-});
+export const fetchPlayListTracks = createAsyncThunk(
+  'currentPlayList/fetchPlayListTracks',
+  async ({ playListId, username }) => {
+    const [playlistResp, followingResp] = await Promise.all([
+      spotifyApi.getPlaylist(playListId),
+      spotifyApi.areFollowingPlaylist(null, playListId, [username]),
+    ]);
+    return {
+      playlist: playlistResp.body,
+      follow: followingResp.body[0],
+    };
+  }
+);
 
 export const followPlaylist = createAsyncThunk('currentPlayList/followPlaylist', async (playListId) => {
   await spotifyApi.followPlaylist(playListId);

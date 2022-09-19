@@ -18,8 +18,10 @@ import TrackListHeaderContent from '../../components/TrackListHeaderContent';
 import useRandomColor from '../../hooks/useRandomColor';
 import { adaptPlaylistToHeroComponent } from '../../utils/heroItemAdapter';
 import HeroPlaylistExtraInfo from '../../components/HeroPlaylistExtraInfo';
+import { useSession } from 'next-auth/react';
 
 const PlaylistInfo = () => {
+  const { data: session } = useSession();
   const playListInfo = useSelector(selectCurrentPlaylist);
   const hasItems = useSelector(selecthasItems);
   const loading = useSelector(selectLoading);
@@ -33,13 +35,21 @@ const PlaylistInfo = () => {
     generateRandomColor: !loading && hasItems,
     seed: playListInfo?.id,
   });
+  const username = session?.user ? session.user.name : '';
 
   useEffect(() => {
     /* Get user´s playlist when component is mounted */
-    dispatch(fetchPlayListTracks(query.id));
+    if (username) {
+      dispatch(
+        fetchPlayListTracks({
+          playListId: query.id,
+          username: session.user.name,
+        })
+      );
+    }
     /* Set transition state in null */
     setHeaderTransition(null);
-  }, [query.id]);
+  }, [query.id, username]);
 
   useEffect(() => {
     /* When hero componente is rendered then set transition state  */

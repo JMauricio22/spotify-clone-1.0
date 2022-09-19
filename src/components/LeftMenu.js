@@ -2,7 +2,7 @@ import { useEffect, useId } from 'react';
 import { useSession } from 'next-auth/react';
 import useSpotify from '../hooks/useSpotify';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectUserPlaylist, setPlayList, setPlayListError } from '../features/playlist';
+import { selectUserPlaylist, fetchPlayUserPlaylist } from '../features/playlist';
 import { HomeIcon, SearchIcon, LibraryIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
 
@@ -15,12 +15,7 @@ export default function LeftMenu() {
 
   const getUserPlayList = async () => {
     /* Get user playlist */
-    try {
-      const data = await spotifyApi.getUserPlaylists();
-      dispatch(setPlayList(data.body.items));
-    } catch (error) {
-      dispatch(setPlayListError(error.message));
-    }
+    dispatch(fetchPlayUserPlaylist());
   };
 
   useEffect(() => {
