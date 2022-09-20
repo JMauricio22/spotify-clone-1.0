@@ -36,7 +36,7 @@ const Search = () => {
 
   return (
     <Container>
-      <SearchInput />
+      {/* <SearchInput /> */}
       {loading && <Loader />}
       {!loading && !query && <CategoryList />}
       {!!(!loading && items) && (

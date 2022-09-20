@@ -6,10 +6,12 @@ export default function useRandomColor({ generateRandomColor, seed }) {
     if (generateRandomColor) {
       return randomColor({
         luminosity: 'dark',
-        format: 'hsl',
+        format: 'rgba',
         seed,
       });
     }
+
+    return '';
   }, [generateRandomColor, seed]);
 
   return color;

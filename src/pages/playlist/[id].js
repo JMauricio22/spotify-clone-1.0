@@ -22,6 +22,7 @@ import { useSession } from 'next-auth/react';
 
 const PlaylistInfo = () => {
   const { data: session } = useSession();
+  const [showPlaylistHeader, setShowPlaylistHeader] = useState(false);
   const playListInfo = useSelector(selectCurrentPlaylist);
   const hasItems = useSelector(selecthasItems);
   const loading = useSelector(selectLoading);
@@ -31,10 +32,11 @@ const PlaylistInfo = () => {
   const { query } = useRouter();
   const containerRef = useRef(null);
   const heroRef = useRef(null);
-  const randomColor = useRandomColor({
+  let randomColor = useRandomColor({
     generateRandomColor: !loading && hasItems,
     seed: playListInfo?.id,
   });
+
   const username = session?.user ? session.user.name : '';
 
   useEffect(() => {
@@ -57,32 +59,41 @@ const PlaylistInfo = () => {
       const heroClientHeight = heroRef.current.clientHeight;
       setHeaderTransition({
         container: containerRef.current,
-        fromScrollY: (header) => {
+        fromScrollY: () => {
           return Math.abs(heroClientHeight - headerBarHeight * 2);
         },
+        onVisible: () => setShowPlaylistHeader(true),
+        onTransparent: () => setShowPlaylistHeader(false),
       });
     }
   }, [loading, hasItems]);
 
   return (
-    <Container ref={containerRef} bgColor={randomColor}>
+    <Container
+      ref={containerRef}
+      bgColor={randomColor}
+      headerTransition={headerTransition}
+      headerElement={!!showPlaylistHeader && <TrackListHeaderContent title={playListName} />}
+    >
       <>
         {loading && <Loader />}
         {!loading && (
-          <Hero
-            ref={heroRef}
-            bgColor={randomColor}
-            item={adaptPlaylistToHeroComponent(playListInfo)}
-            headerBarContent={!!playListName && <TrackListHeaderContent title={playListName} />}
-            headerTransition={headerTransition}
-            afterTitle={
-              <HeroPlaylistExtraInfo
-                description={playListInfo?.description}
-                ownerDisplayName={playListInfo?.owner.display_name}
-                totalTracks={playListInfo?.tracks.items.length}
-              />
-            }
-          />
+          <>
+            <Hero
+              ref={heroRef}
+              bgColor={randomColor}
+              item={adaptPlaylistToHeroComponent(playListInfo)}
+              headerBarContent={!!playListName && <TrackListHeaderContent title={playListName} />}
+              headerTransition={headerTransition}
+              afterTitle={
+                <HeroPlaylistExtraInfo
+                  description={playListInfo?.description}
+                  ownerDisplayName={playListInfo?.owner.display_name}
+                  totalTracks={playListInfo?.tracks.items.length}
+                />
+              }
+            />
+          </>
         )}
         {!loading && hasItems && (
           <>

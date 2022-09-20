@@ -1,24 +1,41 @@
 import { useRouter } from 'next/router';
 import { useRef, useEffect } from 'react';
+import colorAlpha from 'color-alpha';
 
-function setOpacityStyle(element, opacity) {
-  /* Show or hide the header */
-  if (opacity === 0) {
-    element.style.display = 'none';
-  } else {
-    element.style.display = 'flex';
-  }
-  /* Set header bar opacity */
-  element.style.opacity = opacity.toFixed(1);
+function setBackgroundColor(element, opacity) {
+  const currentColor = element.style.backgroundColor;
+  element.style.backgroundColor = colorAlpha(currentColor, opacity);
 }
 
-function setOpacityOnScrollDown({ container, header, fromScrollY }) {
+function setOpacityOnScrollDown({ container, header, fromScrollY, onVisible, onTransparent }) {
+  let currentAlphaValue = 0;
+
   return function () {
     const scrollTopContainer = container.scrollTop;
 
     const diff = scrollTopContainer - fromScrollY;
 
-    diff > 0 ? setOpacityStyle(header, Number(diff / header.clientHeight)) : setOpacityStyle(header, 0);
+    let newAlphaValue;
+
+    if (diff > 0) {
+      newAlphaValue = Number(diff / header.clientHeight).toFixed(1);
+    } else {
+      newAlphaValue = 0;
+    }
+
+    setBackgroundColor(header, newAlphaValue);
+
+    if (newAlphaValue >= 1) {
+      if (!(currentAlphaValue >= 1)) {
+        onVisible();
+      }
+    } else {
+      if (currentAlphaValue >= 1) {
+        onTransparent();
+      }
+    }
+
+    currentAlphaValue = newAlphaValue;
   };
 }
 
@@ -50,6 +67,22 @@ const validations = {
       },
     ],
   },
+  onVisible: {
+    validators: [
+      {
+        validator: (onVisible) => typeof onVisible === 'function',
+        error: () => getMessageError('onVisible invalid type'),
+      },
+    ],
+  },
+  onTransparent: {
+    validators: [
+      {
+        validator: (onTransparent) => typeof onTransparent === 'function',
+        error: () => getMessageError('onTransparent invalid type'),
+      },
+    ],
+  },
 };
 
 const validate = (args) =>
@@ -78,8 +111,14 @@ export default function useHeaderTransition({ active, transition }) {
   useEffect(() => {
     if (active) {
       validate(transition);
-      const { header, container, fromScrollY } = transition;
-      const scrollListener = setOpacityOnScrollDown({ container, header, fromScrollY: fromScrollY(header) });
+      const { header, container, fromScrollY, onVisible, onTransparent } = transition;
+      const scrollListener = setOpacityOnScrollDown({
+        container,
+        header,
+        fromScrollY: fromScrollY(header),
+        onVisible,
+        onTransparent,
+      });
       eventRef.current = {
         target: container,
         listener: scrollListener,
