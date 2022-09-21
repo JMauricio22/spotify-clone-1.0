@@ -81,10 +81,7 @@ const PlaylistInfo = () => {
           <>
             <Hero
               ref={heroRef}
-              bgColor={randomColor}
               item={adaptPlaylistToHeroComponent(playListInfo)}
-              headerBarContent={!!playListName && <TrackListHeaderContent title={playListName} />}
-              headerTransition={headerTransition}
               afterTitle={
                 <HeroPlaylistExtraInfo
                   description={playListInfo?.description}

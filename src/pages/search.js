@@ -12,19 +12,19 @@ import ArtistCard from '../components/ArtistCard';
 import CardItemList from '../components/CardSection';
 import { adaptArtistToCard, adaptPlaylistToCard, adaptAlbumToCard } from '../utils/cardItemAdapter';
 import CardContainer from '../components/CardContainer';
-import ArtistMobileCard from '../components/ArtistMobileCard';
 import ArtistMobileSearch from '../components/ArtistMobileSearch';
 import VerticalCardList from '../components/VerticalCardList';
 import ColumnsCardList from '../components/ColumnsCardList';
+import SmallItem from '../components/SmallItem';
 import Loader from '../components/Loader';
 import SearchInput from '../components/SearchInput';
 import SearchMainContent from '../components/SearchMainContent';
-import { useMediaQuery } from 'react-responsive';
 import CategoryList from '../components/category/CategoryList';
+import BigMobileCard from '../components/BigMobileCard';
 
 const filters = ['All', 'Artist', 'Playlist', 'Album'];
 
-const ItemList = CardItemList(CardContainer);
+const Items = CardItemList(CardContainer);
 
 const Search = () => {
   const dispatch = useDispatch();
@@ -32,11 +32,13 @@ const Search = () => {
   const items = useSelector(selectSearchItems);
   const loading = useSelector(selectSearchLoadidngState);
   const currentFilter = useSelector(selectSearchFilter);
-  const isDesktop = useMediaQuery({ query: '(min-width: 1024px)' });
+  const isAll = currentFilter === 'all';
+  const isArtists = currentFilter === 'artist';
+  const isPlaylist = currentFilter === 'playlist';
+  const isAlbum = currentFilter === 'album';
 
   return (
-    <Container>
-      {/* <SearchInput /> */}
+    <Container headerElement={<SearchInput />}>
       {loading && <Loader />}
       {!loading && !query && <CategoryList />}
       {!!(!loading && items) && (
@@ -54,37 +56,37 @@ const Search = () => {
           ))}
         </div>
       )}
-      {!loading && currentFilter === 'all' && items?.artists?.items?.length > 0 && items?.tracks?.items?.length > 0 && (
+      {!loading && isAll && items?.artists?.items?.length > 0 && items?.tracks?.items?.length > 0 && (
         <SearchMainContent />
       )}
-      {!loading && (currentFilter === 'all' || currentFilter === 'artist') && items?.artists?.items?.length > 0 && (
-        <ItemList
+      {!loading && (isAll || isArtists) && items?.artists?.items?.length > 0 && (
+        <Items
           title='Artists'
           layout={(items) => <VerticalCardList items={items} />}
           items={adaptArtistToCard(items.artists.items)}
           card={(props) => <ArtistCard rounded {...props} />}
-          showAll={isDesktop && currentFilter === 'artist'}
+          showAll={!isAll}
           cardMobile={(props) => <ArtistMobileSearch rounded {...props} />}
         />
       )}
-      {!loading && (currentFilter === 'all' || currentFilter === 'playlist') && items?.playlists?.items?.length > 0 && (
-        <ItemList
+      {!loading && (isAll || isPlaylist) && items?.playlists?.items?.length > 0 && (
+        <Items
           title='Playlist'
-          layout={(items) => <ColumnsCardList items={items} />}
+          layout={isAll ? (items) => <VerticalCardList items={items} /> : (items) => <ColumnsCardList items={items} />}
           items={adaptPlaylistToCard(items.playlists.items)}
           card={(props) => <ArtistCard {...props} />}
-          showAll={isDesktop && currentFilter === 'playlist'}
-          cardMobile={(props) => <ArtistMobileCard {...props} />}
+          showAll={!isAll}
+          cardMobile={isAll ? (props) => <SmallItem {...props} /> : (props) => <BigMobileCard {...props} />}
         />
       )}
-      {!loading && (currentFilter === 'all' || currentFilter === 'album') && items?.albums?.items?.length > 0 && (
-        <ItemList
+      {!loading && (isAll || isAlbum) && items?.albums?.items?.length > 0 && (
+        <Items
           title='Albums'
-          layout={(items) => <ColumnsCardList items={items} />}
           items={adaptAlbumToCard(items.albums.items)}
+          layout={isAll ? (items) => <VerticalCardList items={items} /> : (items) => <ColumnsCardList items={items} />}
           card={(props) => <ArtistCard {...props} />}
-          showAll={isDesktop && currentFilter === 'album'}
-          cardMobile={(props) => <ArtistMobileCard {...props} />}
+          showAll={!isAll}
+          cardMobile={isAll ? (props) => <SmallItem {...props} /> : (props) => <BigMobileCard {...props} />}
         />
       )}
     </Container>

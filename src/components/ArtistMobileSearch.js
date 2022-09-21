@@ -4,7 +4,7 @@ import verifiedIcon from '../assets/icons/verified.svg';
 
 export default function ArtistMobileSearch({ title, image }) {
   return (
-    <div className='flex space-x-4 items-center mb-5 lg:hidden'>
+    <div className='flex space-x-4 items-center lg:hidden'>
       <img className='w-14 h-14 rounded-full' src={image} alt={title} />
       <p className='font-gothammedium sm:text-sm text-xs space-x-2'>
         <span className='inline-block truncate max-w-[300px]'>{title}</span>
