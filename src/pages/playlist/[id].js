@@ -60,7 +60,7 @@ const PlaylistInfo = () => {
       setHeaderTransition({
         container: containerRef.current,
         fromScrollY: () => {
-          return Math.abs(heroClientHeight - headerBarHeight * 2);
+          return Math.abs(heroClientHeight - headerBarHeight);
         },
         onVisible: () => setShowPlaylistHeader(true),
         onTransparent: () => setShowPlaylistHeader(false),
