@@ -40,5 +40,6 @@ module.exports = {
     plugin(function ({ addVariant }) {
       addVariant('nth-child-n5', '&:nth-child(n+5)');
     }),
+    require('tailwind-scrollbar'),
   ],
 };
