@@ -1,16 +1,11 @@
 import React, { useRef } from 'react';
 import useGridDynamicCols from '../hooks/useGridDynamicCols';
 
-export default function ColumnsCardList({ items }) {
+export default function ColumnsCardList({ items, minCols = 4 }) {
   const container = useRef(null);
   const { showContent, columnCount } = useGridDynamicCols({
     container,
-    mobileLayoutCallback: (ul) => {
-      const isSmallDevice = window?.matchMedia('(min-width: 640px)')?.matches;
-      const cols = isSmallDevice ? 3 : 2;
-      ul.style.gridTemplateColumns = `repeat(${cols}, minmax(0, 1fr))`;
-      ul.style.gridGap = `20px`;
-    },
+    minCols,
   });
 
   return (

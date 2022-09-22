@@ -54,8 +54,8 @@ export default function Player() {
   }, [mute, volume, volumeControl]);
 
   return (
-    <div className='w-screen h-[90px] bg-[#181818] fixed bottom-0 left-0 justify-center items-center px-4 lg:flex hidden z-30'>
-      <div className='flex items-center space-x-2 absolute left-4'>
+    <div className='grid-in-player w-full h-[90px] bg-[#181818] justify-between items-center px-4 flex z-30'>
+      <div className='flex items-center space-x-2'>
         {track ? (
           <img className='w-16 h-16' src={track?.album.images[0].url} />
         ) : (
@@ -89,7 +89,7 @@ export default function Player() {
           <FastForwardIcon className='w-10 h-12 text-zinc-400 hover:text-white' />
         </button>
       </div>
-      <div className='space-x-2 flex items-center absolute right-4'>
+      <div className='space-x-2 flex items-center'>
         {mute ? (
           <VolumeOffIcon className='w-6 h-6 text-gray-300' onClick={() => dispatch(setVolume(volume || 50))} />
         ) : (

@@ -10,6 +10,7 @@ import selectedAlbumReducer from './features/selectedAlbum';
 import categoriesReducer from './features/categories';
 import selectedCategoryReducer from './features/selectedCategory';
 import toastStateReducer from './features/toastState';
+import headerStateReducer from './features/headerState';
 
 export default configureStore({
   reducer: {
@@ -24,5 +25,6 @@ export default configureStore({
     categories: categoriesReducer,
     selectedCategory: selectedCategoryReducer,
     toastState: toastStateReducer,
+    headerState: headerStateReducer,
   },
 });

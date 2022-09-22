@@ -40,7 +40,7 @@ const Home = () => {
           <ItemList
             title='Recommendations'
             items={adaptRecommendationToCard(recommendations)}
-            card={(props) => <ArtistCard {...props} />}
+            card={(props) => <ArtistCard.Hidde {...props} />}
             cardMobile={(props) => <ArtistMobileCard {...props} />}
           />
         )}
@@ -48,7 +48,7 @@ const Home = () => {
           <ItemList
             title='Your favorite artists'
             items={adaptArtistToCard(artists)}
-            card={(props) => <ArtistCard rounded {...props} />}
+            card={(props) => <ArtistCard.Hidde rounded {...props} />}
             cardMobile={(props) => <ArtistMobileCard rounded {...props} />}
           />
         )}

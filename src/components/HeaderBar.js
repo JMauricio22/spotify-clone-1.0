@@ -22,7 +22,7 @@ export default function HeaderBar({ children, transition, bgColor = 'transparent
   return (
     <div
       ref={headerRef}
-      className='lg:w-[calc(100%-12rem)] lg:flex hidden w-full fixed h-[60px] right-0 top-0 z-30 justify-between transition-opacity duration-150 ease-out'
+      className='grid-in-header w-full flex h-ful justify-between transition-opacity duration-150 ease-out'
       style={{ backgroundColor: bgColor }}
     >
       {children}

@@ -6,6 +6,15 @@ module.exports = {
   content: ['./src/pages/**/*.{js,ts,jsx,tsx}', './src/components/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      gridTemplateAreas: {
+        layout: ['aside header', 'aside main', 'player player'],
+      },
+      gridTemplateColumns: {
+        layout: '250px minmax(530px,1fr)',
+      },
+      gridTemplateRows: {
+        layout: '60px 1fr 90px',
+      },
       screens: {
         '2lg': '1160px',
         '3lg': '1200px',
@@ -41,5 +50,6 @@ module.exports = {
       addVariant('nth-child-n5', '&:nth-child(n+5)');
     }),
     require('tailwind-scrollbar'),
+    require('@savvywombat/tailwindcss-grid-areas'),
   ],
 };

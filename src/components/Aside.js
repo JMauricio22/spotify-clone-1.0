@@ -30,7 +30,7 @@ export default function Aside() {
   /* h-[calc(100vh-60px)] */
 
   return (
-    <aside className='h-[calc(100vh-90px)] overflow-hidden hidden md:grid md:grid-cols-1 md:grid-rows-[180px_50px_1fr] w-56 bg-black text-gray-300 pt-4 text-xs md:text-sm lg:text-md font-medium'>
+    <aside className='grid-in-aside grid md:grid-cols-1 grid-rows-[180px_50px_1fr] bg-black text-gray-300 pt-4 text-xs md:text-sm lg:text-md font-medium'>
       <CreatePlaylist open={showCreatePlaylistDialog} onClose={() => setShowCreatePlaylistDialog(false)} />
       {/* Logo */}
       <div className='pl-4 pr-3'>

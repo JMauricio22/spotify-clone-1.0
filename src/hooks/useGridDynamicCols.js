@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
 
 const DESKTOP_DEFAULT_MAX_CARD_WIDTH = 230;
-const DESKTOP_DEFAULT_MIN_COLS = 4;
+const DESKTOP_DEFAULT_MIN_COLS = 2;
 const QUERY = '(min-width: 1024px)';
 const GRID_GAP = 20;
 const AUTHO_HEIGHT = true;
@@ -33,9 +33,8 @@ export default function useGridDynamicCols({
       /* Calculate grid columns */
       /* If not a desktop set grid-template-columns to a column */
       const isDesktop = window.matchMedia(query).matches;
-      if (!isDesktop) {
-        typeof mobileLayoutCallback === 'function' && mobileLayoutCallback(ul);
-        // ul.style.gridTemplateColumns = '1fr';
+      if (!isDesktop && typeof mobileLayoutCallback === 'function') {
+        mobileLayoutCallback(ul);
         return;
       }
       /* If it´s a desk calculate columns */

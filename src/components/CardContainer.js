@@ -6,7 +6,7 @@ export default function CardContainer({ link, card, cardMobile, ...props }) {
     <Link href={link}>
       <a className='cursor-pointer inline-block'>
         {card(props)}
-        {cardMobile(props)}
+        {cardMobile && typeof cardMobile === 'function' && cardMobile(props)}
       </a>
     </Link>
   );
