@@ -57,7 +57,7 @@ export default function SearchInput() {
         <input
           value={query}
           onChange={search}
-          className='bg-transparent w-48 placeholder:text-gray-400 py-2 pr-4 outline-none placeholder:font-gothambook placeholder:text-sm'
+          className='bg-transparent w-56 placeholder:text-gray-400 py-2 pr-4 outline-none placeholder:font-gothambook placeholder:text-sm'
           placeholder='Artist or songs'
         />
         <button className='w-5 h-5' disabled={!query} onClick={cancelSearch}>

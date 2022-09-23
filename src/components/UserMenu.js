@@ -28,8 +28,9 @@ export default function UserMenu() {
               leave='transition ease-in duration-75'
               leaveFrom='transform opacity-100 scale-100'
               leaveTo='transform opacity-0 scale-95'
+              className='z-20'
             >
-              <Menu.Items className='absolute rounded-md z-40 right-0 px-1 py-1 mt-2 w-52 origin-top-right divide-y divide-gray-100 bg-[#282828] shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
+              <Menu.Items className='absolute rounded-md right-0 px-1 py-1 mt-2 w-52 origin-top-right divide-y divide-gray-100 bg-[#282828] shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
                 <div className='px-1 py-1 '>
                   <Menu.Item
                     as='span'

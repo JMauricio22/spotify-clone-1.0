@@ -41,7 +41,7 @@ const Search = () => {
         <div className='mt-4 pl-10 space-x-2'>
           {filters.map((filter) => (
             <span
-              className={`inline-block px-4 py-2 text-sm rounded-full font-gothammedium cursor-pointer ${
+              className={`inline-block px-4 py-2 lg:text-sm text-xs rounded-full font-gothammedium cursor-pointer ${
                 filter.toLowerCase() === currentFilter ? 'bg-slate-100 text-[#121212]' : 'text-slate-100 bg-[#121212] '
               }`}
               key={`filter-item-${filter}`}

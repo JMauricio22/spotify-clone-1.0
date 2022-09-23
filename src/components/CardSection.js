@@ -8,7 +8,7 @@ export default function CardSection(Component) {
     const id = useId();
 
     return (
-      <section className='lg:mt-10 mt-5 w-[95%] mx-auto pl-4'>
+      <section className='lg:mt-10 mt-12 w-[95%] mx-auto pl-4'>
         <div className='flex items-center justify-between mb-4'>
           <h2 className='md:text-xl text-2xl font-gothambold md:text-left mb-0'>{title}</h2>
           {element}

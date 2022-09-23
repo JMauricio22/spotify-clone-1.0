@@ -9,6 +9,7 @@ import CardContainer from '../../components/CardContainer';
 import { adaptPlaylistToCard } from '../../utils/cardItemAdapter';
 import ArtistCard from '../../components/ArtistCard';
 import ArtistMobileSearch from '../../components/ArtistMobileSearch';
+import ColumnsCardList from '../../components/ColumnsCardList';
 
 const ItemList = CardSection(CardContainer);
 
@@ -38,6 +39,7 @@ const Category = () => {
                 title={`Popular ${category.name.toLowerCase()} list`}
                 items={adaptPlaylistToCard(playlist)}
                 card={(props) => <ArtistCard rounded {...props} />}
+                layout={(items) => <ColumnsCardList items={items} minCols={2} />}
                 showAll={showAll}
                 element={
                   <button
@@ -47,7 +49,7 @@ const Category = () => {
                     {showAll ? 'SEE LESS' : 'VIEW ALL'}
                   </button>
                 }
-                cardMobile={(props) => <ArtistMobileSearch rounded {...props} />}
+                // cardMobile={(props) => <ArtistMobileSearch rounded {...props} />}
               />
             }
           </>
