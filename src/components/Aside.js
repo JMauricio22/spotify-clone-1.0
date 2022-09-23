@@ -80,7 +80,7 @@ export default function Aside() {
         <div className='h-[.1px] bg-gray-800 my-4' />
       </ul>
       {/* playlists */}
-      <ul className='overflow-y-auto h-full pl-4 pr-3 scrollbar-thin scrollbar-track-gray-400 scrollbar-thumb-black/30'>
+      <ul className='overflow-y-auto h-full pl-4 pr-3 scrollbar-thin scrollbar-track-black scrollbar-thumb-neutral-600'>
         {playList.map((item) => (
           <li className='mb-2 hover:text-white text-left w-full truncate font-gothambook' key={`${id}-${item.id}`}>
             <Link href={`/playlist/${item.id}`}>

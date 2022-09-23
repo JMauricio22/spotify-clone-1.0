@@ -15,7 +15,7 @@ export default function HorizontalCardList({ items }) {
   return (
     <ul
       ref={container}
-      className='lg:grid lg:grid-rows-1 lg:gap-5 block lg:overflow-hidden overflow-x-auto whitespace-nowrap'
+      className='scrollbar-thin scrollbar-track-black scrollbar-thumb-neutral-600 lg:grid lg:grid-rows-1 lg:gap-5 block lg:overflow-hidden overflow-x-auto whitespace-nowrap'
     >
       {showContent && items(itemParams)}
     </ul>
