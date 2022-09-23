@@ -2,8 +2,6 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Container from '../../components/Container';
 import Error from '../../components/Error';
-import useSpotify from '../../hooks/useSpotify';
-import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import {
   fetchArtistWithTopTracks,
@@ -21,10 +19,10 @@ import { adaptArtistItemsToTrackItems } from '../../utils/trackItemAdapter';
 import Loader from '../../components/Loader';
 import useRandomColor from '../../hooks/useRandomColor';
 import { adaptArtistToHeroComponent } from '../../utils/heroItemAdapter';
+import useAuth from '../../hooks/useAuth';
 
 const Artistartist = () => {
-  const { data: session } = useSession();
-  const spotifyApi = useSpotify();
+  const { isAuthenticated } = useAuth();
   const dispatch = useDispatch();
   const artist = useSelector(selectArtist);
   const loading = useSelector(selectArtistLoadingState);
@@ -40,10 +38,10 @@ const Artistartist = () => {
 
   useEffect(() => {
     /* Fetch Artis */
-    if (query.id && spotifyApi.getAccessToken()) {
+    if (query.id && isAuthenticated) {
       dispatch(fetchArtistWithTopTracks(query.id));
     }
-  }, [session, query.id]);
+  }, [isAuthenticated, query.id]);
 
   useEffect(() => {
     /* When hero componente is rendered then set transition state  */

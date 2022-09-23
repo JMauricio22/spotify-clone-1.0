@@ -14,9 +14,25 @@ export const fetchAvaliableDevices = createAsyncThunk('avaliableDevices/fetchAva
   return devices;
 });
 
+export const transferPlayback = createAsyncThunk('avaliableDevices/transferPlayback', async (deviceId) => {
+  const { body } = await spotifyApi.transferMyPlayback([deviceId]);
+  return body;
+});
+
 const avaliableDevices = createSlice({
   name: 'avaliableDevices',
   initialState,
+  reducers: {
+    changeActiveDevice: (state, { payload }) => {
+      const deviceId = payload;
+      const currentActiveDevice = state.devices.filter(({ is_active }) => is_active);
+      if (currentActiveDevice.length !== 0) {
+        currentActiveDevice[0].is_active = false;
+      }
+
+      state.devices = state.devices.map((device) => (device.id === deviceId ? { ...device, is_active: true } : device));
+    },
+  },
   extraReducers(builder) {
     builder.addCase(fetchAvaliableDevices.fulfilled, (_, { payload }) => ({ ...initialState, devices: payload }));
     builder.addCase(fetchAvaliableDevices.pending, () => ({ ...initialState, loading: true }));
@@ -32,5 +48,7 @@ export const selectActiveDevice = (state) => {
   device = device.length !== 0 ? device[0] : null;
   return device;
 };
+
+export const { changeActiveDevice } = avaliableDevices.actions;
 
 export default avaliableDevices.reducer;

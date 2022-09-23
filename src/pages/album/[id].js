@@ -13,21 +13,18 @@ import Container from '../../components/Container';
 import Error from '../../components/Error';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
-import {} from '../../hooks/useSpotify';
-import { useSession } from 'next-auth/react';
-import useSpotify from '../../hooks/useSpotify';
 import Loader from '../../components/Loader';
 import { adaptAlbumToHeroComponent } from '../../utils/heroItemAdapter';
 import useRandomColor from '../../hooks/useRandomColor';
 import { adaptAlbumItemsToTrackItems } from '../../utils/trackItemAdapter';
 import Hero from '../../components/Hero';
 import AlbumPlaylist from '../../components/Playlist/AlbumPlaylist';
+import useAuth from '../../hooks/useAuth';
 
 export default function Album() {
-  const { data: session } = useSession();
+  const { isAuthenticated } = useAuth();
   const { query } = useRouter();
   const dispatch = useDispatch();
-  const spotifyApi = useSpotify();
   const album = useSelector(selectAlbum);
   const artistName = useSelector(selectAlbumArtistName);
   const totalTracks = useSelector(selectAlbumTotalTracks);
@@ -42,10 +39,10 @@ export default function Album() {
 
   useEffect(() => {
     /* Fetch album */
-    if (query.id && spotifyApi.getAccessToken()) {
+    if (query.id && isAuthenticated) {
       dispatch(fetchAlbumById(query.id));
     }
-  }, [session, query.id]);
+  }, [isAuthenticated, query.id]);
 
   return (
     <Container>

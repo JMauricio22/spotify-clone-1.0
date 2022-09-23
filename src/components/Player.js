@@ -12,13 +12,11 @@ import {
   selectPlayerVolume,
   selectPlayerMute,
 } from '../features/player';
-import useSpotify from '../hooks/useSpotify';
-import { useSession } from 'next-auth/react';
 import AvaliableDevices from './AvaliableDevices';
+import useAuth from '../hooks/useAuth';
 
 export default function Player() {
-  const { data: session } = useSession();
-  const spotifyApi = useSpotify();
+  const { isAuthenticated } = useAuth();
   const track = useSelector(selectPlayerTrack);
   const isPlaying = useSelector(selectPlayerIsPlaying);
   const volume = useSelector(selectPlayerVolume);
@@ -29,10 +27,10 @@ export default function Player() {
 
   useEffect(() => {
     /* Get playback state */
-    if (spotifyApi.getAccessToken()) {
+    if (isAuthenticated) {
       dispatch(fetchPlaybackState());
     }
-  }, [session, spotifyApi]);
+  }, [isAuthenticated]);
 
   const changeVolume = ({ target }) => {
     /* Set volume */

@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
-import { useSession } from 'next-auth/react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchRecommendations,
   selectRecommendationItems,
   selectRecommendationLoading,
 } from '../features/recommendations';
-import useSpotify from '../hooks/useSpotify';
 import Container from '../components/Container';
 import { adaptRecommendationToCard, adaptArtistToCard } from '../utils/cardItemAdapter';
 import CardSection from '../components/CardSection';
@@ -15,22 +13,22 @@ import ArtistCard from '../components/ArtistCard';
 import ArtistMobileCard from '../components/ArtistMobileCard';
 import Loader from '../components/Loader';
 import { selectMyTopArtistItems } from '../features/artists';
+import useAuth from '../hooks/useAuth';
 
 const ItemList = CardSection(CardContainer);
 
 const Home = () => {
-  const { data: session } = useSession();
-  const spotifyApi = useSpotify();
+  const { isAuthenticated } = useAuth();
   const dispatch = useDispatch();
   const loading = useSelector(selectRecommendationLoading);
   const recommendations = useSelector(selectRecommendationItems);
   const artists = useSelector(selectMyTopArtistItems);
 
   useEffect(() => {
-    if (recommendations.length === 0 && spotifyApi.getAccessToken()) {
+    if (isAuthenticated) {
       dispatch(fetchRecommendations());
     }
-  }, [session, spotifyApi]);
+  }, [isAuthenticated]);
 
   return (
     <Container>

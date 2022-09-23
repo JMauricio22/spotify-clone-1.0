@@ -1,32 +1,39 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { DesktopComputerIcon } from '@heroicons/react/outline';
 import { Menu, Transition } from '@headlessui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  changeActiveDevice,
   fetchAvaliableDevices,
   selectActiveDevice,
   selectAllDevices,
   selectDevicesError,
   selectDevicesLoading,
+  transferPlayback,
 } from '../features/devices';
 import Loader from '../components/Loader';
+import useAuth from '../hooks/useAuth';
 
 export default function AvaliableDevices() {
+  const { isAuthenticated } = useAuth();
   const devices = useSelector(selectAllDevices);
   const activeDevice = useSelector(selectActiveDevice);
   const loading = useSelector(selectDevicesLoading);
   const error = useSelector(selectDevicesError);
   const dispatch = useDispatch();
-  // const devices = ['Web Player (Chrome)', 'Mobile (Android)', 'IPHONE (Android)'];
 
   useEffect(() => {
-    dispatch(fetchAvaliableDevices());
-  }, []);
+    if (isAuthenticated) {
+      dispatch(fetchAvaliableDevices());
+    }
+  }, [isAuthenticated]);
 
-  console.log({
-    activeDevice,
-    devices,
-  });
+  const changeDevice = async (deviceId) => {
+    try {
+      await dispatch(transferPlayback(deviceId)).unwrap();
+      dispatch(changeActiveDevice(deviceId));
+    } catch (error) {}
+  };
 
   const Devices = () => (
     <div className='px-4 space-y-4'>
@@ -48,7 +55,10 @@ export default function AvaliableDevices() {
           <p className='font-gothambold text-sm text-white mb-3 px-2'>Select other devices</p>
           <div className='space-y-2 max-h-36 overflow-y-auto scrollbar-thin scrollbar-track-neutral-600 scrollbar-thumb-slate-200'>
             {devices.map((device) => (
-              <button className='text-sm inline-flex space-x-3 items-center hover:bg-neutral-600 rounded-md px-2 w-full py-3'>
+              <button
+                onClick={() => changeDevice(device.id)}
+                className='text-sm inline-flex space-x-3 items-center hover:bg-neutral-600 rounded-md px-2 w-full py-3'
+              >
                 <DesktopComputerIcon className='w-8 h-8' />
                 <span className='font-gothammedium text-slate-200'>{device.name}</span>
               </button>

@@ -1,31 +1,24 @@
 import { useEffect, useId, useState } from 'react';
-import { useSession } from 'next-auth/react';
-import useSpotify from '../hooks/useSpotify';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUserPlaylist, fetchPlayUserPlaylist } from '../features/playlist';
 import { HomeIcon, SearchIcon, LibraryIcon, PlusIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
 import CreatePlaylist from './CreatePlaylist';
+import useAuth from '../hooks/useAuth';
 
 export default function Aside() {
   const id = useId();
-  const spotifyApi = useSpotify();
-  const { data: session } = useSession();
+  const { isAuthenticated } = useAuth();
   const playList = useSelector(selectUserPlaylist);
   const dispatch = useDispatch();
   const [showCreatePlaylistDialog, setShowCreatePlaylistDialog] = useState(false);
 
-  const getUserPlayList = async () => {
-    /* Get user playlist */
-    dispatch(fetchPlayUserPlaylist());
-  };
-
   useEffect(() => {
     /* Get user playlist when component is mounted */
-    if (spotifyApi.getAccessToken()) {
-      getUserPlayList();
+    if (isAuthenticated) {
+      dispatch(fetchPlayUserPlaylist());
     }
-  }, [session, spotifyApi]);
+  }, [isAuthenticated]);
 
   /* h-[calc(100vh-60px)] */
 

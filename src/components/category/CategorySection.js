@@ -18,7 +18,7 @@ export default function Categories() {
     <div className='px-5 py-4 pb-8'>
       {loading && <Loader />}
       {!loading && !error && <CategoryList />}
-      {!loading && error && <Error.Highlight message={error} />}
+      {!loading && error && <Error.Highlight message={`Error loading categories.`} />}
     </div>
   );
 }
