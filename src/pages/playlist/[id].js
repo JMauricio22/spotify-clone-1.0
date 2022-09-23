@@ -22,7 +22,7 @@ import { adaptPlaylistToHeroComponent } from '../../utils/heroItemAdapter';
 import HeroPlaylistExtraInfo from '../../components/HeroPlaylistExtraInfo';
 import { useSession } from 'next-auth/react';
 
-const PlaylistInfo = () => {
+const Playlist = () => {
   const { data: session } = useSession();
   const [showPlaylistHeader, setShowPlaylistHeader] = useState(false);
   const playListInfo = useSelector(selectCurrentPlaylist);
@@ -108,6 +108,6 @@ const PlaylistInfo = () => {
   );
 };
 
-PlaylistInfo.layout = true;
+Playlist.layout = true;
 
-export default PlaylistInfo;
+export default Playlist;

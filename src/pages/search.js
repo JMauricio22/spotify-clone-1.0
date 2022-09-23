@@ -15,7 +15,6 @@ import { adaptArtistToCard, adaptPlaylistToCard, adaptAlbumToCard } from '../uti
 import CardContainer from '../components/CardContainer';
 import ColumnsCardList from '../components/ColumnsCardList';
 import Loader from '../components/Loader';
-import SearchInput from '../components/SearchInput';
 import Error from '../components/Error';
 import SearchMainContent from '../components/SearchMainContent';
 import CategorySection from '../components/category/CategorySection';
@@ -42,11 +41,6 @@ const Search = () => {
 
     return () => dispatch(hideSearchInput());
   }, []);
-
-  console.log({
-    loading,
-    error,
-  });
 
   return (
     <Container>

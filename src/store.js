@@ -11,6 +11,7 @@ import categoriesReducer from './features/categories';
 import selectedCategoryReducer from './features/selectedCategory';
 import toastStateReducer from './features/toastState';
 import headerStateReducer from './features/headerState';
+import devicesReducer from './features/devices';
 
 export default configureStore({
   reducer: {
@@ -26,5 +27,6 @@ export default configureStore({
     selectedCategory: selectedCategoryReducer,
     toastState: toastStateReducer,
     headerState: headerStateReducer,
+    avaliableDevices: devicesReducer,
   },
 });

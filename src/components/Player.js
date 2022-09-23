@@ -14,6 +14,7 @@ import {
 } from '../features/player';
 import useSpotify from '../hooks/useSpotify';
 import { useSession } from 'next-auth/react';
+import AvaliableDevices from './AvaliableDevices';
 
 export default function Player() {
   const { data: session } = useSession();
@@ -74,26 +75,27 @@ export default function Player() {
           )}
         </div>
       </div>
-      <div className='text-white flex space-x-4'>
+      <div className='text-white flex space-x-3'>
         <button disabled={!track}>
-          <RewindIcon className='w-10 h-12 text-zinc-400 hover:text-white' />
+          <RewindIcon className='w-7 h-8 text-zinc-400 hover:text-white' />
         </button>
         <button disabled={!track} onClick={() => (isPlaying ? dispatch(pauseSong()) : dispatch(playSong()))}>
           {isPlaying ? (
-            <PauseIcon className='w-12 h-12 hover:scale-110 transition-transform duration-200 ease-in-out' />
+            <PauseIcon className='w-10 h-10 hover:scale-110 transition-transform duration-200 ease-in-out' />
           ) : (
-            <PlayIcon className='w-12 h-12 hover:scale-110 transition-transform duration-200 ease-in-out' />
+            <PlayIcon className='w-10 h-10 hover:scale-110 transition-transform duration-200 ease-in-out' />
           )}
         </button>
         <button disabled={!track}>
-          <FastForwardIcon className='w-10 h-12 text-zinc-400 hover:text-white' />
+          <FastForwardIcon className='w-7 h-8 text-zinc-400 hover:text-white' />
         </button>
       </div>
-      <div className='space-x-2 flex items-center'>
+      <div className='space-x-2 flex items-center text-gray-300'>
+        <AvaliableDevices />
         {mute ? (
-          <VolumeOffIcon className='w-6 h-6 text-gray-300' onClick={() => dispatch(setVolume(volume || 50))} />
+          <VolumeOffIcon className='w-5 h-5' onClick={() => dispatch(setVolume(volume || 50))} />
         ) : (
-          <VolumeUpIcon className='w-6 h-6 text-gray-300' onClick={() => dispatch(setVolume(0))} />
+          <VolumeUpIcon className='w-5 h-5' onClick={() => dispatch(setVolume(0))} />
         )}
         <input ref={volumeControl} className='text-white' type='range' min={0} max={100} onChange={changeVolume} />
       </div>

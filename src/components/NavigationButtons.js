@@ -1,18 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useRouter } from 'next/router';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid';
 
 export default function NavigationButtons({ children }) {
   const router = useRouter();
-  const [currentPage, setCurrentPage] = useState(1);
-
-  useEffect(() => {}, [router.asPath]);
-
-  useEffect(() => {
-    window.addEventListener('popstate', (state) => {
-      console.log({ state });
-    });
-  }, []);
 
   const goBack = () => router.back();
   const goForward = () => window.history.forward();

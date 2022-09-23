@@ -11,7 +11,7 @@ export default function useRandomColor({ generateRandomColor, seed }) {
       });
     }
 
-    return '';
+    return 'transparent';
   }, [generateRandomColor, seed]);
 
   return color;
