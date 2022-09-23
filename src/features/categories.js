@@ -21,9 +21,13 @@ const categoriesSlice = createSlice({
   initialState,
   extraReducers(builder) {
     builder.addCase(fetchCategories.fulfilled, (_, { payload }) => ({ ...initialState, items: payload }));
+    builder.addCase(fetchCategories.pending, () => ({ ...initialState, loading: true }));
+    builder.addCase(fetchCategories.rejected, (_, { error }) => ({ ...initialState, error }));
   },
 });
 
 export const getCategories = (state) => state.categories.items;
+export const getCategoriesError = (state) => state.categories.error;
+export const isLoadingCategories = (state) => state.categories.loading;
 
 export default categoriesSlice.reducer;

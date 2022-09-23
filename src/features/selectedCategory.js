@@ -32,11 +32,13 @@ const categorySlice = createSlice({
       playlist: payload.playlist,
     }));
     builder.addCase(fetchCategory.pending, () => ({ ...initialState, loading: true }));
+    builder.addCase(fetchCategory.rejected, (_, { error }) => ({ ...initialState, loading: false, error }));
   },
 });
 
-export const getCategory = (state) => state.selectedCategory.data;
-export const getLoadingState = (state) => state.selectedCategory.loading;
-export const getCategoryPlayList = (state) => state.selectedCategory.playlist;
+export const selectCategory = (state) => state.selectedCategory.data;
+export const selectLoadingState = (state) => state.selectedCategory.loading;
+export const selectCategoryPlayList = (state) => state.selectedCategory.playlist;
+export const selectCategoryPlayListError = (state) => state.selectedCategory.error;
 
 export default categorySlice.reducer;

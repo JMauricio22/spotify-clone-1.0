@@ -1,24 +1,22 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getCategories, fetchCategories } from '../../features/categories';
-import CategoryItem from './CategoryItem';
-// import ColumnsCardList from '../ColumnsCardList';
+import React, { useRef } from 'react';
+import { getCategories } from '../../features/categories';
 import useGridDynamicCols from '../../hooks/useGridDynamicCols';
+import CategoryItem from './CategoryItem';
+import { useSelector } from 'react-redux';
 
 const DEFAULT_GRID_GAG = 20;
 const DESKTOP_MEDIA_QUERY = '(min-width: 1200px)';
+const MAX_WIDTH = 300;
+const MIN_COLS = 4;
 
 export default function Categories() {
   const categories = useSelector(getCategories);
-  const dispatch = useDispatch();
   const container = useRef(null);
-  const [cardMaxSize, setCardMaxSize] = useState(300);
-  const [minCols, setMinCols] = useState(4);
 
-  const { showContent, columnCount } = useGridDynamicCols({
+  useGridDynamicCols({
     container,
-    maxWidth: cardMaxSize,
-    minCols,
+    maxWidth: MAX_WIDTH,
+    minCols: MIN_COLS,
     gap: DEFAULT_GRID_GAG,
     query: DESKTOP_MEDIA_QUERY,
     autoHeight: false,
@@ -32,18 +30,14 @@ export default function Categories() {
     },
   });
 
-  useEffect(() => {
-    dispatch(fetchCategories());
-  }, []);
-
   return (
-    <div className='px-5 py-4 pb-8'>
+    <>
       <h1 className='font-gothambold text-xl mb-4'>Browse all</h1>
       <ul ref={container} className='grid lg:overflow-hidden'>
         {categories.map((category) => (
           <CategoryItem category={category} key={category.id} />
         ))}
       </ul>
-    </div>
+    </>
   );
 }

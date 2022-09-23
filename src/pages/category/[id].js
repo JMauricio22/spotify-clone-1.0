@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { fetchCategory, getCategory, getLoadingState, getCategoryPlayList } from '../../features/selectedCategory';
+import {
+  fetchCategory,
+  selectCategory,
+  selectLoadingState,
+  selectCategoryPlayList,
+  selectCategoryPlayListError,
+} from '../../features/selectedCategory';
 import { useDispatch, useSelector } from 'react-redux';
-import Container from '../../components/Container';
 import Loader from '../../components/Loader';
+import Container from '../../components/Container';
+import Error from '../../components/Error';
 import CardSection from '../../components/CardSection';
 import CardContainer from '../../components/CardContainer';
 import { adaptPlaylistToCard } from '../../utils/cardItemAdapter';
 import ArtistCard from '../../components/ArtistCard';
-import ArtistMobileSearch from '../../components/ArtistMobileSearch';
 import ColumnsCardList from '../../components/ColumnsCardList';
 
 const ItemList = CardSection(CardContainer);
@@ -16,9 +22,10 @@ const ItemList = CardSection(CardContainer);
 const Category = () => {
   const { query } = useRouter();
   const dispatch = useDispatch();
-  const category = useSelector(getCategory);
-  const isLoading = useSelector(getLoadingState);
-  const playlist = useSelector(getCategoryPlayList);
+  const category = useSelector(selectCategory);
+  const isLoading = useSelector(selectLoadingState);
+  const playlist = useSelector(selectCategoryPlayList);
+  const error = useSelector(selectCategoryPlayListError);
   const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {
@@ -29,7 +36,7 @@ const Category = () => {
     <Container>
       <section className='pb-10 w-full'>
         {isLoading && <Loader />}
-        {!isLoading && (
+        {!isLoading && !error && (
           <>
             <header className='h-56 w-full bg-playlist-gradient relative'>
               <span className='font-gothambold text-6xl w-3/4 truncate absolute bottom-12 left-6'>{category.name}</span>
@@ -49,11 +56,11 @@ const Category = () => {
                     {showAll ? 'SEE LESS' : 'VIEW ALL'}
                   </button>
                 }
-                // cardMobile={(props) => <ArtistMobileSearch rounded {...props} />}
               />
             }
           </>
         )}
+        {!isLoading && error && <Error message={`An error ocurred searching playlist`} />}
       </section>
     </Container>
   );

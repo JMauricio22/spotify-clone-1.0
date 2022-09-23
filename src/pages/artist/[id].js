@@ -1,10 +1,16 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Container from '../../components/Container';
+import Error from '../../components/Error';
 import useSpotify from '../../hooks/useSpotify';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { fetchArtistWithTopTracks, selectArtist, selectArtistLoadingState } from '../../features/selectedArtist';
+import {
+  fetchArtistWithTopTracks,
+  selectArtist,
+  selectArtistError,
+  selectArtistLoadingState,
+} from '../../features/selectedArtist';
 import Hero from '../../components/Hero';
 import { headerBarHeight } from '../../components/HeaderBar';
 import TrackListHeaderContent from '../../components/TrackListHeaderContent';
@@ -22,6 +28,7 @@ const Artistartist = () => {
   const dispatch = useDispatch();
   const artist = useSelector(selectArtist);
   const loading = useSelector(selectArtistLoadingState);
+  const error = useSelector(selectArtistError);
   const [headerTransition, setHeaderTransition] = useState(null);
   const { query } = useRouter();
   const heroRef = useRef(null);
@@ -55,7 +62,7 @@ const Artistartist = () => {
     <Container ref={containerRef} bgColor={randomColor}>
       <>
         {loading && <Loader />}
-        {!loading && artist && (
+        {!loading && !error && artist && (
           <>
             <Hero
               ref={heroRef}
@@ -81,6 +88,7 @@ const Artistartist = () => {
             <ArtistPlaylist items={adaptArtistItemsToTrackItems(artist.tracks)} />
           </>
         )}
+        {!loading && error && <Error message={`Error loading artist with id: ${query.id}.`} />}
       </>
     </Container>
   );

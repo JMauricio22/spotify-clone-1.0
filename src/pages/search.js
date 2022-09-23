@@ -6,6 +6,7 @@ import {
   selectSearchLoadidngState,
   selectSearchFilter,
   selectSearchQuery,
+  selectSearchError,
 } from '../features/search';
 import { useDispatch, useSelector } from 'react-redux';
 import ArtistCard from '../components/ArtistCard';
@@ -15,8 +16,9 @@ import CardContainer from '../components/CardContainer';
 import ColumnsCardList from '../components/ColumnsCardList';
 import Loader from '../components/Loader';
 import SearchInput from '../components/SearchInput';
+import Error from '../components/Error';
 import SearchMainContent from '../components/SearchMainContent';
-import CategoryList from '../components/category/CategoryList';
+import CategorySection from '../components/category/CategorySection';
 import { showSearchInput, hideSearchInput } from '../features/headerState';
 
 const filters = ['All', 'Artist', 'Playlist', 'Album'];
@@ -28,6 +30,7 @@ const Search = () => {
   const query = useSelector(selectSearchQuery);
   const items = useSelector(selectSearchItems);
   const loading = useSelector(selectSearchLoadidngState);
+  const error = useSelector(selectSearchError);
   const currentFilter = useSelector(selectSearchFilter);
   const isAll = currentFilter === 'all';
   const isArtists = currentFilter === 'artist';
@@ -40,10 +43,15 @@ const Search = () => {
     return () => dispatch(hideSearchInput());
   }, []);
 
+  console.log({
+    loading,
+    error,
+  });
+
   return (
-    <Container headerElement={<SearchInput />}>
+    <Container>
       {loading && <Loader />}
-      {!loading && !query && <CategoryList />}
+      {!loading && !query && <CategorySection />}
       {!!(!loading && items) && (
         <div className='mt-4 pl-10 space-x-2'>
           {filters.map((filter) => (
@@ -59,6 +67,7 @@ const Search = () => {
           ))}
         </div>
       )}
+      {!loading && error && <Error message={`Error searching for '${query}'.`} />}
       {!loading && isAll && items?.artists?.items?.length > 0 && items?.tracks?.items?.length > 0 && (
         <SearchMainContent />
       )}

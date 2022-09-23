@@ -3,12 +3,14 @@ import {
   fetchAlbumById,
   selectAlbum,
   selectAlbumArtistName,
+  selectAlbumLError,
   selectAlbumLoadingState,
   selectAlbumReleaseDate,
   selectAlbumTotalTracks,
   selectAlbumTracks,
 } from '../../features/selectedAlbum';
 import Container from '../../components/Container';
+import Error from '../../components/Error';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import {} from '../../hooks/useSpotify';
@@ -32,6 +34,7 @@ export default function Album() {
   const releaseDate = useSelector(selectAlbumReleaseDate);
   const tracks = useSelector(selectAlbumTracks);
   const loading = useSelector(selectAlbumLoadingState);
+  const error = useSelector(selectAlbumLError);
   const randomColor = useRandomColor({
     generateRandomColor: !loading && !!album,
     seed: album?.id,
@@ -48,7 +51,7 @@ export default function Album() {
     <Container>
       <>
         {loading && <Loader />}
-        {!loading && album && (
+        {!loading && !error && album && (
           <>
             <Hero
               // ref={heroRef}
@@ -73,6 +76,7 @@ export default function Album() {
             <AlbumPlaylist items={adaptAlbumItemsToTrackItems(tracks)} />
           </>
         )}
+        {!loading && error && <Error message={`Error loading album with id: ${query.id}.`} />}
       </>
     </Container>
   );

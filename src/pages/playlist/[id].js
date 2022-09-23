@@ -7,6 +7,7 @@ import {
   selectLoading,
   selecthasItems,
   selectLPlaylistName,
+  selectError,
 } from '../../features/currenPlayList';
 import { useRouter } from 'next/router';
 import { headerBarHeight } from '../../components/HeaderBar';
@@ -14,6 +15,7 @@ import { adaptPlaylistItemsToTrackItems } from '../../utils/trackItemAdapter';
 import Hero from '../../components/Hero';
 import DefaultPlaylist from '../../components/Playlist/DefaultPlaylist';
 import Loader from '../../components/Loader';
+import Error from '../../components/Error';
 import TrackListHeaderContent from '../../components/TrackListHeaderContent';
 import useRandomColor from '../../hooks/useRandomColor';
 import { adaptPlaylistToHeroComponent } from '../../utils/heroItemAdapter';
@@ -26,6 +28,7 @@ const PlaylistInfo = () => {
   const playListInfo = useSelector(selectCurrentPlaylist);
   const hasItems = useSelector(selecthasItems);
   const loading = useSelector(selectLoading);
+  const error = useSelector(selectError);
   const playListName = useSelector(selectLPlaylistName);
   const [headerTransition, setHeaderTransition] = useState(null);
   const dispatch = useDispatch();
@@ -77,7 +80,7 @@ const PlaylistInfo = () => {
     >
       <>
         {loading && <Loader />}
-        {!loading && (
+        {!loading && !error && (
           <>
             <Hero
               ref={heroRef}
@@ -92,13 +95,14 @@ const PlaylistInfo = () => {
             />
           </>
         )}
-        {!loading && hasItems && (
+        {!loading && !error && hasItems && (
           <>
             {playListInfo?.tracks?.items.length > 0 && (
               <DefaultPlaylist items={adaptPlaylistItemsToTrackItems(playListInfo.tracks.items)} />
             )}
           </>
         )}
+        {!loading && error && <Error message={error} />}
       </>
     </Container>
   );

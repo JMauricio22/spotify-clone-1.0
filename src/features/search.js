@@ -54,10 +54,10 @@ const searchSlice = createSlice({
       loading: false,
       error: '',
     }));
-    builder.addCase(searchItems.pending, (state) => ({ ...state, items: null, loading: true }));
+    builder.addCase(searchItems.pending, (state) => ({ ...state, items: null, loading: true, error: '' }));
     builder.addCase(searchItems.rejected, (state, { error }) => ({
       ...state,
-      item: null,
+      items: null,
       error: error.message,
       loading: false,
     }));
@@ -70,5 +70,6 @@ export const selectSearchItems = (state) => state.search.items;
 export const selectSearchLoadidngState = (state) => state.search.loading;
 export const selectSearchFilter = (state) => state.search.filter;
 export const selectSearchQuery = (state) => state.search.query;
+export const selectSearchError = (state) => state.search.error;
 
 export default searchSlice.reducer;
