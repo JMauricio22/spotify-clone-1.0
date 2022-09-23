@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  search: true,
+  search: false,
   headerControls: null,
 };
 

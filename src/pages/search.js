@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Container from '../components/Container';
 import {
   setFilter,
@@ -17,6 +17,7 @@ import Loader from '../components/Loader';
 import SearchInput from '../components/SearchInput';
 import SearchMainContent from '../components/SearchMainContent';
 import CategoryList from '../components/category/CategoryList';
+import { showSearchInput, hideSearchInput } from '../features/headerState';
 
 const filters = ['All', 'Artist', 'Playlist', 'Album'];
 
@@ -32,6 +33,12 @@ const Search = () => {
   const isArtists = currentFilter === 'artist';
   const isPlaylist = currentFilter === 'playlist';
   const isAlbum = currentFilter === 'album';
+
+  useEffect(() => {
+    dispatch(showSearchInput());
+
+    return () => dispatch(hideSearchInput());
+  }, []);
 
   return (
     <Container headerElement={<SearchInput />}>
