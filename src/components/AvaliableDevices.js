@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { DesktopComputerIcon } from '@heroicons/react/outline';
+import { RefreshIcon } from '@heroicons/react/solid';
 import { Menu, Transition } from '@headlessui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -11,11 +12,12 @@ import {
   selectDevicesLoading,
   transferPlayback,
 } from '../features/devices';
-import Loader from '../components/Loader';
 import useAuth from '../hooks/useAuth';
+import RingLoader from './RingLoader';
 
 export default function AvaliableDevices() {
   const { isAuthenticated } = useAuth();
+  const [reload, setReload] = useState(false);
   const devices = useSelector(selectAllDevices);
   const activeDevice = useSelector(selectActiveDevice);
   const loading = useSelector(selectDevicesLoading);
@@ -23,10 +25,11 @@ export default function AvaliableDevices() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated || (isAuthenticated && reload)) {
       dispatch(fetchAvaliableDevices());
+      setReload(false);
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, reload]);
 
   const changeDevice = async (deviceId) => {
     try {
@@ -69,6 +72,15 @@ export default function AvaliableDevices() {
     </div>
   );
 
+  const Error = () => (
+    <div className='flex flex-col justify-center items-center'>
+      <button className='mb-2' onClick={() => setReload(true)}>
+        <RefreshIcon className='w-6 h-6 text-green-600 hover:text-green-500' />
+      </button>
+      <span className='font-gothammedium text-sm'>Error getting all devices.</span>
+    </div>
+  );
+
   return (
     <Menu as='div' className='relative inline-flex items-center'>
       <Menu.Button className='h-auto'>
@@ -84,8 +96,9 @@ export default function AvaliableDevices() {
         leaveTo='transform opacity-0 scale-95'
       >
         <Menu.Items className='absolute right-1/2 translate-x-1/2 -top-3 -translate-y-[100%] bg-[#282828] px-1 py-6 w-80 h-auto rounded-lg'>
-          {loading && <Loader />}
+          {loading && <RingLoader />}
           {!loading && !error && <Devices />}
+          {!loading && error && <Error />}
         </Menu.Items>
       </Transition>
     </Menu>
