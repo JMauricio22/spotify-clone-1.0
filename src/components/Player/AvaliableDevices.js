@@ -11,9 +11,9 @@ import {
   selectDevicesError,
   selectDevicesLoading,
   transferPlayback,
-} from '../features/devices';
-import useAuth from '../hooks/useAuth';
-import RingLoader from './RingLoader';
+} from '../../features/devices';
+import useAuth from '../../hooks/useAuth';
+import RingLoader from '../RingLoader';
 
 export default function AvaliableDevices() {
   const { isAuthenticated } = useAuth();
@@ -59,6 +59,7 @@ export default function AvaliableDevices() {
           <div className='space-y-2 max-h-36 overflow-y-auto scrollbar-thin scrollbar-track-neutral-600 scrollbar-thumb-slate-200'>
             {devices.map((device) => (
               <button
+                key={device.id}
                 onClick={() => changeDevice(device.id)}
                 className='text-sm inline-flex space-x-3 items-center hover:bg-neutral-600 rounded-md px-2 w-full py-3'
               >

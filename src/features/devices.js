@@ -10,6 +10,9 @@ const initialState = {
 
 export const fetchAvaliableDevices = createAsyncThunk('avaliableDevices/fetchAvaliableDevices', async () => {
   const { body } = await spotifyApi.getMyDevices();
+  console.log({
+    devices: body,
+  });
   const devices = body.devices;
   return devices;
 });

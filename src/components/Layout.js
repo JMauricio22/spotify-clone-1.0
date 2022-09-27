@@ -1,6 +1,6 @@
 import React from 'react';
 import Aside from './Aside';
-import Player from './Player';
+import Player from './Player/Player';
 import HeaderBar from './HeaderBar';
 import UserMenu from './UserMenu';
 import NavigationButtons from './NavigationButtons';

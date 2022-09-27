@@ -6,9 +6,11 @@ import SpotifyProvider from 'next-auth/providers/spotify';
 const spotifyScopes = [
   'user-modify-playback-state',
   'user-follow-modify',
+  'streaming',
   'user-read-recently-played',
   'user-read-playback-position',
   'user-read-playback-state',
+  'user-read-private',
   'user-read-email',
   'user-top-read',
   'user-read-currently-playing',
