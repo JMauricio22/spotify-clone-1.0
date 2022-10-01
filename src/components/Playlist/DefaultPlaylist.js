@@ -2,9 +2,15 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ClockIcon, HeartIcon } from '@heroicons/react/outline';
 import { PlayIcon, SearchIcon, HeartIcon as HeartIconSolid } from '@heroicons/react/solid';
-import { playSong } from '../../features/player';
+import { play, playSong } from '../../features/player';
 import PlaylistContainer from './PlaylistContainer';
-import { selectFollow, selectLPlaylistId, followPlaylist, unfollowPlaylist } from '../../features/currenPlayList';
+import {
+  selectFollow,
+  selectLPlaylistId,
+  followPlaylist,
+  unfollowPlaylist,
+  selectPlaylistUri,
+} from '../../features/currenPlayList';
 import { fetchPlayUserPlaylist } from '../../features/playlist';
 import { showNotificationWithTimeout } from '../../features/toastState';
 
@@ -12,6 +18,7 @@ function DefaultPlaylist(Component) {
   return function WrapperComponent(props) {
     const dispatch = useDispatch();
     const playlistId = useSelector(selectLPlaylistId);
+    const playlistUri = useSelector(selectPlaylistUri);
     const follow = useSelector(selectFollow);
 
     const onFollowPlaylist = async () => {
@@ -30,13 +37,21 @@ function DefaultPlaylist(Component) {
       } catch (error) {}
     };
 
+    const playAllTracks = async () => {
+      try {
+        await dispatch(play(playlistUri));
+      } catch (error) {}
+    };
+
     return (
       <Component
         {...props}
         options={
           <div className='flex justify-between'>
             <div>
-              <PlayIcon className='w-16 h-16 inline-block mr-5 text-green-600' />
+              <button onClick={playAllTracks}>
+                <PlayIcon className='w-16 h-16 inline-block mr-5 text-green-600 hover:scale-110 transition-transform hover:text-green-500' />
+              </button>
               <span>
                 {follow ? (
                   <HeartIconSolid onClick={onUnfollowPlaylist} className='w-8 h-8 inline-block text-green-600' />

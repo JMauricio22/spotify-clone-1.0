@@ -7,7 +7,7 @@ import {
   playerStateChange,
   selectPlayerPaused,
 } from '../../features/player';
-import { fetchAvaliableDevices } from '../../features/devices';
+import { fetchAvaliableDevices, PLAYER_NAME } from '../../features/devices';
 import useAuth from '../../hooks/useAuth';
 import PlayerLeftControls from './PlayerLeftControls';
 import PlayerRightControls from './PlayerRightControls';
@@ -23,13 +23,6 @@ export default function Player() {
 
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   /* Get playback state */
-  //   if (isAuthenticated) {
-  //     dispatch(fetchPlaybackState());
-  //   }
-  // }, [isAuthenticated]);
-
   useEffect(() => {
     if (isAuthenticated) {
       const script = document.createElement('script');
@@ -40,7 +33,7 @@ export default function Player() {
 
       window.onSpotifyWebPlaybackSDKReady = () => {
         const spotifyPlayer = new window.Spotify.Player({
-          name: 'Spotify Clone',
+          name: PLAYER_NAME,
           getOAuthToken: (cb) => {
             cb(accessToken);
           },
@@ -50,7 +43,6 @@ export default function Player() {
         setPlayer(spotifyPlayer);
 
         spotifyPlayer.addListener('ready', ({ device_id }) => {
-          console.log('Ready with Device ID', device_id);
           dispatch(fetchAvaliableDevices());
         });
 
@@ -59,7 +51,6 @@ export default function Player() {
         });
 
         spotifyPlayer.addListener('player_state_changed', (state) => {
-          console.log(state);
           dispatch(
             playerStateChange({
               track: state.track_window.current_track,
@@ -73,19 +64,8 @@ export default function Player() {
     }
   }, [isAuthenticated]);
 
-  // useEffect(() => {
-  //   /* Set the volume control to zero */
-  //   if (volumeControl.current && mute) {
-  //     volumeControl.current.value = 0;
-  //   }
-  //   /* If the volume is not zero and not muted, set the current volume */
-  //   if (volumeControl.current && Number.parseInt(volumeControl.current.value) === 0 && !mute && volume > 0) {
-  //     volumeControl.current.value = volume;
-  //   }
-  // }, [mute, volume, volumeControl]);
-
   return (
-    <div className='grid-in-player w-full h-[90px] bg-[#181818] justify-between items-center px-4 flex z-30'>
+    <div className='grid-in-player w-full h-[90px] bg-[#181818] items-center px-4 justify-center flex relative'>
       <PlayerLeftControls player={player} track={track} />
       <PlayerCenterControls player={player} paused={paused} track={track} />
       <PlayerRightControls player={player} volume={volume} muted={muted} />

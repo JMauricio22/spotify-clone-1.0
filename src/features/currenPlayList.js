@@ -63,5 +63,6 @@ export const selectLPlaylistName = (state) => state.currentPlayList.info?.name;
 export const selectLPlaylistId = (state) => state.currentPlayList.info?.id;
 export const selectFollow = (state) => state.currentPlayList.follow;
 export const selectError = (state) => state.currentPlayList.error;
+export const selectPlaylistUri = (state) => state.currentPlayList.info.uri;
 
 export default currentPlayListSlice.reducer;

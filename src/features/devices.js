@@ -2,24 +2,30 @@ import { createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { spotifyApi } from '../utils/spotify';
 
+export const PLAYER_NAME = 'Spotify Clone';
+
 const initialState = {
   loading: false,
   devices: [],
   error: '',
 };
 
-export const fetchAvaliableDevices = createAsyncThunk('avaliableDevices/fetchAvaliableDevices', async () => {
-  const { body } = await spotifyApi.getMyDevices();
-  console.log({
-    devices: body,
-  });
-  const devices = body.devices;
-  return devices;
-});
+export const fetchAvaliableDevices = createAsyncThunk(
+  'avaliableDevices/fetchAvaliableDevices',
+  async (state, { dispatch }) => {
+    const { body } = await spotifyApi.getMyDevices();
+    const devices = body.devices;
+    const spotifyClient = devices.find((device) => device.name === PLAYER_NAME);
+    if (spotifyClient) {
+      dispatch(transferPlayback(spotifyClient.id)).unwrap();
+    }
+    return devices;
+  }
+);
 
 export const transferPlayback = createAsyncThunk('avaliableDevices/transferPlayback', async (deviceId) => {
   const { body } = await spotifyApi.transferMyPlayback([deviceId]);
-  return body;
+  return deviceId;
 });
 
 const avaliableDevices = createSlice({
@@ -40,6 +46,14 @@ const avaliableDevices = createSlice({
     builder.addCase(fetchAvaliableDevices.fulfilled, (_, { payload }) => ({ ...initialState, devices: payload }));
     builder.addCase(fetchAvaliableDevices.pending, () => ({ ...initialState, loading: true }));
     builder.addCase(fetchAvaliableDevices.rejected, (_, { error }) => ({ ...initialState, error }));
+    builder.addCase(transferPlayback.fulfilled, ({ devices }, { payload: deviceId }) => {
+      devices = devices.map((device) => {
+        if (device.id === deviceId) {
+          device.is_active = true;
+        }
+        return device;
+      });
+    });
   },
 });
 

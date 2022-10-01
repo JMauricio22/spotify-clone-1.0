@@ -24,11 +24,27 @@ export default function PlayerCenterControls({ player, paused, track }) {
     } catch (error) {}
   };
 
+  const next = async () => {
+    try {
+      if (player) {
+        await player.nextTrack();
+      }
+    } catch (error) {}
+  };
+
+  const previous = async () => {
+    try {
+      if (player) {
+        await player.previousTrack();
+      }
+    } catch (error) {}
+  };
+
   const onClick = () => (paused ? resume() : pause());
 
   return (
     <div className='text-white flex space-x-3'>
-      <button disabled={!track}>
+      <button disabled={!track} onClick={previous}>
         <RewindIcon className='w-7 h-8 text-zinc-400 hover:text-white' />
       </button>
       <button disabled={!track} onClick={onClick}>
@@ -38,7 +54,7 @@ export default function PlayerCenterControls({ player, paused, track }) {
           <PauseIcon className='w-10 h-10 hover:scale-110 transition-transform duration-200 ease-in-out' />
         )}
       </button>
-      <button disabled={!track}>
+      <button disabled={!track} onClick={next}>
         <FastForwardIcon className='w-7 h-8 text-zinc-400 hover:text-white' />
       </button>
     </div>

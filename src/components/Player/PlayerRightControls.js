@@ -1,7 +1,7 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { VolumeOffIcon } from '@heroicons/react/solid';
 import { VolumeUpIcon } from '@heroicons/react/outline';
-import { setVolume } from '../../features/player';
+import { setVolume, setMuted } from '../../features/player';
 import AvaliableDevices from './AvaliableDevices';
 import { useDispatch } from 'react-redux';
 
@@ -25,7 +25,7 @@ export default function PlayerRightControls({ player, volume, muted }) {
   };
 
   const onChangeVolume = ({ target }) => {
-    const newVolume = target.value;
+    const newVolume = Number(target.value);
     clearTimeout(timeoutId.current);
     timeoutId.current = setTimeout(() => {
       setNewVolume(newVolume);
@@ -33,22 +33,50 @@ export default function PlayerRightControls({ player, volume, muted }) {
   };
 
   const unmute = async () => {
-    setNewVolume(volume || 50);
+    try {
+      if (player) {
+        await player.setVolume(volume / 100);
+        dispatch(setMuted(false));
+      }
+    } catch (error) {}
   };
 
   const mute = async () => {
-    setNewVolume(0);
+    try {
+      if (player) {
+        await player.setVolume(0);
+        dispatch(setMuted(true));
+      }
+    } catch (error) {}
   };
 
+  useEffect(() => {
+    if (volumeControl.current) {
+      if (muted) {
+        volumeControl.current.value = 0;
+      } else {
+        volumeControl.current.value = volume;
+      }
+    }
+  }, [muted]);
+
   return (
-    <div className='space-x-2 flex items-center text-gray-300'>
+    <div className='space-x-2 absolute right-0 flex top-1/2 -translate-y-1/2 items-center text-gray-300'>
       <AvaliableDevices />
       {muted ? (
         <VolumeOffIcon className='w-5 h-5' onClick={unmute} />
       ) : (
         <VolumeUpIcon className='w-5 h-5' onClick={mute} />
       )}
-      <input ref={volumeControl} className='text-white' type='range' min={0} max={100} onChange={onChangeVolume} />
+      <input
+        ref={volumeControl}
+        className='text-white'
+        type='range'
+        min={0}
+        max={100}
+        onChange={onChangeVolume}
+        // value={0 }
+      />
     </div>
   );
 }

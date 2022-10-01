@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { MusicNoteIcon } from '@heroicons/react/outline';
+import Link from 'next/link';
 
 export default function PlayerLeftControls({ track }) {
+  const uri = track?.album?.uri ?? '';
+
+  const albumId = useMemo(() => (uri ? /spotify:album:(?<id>.*)/.exec(uri).groups.id : ''), [uri]);
+
   return (
-    <div className='flex items-center space-x-2'>
+    <div className='absolute flex items-center space-x-2 left-3 top-1/2 -translate-y-1/2'>
       {track ? (
         <img className='w-16 h-16' src={track?.album.images[0].url} />
       ) : (
@@ -15,7 +20,13 @@ export default function PlayerLeftControls({ track }) {
         {track && (
           <>
             <p className='text-white font-gothammedium text-sm max-w-[200px] overflow-hidden whitespace-nowrap truncate'>
-              <span>{track.name}</span>
+              {albumId ? (
+                <Link href={`/album/${albumId}`}>
+                  <a className='hover:underline'>{track.name}</a>
+                </Link>
+              ) : (
+                <span>{track.name}</span>
+              )}
             </p>
             <p className=' text-zinc-300 text-xs'>{track.artists[0].name}</p>
           </>

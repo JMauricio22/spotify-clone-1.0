@@ -1,13 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PlayButton from './PlayButton';
+import { play } from '../features/player';
 import clsx from 'clsx';
+import { useDispatch } from 'react-redux';
 
-function ArtistCard({ title, subtitle, image, rounded }) {
+function ArtistCard({ title, subtitle, image, rounded, uri }) {
   const [showButton, setShowButton] = useState(false);
   const [size, setSize] = useState(-1);
   const imageContainerRef = useRef();
   const imageRef = useRef();
   const [mounted, setMounted] = useState(false);
+  const dispatch = useDispatch();
   const resizeObserverRef = useRef();
 
   useEffect(() => {
@@ -29,6 +32,12 @@ function ArtistCard({ title, subtitle, image, rounded }) {
     };
   }, [mounted]);
 
+  const playAllTracks = async () => {
+    try {
+      await dispatch(play(uri));
+    } catch (error) {}
+  };
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -40,7 +49,7 @@ function ArtistCard({ title, subtitle, image, rounded }) {
       onMouseLeave={() => setShowButton(false)}
     >
       <div className='relative' ref={imageContainerRef}>
-        <PlayButton show={showButton} className='absolute bottom-2 right-1 z-30' />
+        <PlayButton playAllTracks={playAllTracks} show={showButton} className='absolute bottom-2 right-1 z-30' />
         {size !== -1 && (
           <img
             ref={imageRef}

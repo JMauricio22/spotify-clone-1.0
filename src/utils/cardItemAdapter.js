@@ -5,6 +5,7 @@ export const recommendationToCardItem = (recommendation) => ({
   title: recommendation?.name,
   subtitle: recommendation?.artists[0]?.name,
   image: recommendation?.album?.images[0]?.url,
+  uri: recommendation.uri,
 });
 
 export const artistToCardItem = (artist) => ({
@@ -15,6 +16,7 @@ export const artistToCardItem = (artist) => ({
   title: artist?.name,
   subtitle: 'Artist',
   image: artist?.images[0]?.url,
+  uri: artist.uri,
 });
 
 export const playlistToCardItem = (playlist) => ({
@@ -25,6 +27,7 @@ export const playlistToCardItem = (playlist) => ({
   title: playlist?.name,
   subtitle: `Total songs ${Number(playlist.tracks.total || 0).toLocaleString('es-US')}`,
   image: playlist?.images[0]?.url,
+  uri: playlist.uri,
 });
 
 export const albumToCardItem = (album) => ({
@@ -35,6 +38,7 @@ export const albumToCardItem = (album) => ({
   title: album?.name,
   subtitle: `Total songs ${Number(album.total_tracks || 0).toLocaleString('es-US')}`,
   image: album?.images[0]?.url,
+  uri: album.uri,
 });
 
 export const adaptArtistToCard = (artists) => artists.map((artist) => artistToCardItem(artist));

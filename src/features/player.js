@@ -17,27 +17,13 @@ export const playSong = createAsyncThunk('player/playSong', async (track) => {
   };
 });
 
-export const fetchPlaybackState = createAsyncThunk('player/fetchPlaybackState', async () => {
-  const { body } = await spotifyApi.getMyCurrentPlaybackState();
-  return {
-    track: body.item,
-    volume: body.device.volume_percent,
-    paused: body.is_playing,
-    muted: Number.parseInt(body.device.volume_percent) === 0,
-  };
-});
+export const play = createAsyncThunk('player/play', async (uri) => {
+  await spotifyApi.play({
+    context_uri: uri,
+  });
 
-// export const setVolume = createAsyncThunk('player/setVolume', async (volume) => {
-//   const payload = {};
-//   await spotifyApi.setVolume(volume);
-//   if (Number.parseInt(volume) !== 0) {
-//     payload.volume = volume;
-//   }
-//   return {
-//     ...payload,
-//     muted: Number.parseInt(volume) === 0,
-//   };
-// });
+  return true;
+});
 
 const initialState = {
   track: null,
@@ -51,18 +37,16 @@ const playerSlice = createSlice({
   name: 'player',
   initialState,
   reducers: {
-    playerStateChange: (_, { payload: { track, paused } }) => ({ ...initialState, track, paused: paused }),
+    playerStateChange: (state, { payload: { track, paused } }) => ({
+      ...initialState,
+      ...state,
+      track,
+      paused: paused,
+    }),
     resumeTrack: (state) => ({ ...state, paused: false }),
     pauseTrack: (state) => ({ ...state, paused: true }),
     setVolume: (state, { payload: { volume, muted } }) => ({ ...state, volume, muted }),
-  },
-  extraReducers(builder) {
-    builder.addCase(fetchPlaybackState.fulfilled, (_, { payload }) => ({
-      ...initialState,
-      ...payload,
-    }));
-    builder.addCase(fetchPlaybackState.rejected, (_, { error }) => ({ ...initialState, error: error.message }));
-    // builder.addCase(setVolume.fulfilled, (state, { payload }) => ({ ...state, ...payload }));
+    setMuted: (state, { payload }) => ({ ...state, muted: payload }),
   },
 });
 
@@ -71,6 +55,6 @@ export const selectPlayerPaused = (state) => state.player.paused;
 export const selectPlayerVolume = (state) => state.player.volume;
 export const selectPlayerMuted = (state) => state.player.muted;
 
-export const { playerStateChange, resumeTrack, pauseTrack, setVolume } = playerSlice.actions;
+export const { playerStateChange, resumeTrack, pauseTrack, setVolume, setMuted } = playerSlice.actions;
 
 export default playerSlice.reducer;

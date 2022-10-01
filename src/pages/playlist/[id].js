@@ -81,19 +81,17 @@ const Playlist = () => {
       <>
         {loading && <Loader />}
         {!loading && !error && (
-          <>
-            <Hero
-              ref={heroRef}
-              item={adaptPlaylistToHeroComponent(playListInfo)}
-              afterTitle={
-                <HeroPlaylistExtraInfo
-                  description={playListInfo?.description}
-                  ownerDisplayName={playListInfo?.owner.display_name}
-                  totalTracks={playListInfo?.tracks.items.length}
-                />
-              }
-            />
-          </>
+          <Hero
+            ref={heroRef}
+            item={adaptPlaylistToHeroComponent(playListInfo)}
+            afterTitle={
+              <HeroPlaylistExtraInfo
+                description={playListInfo?.description}
+                ownerDisplayName={playListInfo?.owner.display_name}
+                totalTracks={playListInfo?.tracks.items.length}
+              />
+            }
+          />
         )}
         {!loading && !error && hasItems && (
           <>
