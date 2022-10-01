@@ -1,13 +1,18 @@
 import React from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 export default function CardContainer({ link, card, cardMobile, ...props }) {
+  const router = useRouter();
+
+  const goTo = (event) => {
+    event.preventDefault();
+    router.push(link);
+  };
+
   return (
-    <Link href={link}>
-      <a className='cursor-pointer inline-block'>
-        {card(props)}
-        {cardMobile && typeof cardMobile === 'function' && cardMobile(props)}
-      </a>
-    </Link>
+    <a onClick={goTo} className='cursor-pointer inline-block'>
+      {card(props)}
+      {cardMobile && typeof cardMobile === 'function' && cardMobile(props)}
+    </a>
   );
 }
