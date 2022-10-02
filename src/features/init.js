@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { spotifyApi } from '../utils/spotify';
 
-export const fetchRecommendations = createAsyncThunk('recommendations/fetchRecommendations', async () => {
+export const fetchRecommendations = createAsyncThunk('init/fetchRecommendations', async () => {
   const resp = await fetch('https://api.spotify.com/v1/me/top/artists?' + new URLSearchParams({ limit: 10 }), {
     headers: {
       Authorization: `Bearer ${spotifyApi.getAccessToken()}`,
@@ -29,17 +29,19 @@ export const fetchRecommendations = createAsyncThunk('recommendations/fetchRecom
 });
 
 const initialState = {
-  items: [],
+  recommendations: [],
+  artists: [],
   error: '',
   loading: true,
 };
 
 const recommendationSlice = createSlice({
-  name: 'recommendations',
+  name: 'init',
   initialState,
   extraReducers(builder) {
-    builder.addCase(fetchRecommendations.fulfilled, (_, { payload }) => ({
-      items: payload.recommendations,
+    builder.addCase(fetchRecommendations.fulfilled, (_, { payload: { recommendations, artists } }) => ({
+      recommendations,
+      artists,
       error: '',
       loading: false,
     }));
@@ -48,7 +50,8 @@ const recommendationSlice = createSlice({
   },
 });
 
-export const selectRecommendationLoading = (state) => state.recommendations.loading;
-export const selectRecommendationItems = (state) => state.recommendations.items;
+export const selectInitLoadingState = (state) => state.init.loading;
+export const selectInitRecommendations = (state) => state.init.recommendations;
+export const selectInitArtists = (state) => state.init.artists;
 
 export default recommendationSlice.reducer;

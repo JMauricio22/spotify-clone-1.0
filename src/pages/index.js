@@ -2,9 +2,10 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchRecommendations,
-  selectRecommendationItems,
-  selectRecommendationLoading,
-} from '../features/recommendations';
+  selectInitLoadingState,
+  selectInitRecommendations,
+  selectInitArtists,
+} from '../features/init';
 import Container from '../components/Container';
 import { adaptRecommendationToCard, adaptArtistToCard } from '../utils/cardItemAdapter';
 import CardSection from '../components/CardSection';
@@ -12,7 +13,6 @@ import CardContainer from '../components/CardContainer';
 import ArtistCard from '../components/ArtistCard';
 import ArtistMobileCard from '../components/ArtistMobileCard';
 import Loader from '../components/Loader';
-import { selectMyTopArtistItems } from '../features/artists';
 import useAuth from '../hooks/useAuth';
 
 const ItemList = CardSection(CardContainer);
@@ -20,9 +20,9 @@ const ItemList = CardSection(CardContainer);
 const Home = () => {
   const { isAuthenticated } = useAuth();
   const dispatch = useDispatch();
-  const loading = useSelector(selectRecommendationLoading);
-  const recommendations = useSelector(selectRecommendationItems);
-  const artists = useSelector(selectMyTopArtistItems);
+  const loading = useSelector(selectInitLoadingState);
+  const recommendations = useSelector(selectInitRecommendations);
+  const artists = useSelector(selectInitArtists);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -34,7 +34,7 @@ const Home = () => {
     <Container>
       <section className='pb-10 w-full'>
         {loading && <Loader />}
-        {recommendations.length > 0 && (
+        {!loading && recommendations.length > 0 && (
           <ItemList
             title='Recommendations'
             items={adaptRecommendationToCard(recommendations)}
@@ -42,7 +42,7 @@ const Home = () => {
             cardMobile={(props) => <ArtistMobileCard {...props} />}
           />
         )}
-        {artists.length > 0 && (
+        {!loading && artists.length > 0 && (
           <ItemList
             title='Your favorite artists'
             items={adaptArtistToCard(artists)}

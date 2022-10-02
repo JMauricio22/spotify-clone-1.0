@@ -2,8 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import playListReducer from './features/playlist';
 import currenPlayListReducer from './features/currenPlayList';
 import playerReducer from './features/player';
-import recommendationReducer from './features/recommendations';
-import artistReducer from './features/artists';
+import initReducer from './features/init';
 import selectedArtistReducer from './features/selectedArtist';
 import searchReducer from './features/search';
 import selectedAlbumReducer from './features/selectedAlbum';
@@ -15,14 +14,13 @@ import devicesReducer from './features/devices';
 
 export default configureStore({
   reducer: {
+    init: initReducer,
     search: searchReducer,
     selectedArtist: selectedArtistReducer,
     selectedAlbum: selectedAlbumReducer,
     player: playerReducer,
-    myTopArtists: artistReducer,
     currentPlayList: currenPlayListReducer,
     playList: playListReducer,
-    recommendations: recommendationReducer,
     categories: categoriesReducer,
     selectedCategory: selectedCategoryReducer,
     toastState: toastStateReducer,
