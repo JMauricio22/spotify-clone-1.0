@@ -32,11 +32,7 @@ function ArtistCard({ title, subtitle, image, rounded, uri }) {
     };
   }, [mounted]);
 
-  const playAllTracks = async () => {
-    try {
-      await dispatch(play(uri));
-    } catch (error) {}
-  };
+  const playAllTracks = async () => dispatch(play(uri));
 
   useEffect(() => {
     setMounted(true);

@@ -1,74 +1,43 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ClockIcon, HeartIcon } from '@heroicons/react/outline';
-import { PlayIcon, SearchIcon, HeartIcon as HeartIconSolid } from '@heroicons/react/solid';
+import { ClockIcon } from '@heroicons/react/outline';
 import { play, playSong } from '../../features/player';
 import PlaylistContainer from './PlaylistContainer';
-import {
-  selectFollow,
-  selectLPlaylistId,
-  followPlaylist,
-  unfollowPlaylist,
-  selectPlaylistUri,
-} from '../../features/currenPlayList';
-import { fetchPlayUserPlaylist } from '../../features/playlist';
+import { selectFollow, selectLPlaylistId, selectPlaylistUri } from '../../features/currenPlayList';
 import { showNotificationWithTimeout } from '../../features/toastState';
+import PlaylistOptionsWithFollowBtn from './PlaylistOptionsWithFollowBtn';
+import { fetchPlayUserPlaylist } from '../../features/playlist';
+import { followPlaylist, unfollowPlaylist } from '../../features/currenPlayList';
 
 function DefaultPlaylist(Component) {
   return function WrapperComponent(props) {
     const dispatch = useDispatch();
     const playlistId = useSelector(selectLPlaylistId);
     const playlistUri = useSelector(selectPlaylistUri);
-    const follow = useSelector(selectFollow);
+    const isFollowing = useSelector(selectFollow);
 
-    const onFollowPlaylist = async () => {
-      try {
-        await dispatch(followPlaylist(playlistId)).unwrap();
-        dispatch(fetchPlayUserPlaylist());
-        showNotificationWithTimeout(dispatch, 'Saved in your library');
-      } catch (error) {}
+    const follow = async (dispatch) => {
+      await dispatch(followPlaylist(playlistId)).unwrap();
+      dispatch(fetchPlayUserPlaylist());
     };
 
-    const onUnfollowPlaylist = async () => {
-      try {
-        await dispatch(unfollowPlaylist(playlistId)).unwrap();
-        dispatch(fetchPlayUserPlaylist());
-        showNotificationWithTimeout(dispatch, 'Removed from your library');
-      } catch (error) {}
+    const unfollow = async (dispatch) => {
+      await dispatch(unfollowPlaylist(playlistId)).unwrap();
+      dispatch(fetchPlayUserPlaylist());
     };
 
-    const playAllTracks = async () => {
-      try {
-        await dispatch(play(playlistUri));
-      } catch (error) {}
-    };
+    const playTrack = (track) => dispatch(playSong(track));
 
     return (
       <Component
         {...props}
         options={
-          <div className='flex justify-between'>
-            <div>
-              <button onClick={playAllTracks}>
-                <PlayIcon className='w-16 h-16 inline-block mr-5 text-green-600 hover:scale-110 transition-transform hover:text-green-500' />
-              </button>
-              <span>
-                {follow ? (
-                  <HeartIconSolid onClick={onUnfollowPlaylist} className='w-8 h-8 inline-block text-green-600' />
-                ) : (
-                  <HeartIcon
-                    onClick={onFollowPlaylist}
-                    className='w-8 h-8 inline-block text-gray-400 hover:text-white'
-                  />
-                )}
-              </span>
-            </div>
-            <div className='grid place-content-center'>
-              <button className='hover:bg-gray-300/30 w-8 h-8 rounded-full'>
-                <SearchIcon className='w-8 h-6 inline-block' />
-              </button>
-            </div>
-          </div>
+          <PlaylistOptionsWithFollowBtn
+            uri={playlistUri}
+            isFollowing={isFollowing}
+            follow={follow}
+            unfollow={unfollow}
+          />
         }
         header={
           <li className='grid grid-cols-[1fr_50px] lg:grid-cols-[1fr_200px_100px] xl:grid-cols-[1fr_200px_200px_100px] grid-rows-1 gap-4 py-3 lg:pl-4 pl-0 pr-0 lg:pr-2 items-center text-xs font-gothammedium border-b-[0.1px] border-gray-200 text-slate-300'>
@@ -87,7 +56,7 @@ function DefaultPlaylist(Component) {
         }
         columnContainer={({ item, track }) => (
           <span
-            onDoubleClick={() => dispatch(playSong(track))}
+            onDoubleClick={() => playTrack(track)}
             className='grid grid-cols-[1fr_50px] lg:grid-cols-[1fr_200px_100px] xl:grid-cols-[1fr_200px_200px_100px] cursor-pointer group grid-rows-1 gap-4 py-3 hover:bg-[hsla(0,0%,100%,.1)] lg:pl-4 pl-0 pr-0 lg:pr-2 rounded-md'
           >
             {item}

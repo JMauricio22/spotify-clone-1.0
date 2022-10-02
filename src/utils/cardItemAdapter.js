@@ -5,7 +5,7 @@ export const recommendationToCardItem = (recommendation) => ({
   title: recommendation?.name,
   subtitle: recommendation?.artists[0]?.name,
   image: recommendation?.album?.images[0]?.url,
-  uri: recommendation.uri,
+  uri: recommendation.album.uri,
 });
 
 export const artistToCardItem = (artist) => ({

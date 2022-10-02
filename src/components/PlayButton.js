@@ -23,7 +23,7 @@ export default function PlayButton({ show, className, playAllTracks }) {
     >
       <button
         onClick={onClick}
-        className='hover:bg-[#37d084] bg-[#1ed760] text-black rounded-full w-12 h-12 flex items-center justify-center z-20 shadow-2xl shadow-black'
+        className='hover:bg-[#37d084] outline-none bg-[#1ed760] text-black rounded-full w-12 h-12 flex items-center justify-center z-20 shadow-2xl shadow-black'
       >
         <Image src={PlayIcon} width={23} height={23} />
       </button>

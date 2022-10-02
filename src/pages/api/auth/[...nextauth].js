@@ -17,6 +17,7 @@ const spotifyScopes = [
   'user-library-read',
   'user-follow-modify',
   'playlist-modify-public',
+  'user-follow-read',
 ];
 
 /* Refresh token */

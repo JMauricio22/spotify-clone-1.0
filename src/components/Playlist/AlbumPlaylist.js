@@ -1,16 +1,20 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { playSong } from '../../features/player';
+import { selectAlbumUri } from '../../features/selectedAlbum';
 import PlaylistContainer from './PlaylistContainer';
+import PlaylistOptions from './PlaylistOptions';
 import { ClockIcon } from '@heroicons/react/solid';
 
 function AlbumPlaylist(Component) {
   return function WrapperComponent(props) {
     const dispatch = useDispatch();
+    const albumUri = useSelector(selectAlbumUri);
 
     return (
       <Component
         {...props}
+        options={<PlaylistOptions uri={albumUri} />}
         header={
           <li className='grid grid-cols-[1fr_50px] lg:grid-cols-[1fr_100px] xl:grid-cols-[1fr_100px] grid-rows-1 gap-4 py-3 lg:pl-4 pl-0 pr-0 lg:pr-2 items-center text-xs font-gothammedium border-b-[0.1px] border-gray-200 text-slate-300'>
             <span className='grid md:grid-rows-1 grid-cols-[60px_1fr] md:grid-cols-[40px_60px_1fr] max-w-full'>
