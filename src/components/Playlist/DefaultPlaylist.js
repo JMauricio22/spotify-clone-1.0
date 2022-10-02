@@ -1,10 +1,9 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ClockIcon } from '@heroicons/react/outline';
-import { play, playSong } from '../../features/player';
+import { playSong } from '../../features/player';
 import PlaylistContainer from './PlaylistContainer';
 import { selectFollow, selectLPlaylistId, selectPlaylistUri } from '../../features/currenPlayList';
-import { showNotificationWithTimeout } from '../../features/toastState';
 import PlaylistOptionsWithFollowBtn from './PlaylistOptionsWithFollowBtn';
 import { fetchPlayUserPlaylist } from '../../features/playlist';
 import { followPlaylist, unfollowPlaylist } from '../../features/currenPlayList';

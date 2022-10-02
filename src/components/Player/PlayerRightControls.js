@@ -5,7 +5,7 @@ import { setVolume, setMuted } from '../../features/player';
 import AvaliableDevices from './AvaliableDevices';
 import { useDispatch } from 'react-redux';
 
-export default function PlayerRightControls({ player, volume, muted }) {
+export default function PlayerRightControls({ player, volume, muted, track }) {
   const volumeControl = useRef(null);
   const timeoutId = useRef(null);
   const dispatch = useDispatch();
@@ -62,13 +62,16 @@ export default function PlayerRightControls({ player, volume, muted }) {
 
   return (
     <div className='space-x-2 absolute right-0 flex top-1/2 -translate-y-1/2 items-center text-gray-300'>
-      <AvaliableDevices />
-      {muted ? (
-        <VolumeOffIcon className='w-5 h-5' onClick={unmute} />
-      ) : (
-        <VolumeUpIcon className='w-5 h-5' onClick={mute} />
-      )}
+      {/* <AvaliableDevices /> */}
+      <button disabled={!track}>
+        {muted ? (
+          <VolumeOffIcon className='w-5 h-5' onClick={unmute} />
+        ) : (
+          <VolumeUpIcon className='w-5 h-5' onClick={mute} />
+        )}
+      </button>
       <input
+        disabled={!track}
         ref={volumeControl}
         className='text-white'
         type='range'

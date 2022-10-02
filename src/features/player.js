@@ -21,7 +21,6 @@ export const play = createAsyncThunk('player/play', async (uri) => {
   await spotifyApi.play({
     context_uri: uri,
   });
-
   return true;
 });
 

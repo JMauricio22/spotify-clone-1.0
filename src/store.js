@@ -10,21 +10,21 @@ import categoriesReducer from './features/categories';
 import selectedCategoryReducer from './features/selectedCategory';
 import toastStateReducer from './features/toastState';
 import headerStateReducer from './features/headerState';
-import devicesReducer from './features/devices';
+import playbackReducer from './features/playback';
 
 export default configureStore({
   reducer: {
     init: initReducer,
+    playback: playbackReducer,
+    player: playerReducer,
     search: searchReducer,
     selectedArtist: selectedArtistReducer,
     selectedAlbum: selectedAlbumReducer,
-    player: playerReducer,
     currentPlayList: currenPlayListReducer,
     playList: playListReducer,
     categories: categoriesReducer,
     selectedCategory: selectedCategoryReducer,
     toastState: toastStateReducer,
     headerState: headerStateReducer,
-    avaliableDevices: devicesReducer,
   },
 });

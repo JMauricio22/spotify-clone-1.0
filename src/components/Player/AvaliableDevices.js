@@ -1,42 +1,21 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { DesktopComputerIcon } from '@heroicons/react/outline';
-import { RefreshIcon } from '@heroicons/react/solid';
-import { Menu, Transition } from '@headlessui/react';
+import { Transition, Popover } from '@headlessui/react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  changeActiveDevice,
-  fetchAvaliableDevices,
-  selectActiveDevice,
-  selectAllDevices,
-  selectDevicesError,
-  selectDevicesLoading,
-  transferPlayback,
-} from '../../features/devices';
-import useAuth from '../../hooks/useAuth';
-import RingLoader from '../RingLoader';
+import { selectActiveDevice, selectDevices, selectFetchDevices, transferPlayback } from '../../features/playback';
+import useFetchDevices from '../../hooks/useFetchDevices';
 
 export default function AvaliableDevices() {
-  const { isAuthenticated } = useAuth();
-  const [reload, setReload] = useState(false);
-  const devices = useSelector(selectAllDevices);
+  const devices = useSelector(selectDevices);
   const activeDevice = useSelector(selectActiveDevice);
-  const loading = useSelector(selectDevicesLoading);
-  const error = useSelector(selectDevicesError);
+  const fetchDevices = useSelector(selectFetchDevices);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (isAuthenticated || (isAuthenticated && reload)) {
-      dispatch(fetchAvaliableDevices());
-      setReload(false);
-    }
-  }, [isAuthenticated, reload]);
+  const disabled = (devices.length === 0 && !activeDevice) || fetchDevices;
 
-  const changeDevice = async (deviceId) => {
-    try {
-      await dispatch(transferPlayback(deviceId)).unwrap();
-      dispatch(changeActiveDevice(deviceId));
-    } catch (error) {}
-  };
+  useFetchDevices();
+
+  const changeDevice = (deviceId) => dispatch(transferPlayback(deviceId));
 
   const Devices = () => (
     <div className='px-4 space-y-4'>
@@ -73,20 +52,25 @@ export default function AvaliableDevices() {
     </div>
   );
 
-  const Error = () => (
-    <div className='flex flex-col justify-center items-center'>
-      <button className='mb-2' onClick={() => setReload(true)}>
-        <RefreshIcon className='w-6 h-6 text-green-600 hover:text-green-500' />
-      </button>
-      <span className='font-gothammedium text-sm'>Error getting all devices.</span>
-    </div>
-  );
+  const ItemsContainer = ({ close }) => {
+    useEffect(() => {
+      if (disabled) {
+        close();
+      }
+    }, [disabled]);
+
+    return (
+      <>
+        <Devices />
+      </>
+    );
+  };
 
   return (
-    <Menu as='div' className='relative inline-flex items-center'>
-      <Menu.Button className='h-auto'>
+    <Popover as='div' className='relative inline-flex items-center'>
+      <Popover.Button disabled={disabled} className='h-auto outline-none'>
         <DesktopComputerIcon className='w-5 h-5 hover:text-white' />
-      </Menu.Button>
+      </Popover.Button>
       <Transition
         as={Fragment}
         enter='transition ease-out duration-100'
@@ -96,12 +80,10 @@ export default function AvaliableDevices() {
         leaveFrom='transform opacity-100 scale-100'
         leaveTo='transform opacity-0 scale-95'
       >
-        <Menu.Items className='absolute right-1/2 translate-x-1/2 -top-3 -translate-y-[100%] bg-[#282828] px-1 py-6 w-80 h-auto rounded-lg'>
-          {loading && <RingLoader />}
-          {!loading && !error && <Devices />}
-          {!loading && error && <Error />}
-        </Menu.Items>
+        <Popover.Panel className='absolute right-1/2 translate-x-1/2 -top-3 -translate-y-[100%] bg-[#282828] px-1 py-6 w-80 h-auto rounded-lg'>
+          {ItemsContainer}
+        </Popover.Panel>
       </Transition>
-    </Menu>
+    </Popover>
   );
 }
