@@ -25,7 +25,7 @@ export default function login({ providers }) {
             className='px-4 py-2 hover:border-[#1db954] border-transparent outline-none border-[1.5px] rounded-full hover:bg-transparent hover:text-[#1db954] bg-[#1db954] text-white text-sm font-gothambook'
             onClick={() =>
               signIn(provider.id, {
-                callbackUrl: 'http://localhost:3000',
+                callbackUrl: process.env.NEXT_PUBLIC_APP_URL,
               })
             }
           >
