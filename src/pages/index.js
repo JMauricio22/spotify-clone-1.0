@@ -32,7 +32,7 @@ const Home = () => {
 
   return (
     <Container>
-      <section className='pb-10 w-full'>
+      <div className='pb-10 w-full'>
         {loading && <Loader />}
         {!loading && recommendations.length > 0 && (
           <ItemList
@@ -50,7 +50,7 @@ const Home = () => {
             cardMobile={(props) => <ArtistMobileCard rounded {...props} />}
           />
         )}
-      </section>
+      </div>
     </Container>
   );
 };

@@ -44,62 +44,66 @@ const Search = () => {
 
   return (
     <Container>
-      {loading && <Loader />}
-      {!loading && !query && <CategorySection />}
-      {!!(!loading && items) && (
-        <div className='mt-4 pl-10 space-x-2'>
-          {filters.map((filter) => (
-            <span
-              className={`inline-block px-4 py-2 lg:text-sm text-xs rounded-full font-gothammedium cursor-pointer ${
-                filter.toLowerCase() === currentFilter ? 'bg-slate-100 text-[#121212]' : 'text-slate-100 bg-[#121212] '
-              }`}
-              key={`filter-item-${filter}`}
-              onClick={() => dispatch(setFilter(filter.toLowerCase()))}
-            >
-              {filter}
-            </span>
-          ))}
-        </div>
-      )}
-      {!loading && error && <Error message={`Error searching for '${query}'.`} />}
-      {!loading && isAll && items?.artists?.items?.length > 0 && items?.tracks?.items?.length > 0 && (
-        <SearchMainContent />
-      )}
-      {!loading && (isAll || isArtists) && items?.artists?.items?.length > 0 && (
-        <Items
-          title='Artists'
-          layout={(items) => <ColumnsCardList items={items} minCols={2} />}
-          items={adaptArtistToCard(items.artists.items)}
-          card={(props) => <ArtistCard rounded {...props} />}
-          showAll={!isAll}
-        />
-      )}
-      {!loading && (isAll || isPlaylist) && items?.playlists?.items?.length > 0 && (
-        <Items
-          title='Playlist'
-          layout={
-            isAll
-              ? (items) => <ColumnsCardList items={items} minCols={2} />
-              : (items) => <ColumnsCardList items={items} minCols={2} />
-          }
-          items={adaptPlaylistToCard(items.playlists.items)}
-          card={(props) => <ArtistCard {...props} />}
-          showAll={!isAll}
-        />
-      )}
-      {!loading && (isAll || isAlbum) && items?.albums?.items?.length > 0 && (
-        <Items
-          title='Albums'
-          items={adaptAlbumToCard(items.albums.items)}
-          layout={
-            isAll
-              ? (items) => <ColumnsCardList items={items} minCols={2} />
-              : (items) => <ColumnsCardList items={items} minCols={2} />
-          }
-          card={(props) => <ArtistCard {...props} />}
-          showAll={!isAll}
-        />
-      )}
+      <div className='pb-10'>
+        {loading && <Loader />}
+        {!loading && !query && <CategorySection />}
+        {!!(!loading && items) && (
+          <div className='mt-4 pl-10 space-x-2'>
+            {filters.map((filter) => (
+              <span
+                className={`inline-block px-4 py-2 lg:text-sm text-xs rounded-full font-gothammedium cursor-pointer ${
+                  filter.toLowerCase() === currentFilter
+                    ? 'bg-slate-100 text-[#121212]'
+                    : 'text-slate-100 bg-[#121212] '
+                }`}
+                key={`filter-item-${filter}`}
+                onClick={() => dispatch(setFilter(filter.toLowerCase()))}
+              >
+                {filter}
+              </span>
+            ))}
+          </div>
+        )}
+        {!loading && error && <Error message={`Error searching for '${query}'.`} />}
+        {!loading && isAll && items?.artists?.items?.length > 0 && items?.tracks?.items?.length > 0 && (
+          <SearchMainContent />
+        )}
+        {!loading && (isAll || isArtists) && items?.artists?.items?.length > 0 && (
+          <Items
+            title='Artists'
+            layout={(items) => <ColumnsCardList items={items} minCols={2} />}
+            items={adaptArtistToCard(items.artists.items)}
+            card={(props) => <ArtistCard rounded {...props} />}
+            showAll={!isAll}
+          />
+        )}
+        {!loading && (isAll || isPlaylist) && items?.playlists?.items?.length > 0 && (
+          <Items
+            title='Playlist'
+            layout={
+              isAll
+                ? (items) => <ColumnsCardList items={items} minCols={2} />
+                : (items) => <ColumnsCardList items={items} minCols={2} />
+            }
+            items={adaptPlaylistToCard(items.playlists.items)}
+            card={(props) => <ArtistCard {...props} />}
+            showAll={!isAll}
+          />
+        )}
+        {!loading && (isAll || isAlbum) && items?.albums?.items?.length > 0 && (
+          <Items
+            title='Albums'
+            items={adaptAlbumToCard(items.albums.items)}
+            layout={
+              isAll
+                ? (items) => <ColumnsCardList items={items} minCols={2} />
+                : (items) => <ColumnsCardList items={items} minCols={2} />
+            }
+            card={(props) => <ArtistCard {...props} />}
+            showAll={!isAll}
+          />
+        )}
+      </div>
     </Container>
   );
 };

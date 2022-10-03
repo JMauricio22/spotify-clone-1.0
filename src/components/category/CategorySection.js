@@ -15,7 +15,7 @@ export default function Categories() {
   }, []);
 
   return (
-    <div className='px-5 py-4 pb-8'>
+    <div className='px-5 pt-4'>
       {loading && <Loader />}
       {!loading && !error && <CategoryList />}
       {!loading && error && <Error.Highlight message={`Error loading categories.`} />}

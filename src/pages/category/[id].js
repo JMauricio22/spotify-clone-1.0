@@ -34,7 +34,7 @@ const Category = () => {
 
   return (
     <Container>
-      <section className='pb-10 w-full'>
+      <div className='pb-10 w-full'>
         {isLoading && <Loader />}
         {!isLoading && !error && (
           <>
@@ -61,7 +61,7 @@ const Category = () => {
           </>
         )}
         {!isLoading && error && <Error message={`An error ocurred searching playlist`} />}
-      </section>
+      </div>
     </Container>
   );
 };
