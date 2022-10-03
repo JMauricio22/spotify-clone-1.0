@@ -24,6 +24,8 @@ export default function () {
     document.body.appendChild(script);
 
     window.onSpotifyWebPlaybackSDKReady = () => setScritReady(true);
+
+    return () => document.body.removeChild(script);
   }, []);
 
   useEffect(() => {

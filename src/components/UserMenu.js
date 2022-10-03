@@ -42,7 +42,14 @@ export default function UserMenu() {
                     as='span'
                     className='block py-3 px-4 rounded-md hover:bg-[#3e3e3e] text-slate-100 font-gothambook text-sm'
                   >
-                    <button className='w-full h-full text-left' onClick={() => signOut()}>
+                    <button
+                      className='w-full h-full text-left'
+                      onClick={() =>
+                        signOut({
+                          callbackUrl: `${process.env.NEXT_PUBLIC_APP_URL}/login`,
+                        })
+                      }
+                    >
                       Log out
                     </button>
                   </Menu.Item>
